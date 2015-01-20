@@ -1,6 +1,7 @@
 package ir.chocolategroup.majiddelbandam;
 
 import java.util.ArrayList;
+import java.util.Currency;
 
 public class Level {
 
@@ -13,6 +14,7 @@ public class Level {
 	private boolean mDone;
 	private String[] mBestUserResult;
 	private ArrayList<String> mCurrenUserResult;
+	private ArrayList<String> mNextValidWord;
 	
 	public Level(int levelNumber, boolean lock , boolean done , String startWord , String endWord , String[] bestResult , int minMove , String[] bestUserResult ) {
 		mLevelNumber = levelNumber;
@@ -25,36 +27,85 @@ public class Level {
 		mBestUserResult = bestUserResult;
 		mCurrenUserResult = new ArrayList<String>();
 		mCurrenUserResult.add(startWord);
+		mNextValidWord = getNextPossible(startWord);
 	}
 
-	public int getmLevelNumber() {
+	public int getLevelNumber() {
 		return mLevelNumber;
 	}
 
-	public String getmStartWord() {
+	public String getStartWord() {
 		if(mLock) return null;
 		return mStartWord;
 	}
 
-	public String getmEndWord() {
+	public String getEndWord() {
 		if(mLock) return null;
 		return mEndWord;
 	}
 
-	public int getmMinMove() {
+	public int getMinMove() {
 		if(mLock) return 0;
 		return mMinMove;
 	}
 
-	public boolean ismLock() {
+	public boolean isLock() {
 		return mLock;
 	}
 
-	public boolean ismDone() {
+	public boolean isDone() {
 		if(mLock) return false;
 		return mDone;
 	}
 	
+	public boolean addWord(String word)
+	{
+		if(mNextValidWord.contains(word))
+		{
+			mCurrenUserResult.add(word);
+			mNextValidWord = getNextPossible(word);
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
 	
+	public void deleteFrom(String word)
+	{
+		//TODO
+	}
+	
+	private static ArrayList<String> getNextPossible(String word)
+	{
+		//TODO 
+		return null;
+	}
+	
+	
+	//help
+	//return false if haven't enough coins
+	public boolean helpGoToNextLevel()
+	{
+		//TODO
+		return false;
+	}
+	
+	//help
+	//return null if haven't enough coins
+	public String HelpGetNextWord()
+	{
+		//TODO 
+		return null;
+	}
+	
+	//help
+	//return null if haven't enough coins
+	public String[] helpGetNextPossibleWords()
+	{
+		//TODO : check Coins
+		return (String[])mNextValidWord.toArray();
+	}
 
 }
