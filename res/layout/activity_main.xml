@@ -1,17 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+   android:layout_width="wrap_content" android:layout_height="fill_parent">
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity" >
 
-    <Button
+    <ImageView
         android:id="@+id/level1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="47dp"
-        android:text="@string/level1" />
+        android:layout_marginLeft="26dp"
+        android:layout_marginTop="26dp"
+        android:src="@drawable/level_image" />
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/level1"
+        android:layout_marginRight="26dp"
+        android:layout_marginTop="46dp"
+        android:src="@drawable/level_image" />
 
 </RelativeLayout>
+</ScrollView>
