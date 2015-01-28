@@ -7,6 +7,7 @@ import java.io.OutputStream;
  
  
  
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
@@ -167,4 +168,14 @@ public class DatabaseHelper extends SQLiteOpenHelper{
      
      
     }
+    public int update(String table , ContentValues values,String whereClause, String[] whereArgs)
+    {
+    	return myDataBase.update(table, values, whereClause, whereArgs);
+    }
+    public int delete(String table,String whereClause, String[] whereArgs) {
+        return myDataBase.delete(table,whereClause,whereArgs);
+    }
+    public long insert(String table ,String nullColumnHack ,ContentValues initialValues) {
+        return myDataBase.insert(table, nullColumnHack, initialValues);
+      }
 }

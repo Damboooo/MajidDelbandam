@@ -1,12 +1,16 @@
 package ir.chocolategroup.majiddelbandam;
 
+import ir.chocolategroup.majiddelbandam.database.DataBaseManager;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class GameManager {
+	private final int LevelCoin = 30;
+	
 	private int mCoins;
 	private HashMap<Integer,Level> mLevels;
-	
+	private DataBaseManager dataBaseManager;
 	public GameManager() {
 		//TODO set mCoins from prefrence
 	}
@@ -17,24 +21,53 @@ public class GameManager {
 			return false;
 		mCoins -= c;
 		return true;
+		//TODO file
 	}
 	
+	private void addCoins(int coin)
+	{
+		mCoins += coin;
+		//TODO file
+	}
 	public void loadAllLevels()
 	{
-		//TODO
+		mLevels.clear();
+		for (Level level : dataBaseManager.loadAllLevels(this)) {
+			mLevels.put(level.getLevelNumber(), level);
+		} 
 	}
 	
 	public void loadUnlockedLevel()
 	{
-		//TODO
+		mLevels.clear();
+		for (Level level : dataBaseManager.loadUnlockLevels(this)) {
+			mLevels.put(level.getLevelNumber(), level);
+		} 
 	}
 	
 	public void loadLevel(int levelNumber)
 	{
 		if(!mLevels.containsKey(levelNumber))
 		{		
-			//TODO
+			Level temp = dataBaseManager.loadLevel(levelNumber,this);
+			mLevels.put(temp.getLevelNumber(), temp);
 		}
 	}
-
+	public ArrayList<String> getNextPosibleWords(String word)
+	{
+		return dataBaseManager.getNextPosibleWords(word);
+	}
+	
+	public void goToNextLevel(Level level , boolean done)
+	{
+		if(done)
+			addCoins(LevelCoin);
+		
+		
+		
+	}
+	public void goToNextLevel(Level level )
+	{
+		goToNextLevel(level, true);
+	}
 }
