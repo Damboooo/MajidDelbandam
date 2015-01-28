@@ -5,7 +5,9 @@ import ir.chocolategroup.majiddelbandam.database.DataBaseManager;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class GameManager {
+import android.app.Application;
+
+public class GameManager extends Application{
 	private final int LevelCoin = 30;
 	
 	private int mCoins;
