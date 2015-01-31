@@ -72,4 +72,9 @@ public class GameManager extends Application{
 	{
 		goToNextLevel(level, true);
 	}
+	
+	public Level getLevel(Integer i)
+	{
+		return null; // TO DO
+	}
 }

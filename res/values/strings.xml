@@ -7,5 +7,6 @@
     <string name="level1">Level1</string>
     <string name="sib">sib</string>
     <string name="saz">saz</string>
-
+	<string name="Enter">Enter</string>
+	<string name="accept">accept</string>
 </resources>
