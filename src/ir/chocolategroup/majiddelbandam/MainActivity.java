@@ -12,15 +12,14 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 
 public class MainActivity extends Activity {
-	
-	
+
+	private GameManager mGameManager;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		
-		
+		mGameManager = (GameManager)getApplication();
 		
 		final ImageView level1 = (ImageView)findViewById(R.id.level1);
 //		        handler.postDelayed(runnable, 2000); //for initial delay..

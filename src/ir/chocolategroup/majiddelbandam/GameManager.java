@@ -12,6 +12,7 @@ public class GameManager extends Application{
 	
 	private int mCoins;
 	private HashMap<Integer,Level> mLevels;
+	private int mLevelCount;
 	private DataBaseManager dataBaseManager;
 	public GameManager() {
 		//TODO set mCoins from prefrence
@@ -31,6 +32,12 @@ public class GameManager extends Application{
 		mCoins += coin;
 		//TODO file
 	}
+	
+	public int getCoins()
+	{
+		return mCoins;
+	}
+
 	public void loadAllLevels()
 	{
 		mLevels.clear();
@@ -59,7 +66,7 @@ public class GameManager extends Application{
 	{
 		return dataBaseManager.getNextPosibleWords(word);
 	}
-	
+
 	public void goToNextLevel(Level level , boolean done)
 	{
 		if(done)
@@ -73,8 +80,15 @@ public class GameManager extends Application{
 		goToNextLevel(level, true);
 	}
 	
+
 	public Level getLevel(Integer i)
 	{
 		return null; // TO DO
 	}
+
+	public int getLevelCount()
+	{
+		return mLevelCount;
+	}
+
 }
