@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Currency;
 import java.util.StringTokenizer;
 
+import android.text.InputFilter.LengthFilter;
+
 public class Level {
 
 	public final int mLevelNumber;
@@ -17,9 +19,12 @@ public class Level {
 	private ArrayList<String> mCurrenUserResult;
 	private ArrayList<String> mNextValidWord;
 	private GameManager mGameManager;
+	private final int LevelCoinsPrize = 50;
 	private final int neededCoins_NextLevel = 50; 
 	private final int neededCoins_NextWord = 30; 
-	private final int neededCoins_NextPossible = 20; 
+	private final int neededCoins_NextPossible = 20;
+	private final int neededCoins_MidWord = 20;
+	private final int fineForEachExtraMove = 5;
 	
 	public Level(int levelNumber, boolean lock , boolean done , String startWord , String endWord , String[] bestResult , int minMove , String[] bestUserResult, GameManager gameManager  ) {
 		mLevelNumber = levelNumber;
@@ -35,6 +40,7 @@ public class Level {
 		mNextValidWord = getNextPossible(startWord);
 		mGameManager = gameManager;
 	}
+	
 	public Level(int levelNumber, boolean lock , boolean done , String startWord , String endWord , String bestResult , int minMove , String bestUserResult , GameManager gameManager ) {
 		mLevelNumber = levelNumber;
 		mLock = lock;
@@ -115,6 +121,14 @@ public class Level {
 		return mDone;
 	}
 	
+	public int getMinUserMove()
+	{
+		if(mBestUserResult == null || mBestUserResult.length == 0)
+			return Integer.MAX_VALUE;
+		else
+			return mBestUserResult.length;
+	}
+	
 	public boolean addWord(String word)
 	{
 		if(mNextValidWord.contains(word))
@@ -151,13 +165,20 @@ public class Level {
 	private void finishLevel()
 	{
 		mDone = true;
-		if(mBestUserResult == null || mBestUserResult.length == 0 || mBestUserResult.length > mCurrenUserResult.size())
+		int prize;
+		if(mBestUserResult == null || mBestUserResult.length == 0 )
 		{
 			mBestUserResult = (String[])mCurrenUserResult.toArray();
+			prize = LevelCoinsPrize - fineForEachExtraMove * (mBestUserResult.length - mMinMove);
 		}
-		//TODO
+		else if(mBestUserResult.length > mCurrenUserResult.size())
+		{
+			String[] temp = (String[])mCurrenUserResult.toArray();
+			prize = fineForEachExtraMove * (mBestUserResult.length - temp.length);
+			mBestUserResult = temp;
+		}
+
 	}
-	
 	//help
 	//return false if haven't enough coins
 	public boolean helpGoToNextLevel()
@@ -166,7 +187,7 @@ public class Level {
 		{			
 			return false;
 		}
-		//TODO
+		mGameManager.goToNextLevel(this, 0, false);
 		return true;
 	}
 	
@@ -189,8 +210,30 @@ public class Level {
 		if(!mGameManager.spendCoins(neededCoins_NextPossible))
 		{			
 			return null;
-		}//TODO : check Coins
+		}
 		return (String[])mNextValidWord.toArray();
 	}
-
+	
+	//help
+	//return null if haven't enough coins
+	public String helpMidWord()
+	{
+		if(!mGameManager.spendCoins(neededCoins_MidWord))
+		{			
+			return null;
+		}
+		int i = 0;
+		while(i < mCurrenUserResult.size() && i < mBestResult.length)
+		{
+			if(!mCurrenUserResult.get(i).equals(mBestResult[i]))
+			{
+				break;
+			}
+			i++;
+		}
+		int index = (int) Math.floor((mBestResult.length - i)/2) ;
+		while(mCurrenUserResult.contains(mBestResult[index]))
+			index++;
+		return mBestResult[index];
+	}
 }
