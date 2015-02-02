@@ -9,5 +9,6 @@
     <string name="saz">saz</string>
     <string name="SharedPreferencesFileName">UsernamesAndPasswords</string>
     <string name="Coins">Coins</string>
-
+	<string name="Enter">Enter</string>
+	<string name="accept">accept</string>
 </resources>

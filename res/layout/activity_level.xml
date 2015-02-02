@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/levelLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
-
+    
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
@@ -16,29 +17,30 @@
         android:text="@string/sib" />
 
     <EditText
-        android:id="@+id/editText1"
+        android:id="@+id/current"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="94dp"
-        android:ems="10" />
+        android:ems="10"
+ 		android:hint="@string/Enter" />
 
     <Button
-        android:id="@+id/button1"
+        android:id="@+id/submit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="36dp"
-        android:text="accept" />
+        android:text="@string/accept" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/end"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/editText1"
-        android:layout_alignLeft="@+id/editText1"
+        android:layout_above="@+id/start"
+        android:layout_alignLeft="@+id/start"
         android:layout_marginBottom="70dp"
         android:text="@string/saz" />
 

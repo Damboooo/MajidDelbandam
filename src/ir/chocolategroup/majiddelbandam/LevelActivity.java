@@ -5,6 +5,7 @@ import java.util.Random;
 import android.R.layout;
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.Application;
 import android.content.Intent;
 import android.text.Layout;
 import android.view.Menu;
@@ -18,22 +19,33 @@ import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
 public class LevelActivity extends Activity {
-	
-	
+	private Level level;
+	private GameManager mGameManager;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_level);
-		final Button button = (Button) findViewById(R.id.button1);
+		// get level from MainActivity
+		mGameManager = (GameManager) getApplication();
+		Integer levelNumber = (Integer)getIntent().getExtras().get("levelnumber");
+		level = mGameManager.getLevel(levelNumber);
+		// set level details
+		
+		
+		final Button button = (Button) findViewById(R.id.submit);
 		button.setOnClickListener(new OnClickListener() {
-			TextView current = (TextView) findViewById(R.id.textView1);
+			TextView current = (TextView) findViewById(R.id.start);
 			int id = 0;
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				TextView start = (TextView) findViewById(R.id.textView1);
-				TextView end = (TextView) findViewById(R.id.textView2);
-				EditText input = (EditText) findViewById(R.id.editText1);
+				TextView start = (TextView) findViewById(R.id.start);
+				start.setText(level.getStartWord());
+				
+				TextView end = (TextView) findViewById(R.id.end);
+				end.setText(level.getEndWord());
+				
+				EditText input = (EditText) findViewById(R.id.current);
 				if (isValid(current, input) == "null") {
 					// is invalid
 				}

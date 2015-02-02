@@ -105,6 +105,12 @@ public class GameManager extends Application{
 		goToNextLevel(level,prizeCoins, true);
 	}
 	
+
+	public Level getLevel(Integer i)
+	{
+		return mLevels.get(i);
+	}
+
 	public MetaData getMetaData()
 	{
 		MetaData result = new MetaData();
