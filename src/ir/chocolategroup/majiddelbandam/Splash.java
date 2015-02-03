@@ -24,7 +24,9 @@ public class Splash extends Activity{
 				}
 				finally
 				{
+					GameManager gameManager = (GameManager)getApplication();
 					Intent startLevelsList = new Intent("ir.chocolategroup.majiddelbandam.LEVELSLIST");
+					while(!gameManager.getLoadLevels());
 					startActivity(startLevelsList);
 				}
 			}

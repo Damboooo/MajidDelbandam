@@ -15,9 +15,33 @@ public class GameManager extends Application{
 	private HashMap<Integer,Level> mLevels;
 	private int mLevelCount;
 	private DataBaseManager dataBaseManager;
-	public GameManager() {
-		super();
-		if(SharePrefrencesManager.isExistKey(this, getResources().getString(R.string.Coins)))
+	
+	private boolean loadLevels = false;
+	public void setLoadLevels()
+	{
+		loadLevels = true;
+	}
+	public boolean getLoadLevels()
+	{
+		return loadLevels;
+	}
+//	public GameManager() {
+//		super();
+//		if(SharePrefrencesManager.isExistKey(this, getResources().getString(R.string.Coins)))
+//		{
+//			mCoins = Integer.parseInt(SharePrefrencesManager.getValue(this, getResources().getString(R.string.Coins)));
+//		}
+//		else
+//		{
+//			mCoins = 200;//initial coins
+//			updateCoinsInSharePrefrences();
+//		}
+//	}
+	
+	@Override
+    public void onCreate() {
+        super.onCreate();
+        if(SharePrefrencesManager.isExistKey(this, getResources().getString(R.string.Coins)))
 		{
 			mCoins = Integer.parseInt(SharePrefrencesManager.getValue(this, getResources().getString(R.string.Coins)));
 		}
@@ -26,6 +50,7 @@ public class GameManager extends Application{
 			mCoins = 200;//initial coins
 			updateCoinsInSharePrefrences();
 		}
+        
 	}
 	
 	private void updateCoinsInSharePrefrences()

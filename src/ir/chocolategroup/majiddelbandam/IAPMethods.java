@@ -1,4 +1,4 @@
-package ir.chocolategroup.majiddelbandam;
+/*package ir.chocolategroup.majiddelbandam;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -31,7 +31,7 @@ public class IAPMethods {
 	protected static final String SKU_GEM_10_new = "gem10-new";
 	protected static final String SKU_GEM_50_new = "gem50-new";
 	protected static final String SKU_GEM_100_new = "gem100-new";
-	private static final String p = ye string e random;
+	private static final String p = "alsdkfjlasdjfpsou09adsfu";
 	private static final int RC_REQUEST = 0x111;
 	
 	protected IabHelper mIap;
@@ -61,23 +61,25 @@ public class IAPMethods {
 							mContext.runOnUiThread(new Runnable() {
 								@Override
 								public void run() {
-									MainMenu.getInstance().prgProgress.setVisibility(View.GONE);
-									MainMenu.getInstance().btnBuy.setVisibility(View.GONE);
-									MainMenu.getInstance().mWaitingDialog.dismiss();
+									//TOOD: start prgressbar
+//									MainMenu.getInstance().prgProgress.setVisibility(View.GONE);
+//									MainMenu.getInstance().btnBuy.setVisibility(View.GONE);
+//									MainMenu.getInstance().mWaitingDialog.dismiss();
 								}
 							});
 						} else {
-							MainMenu.getInstance().complain("Problem setting up in-app billing: " + result);
+							//TODO: error
+							//MainMenu.getInstance().complain("Problem setting up in-app billing: " + result);
 						}
 						return;
 					}
 					mContext.runOnUiThread(new Runnable() {
 						@Override
 						public void run() {
-							if (mIap == null) {
-								MainMenu.getInstance().mWaitingDialog.dismiss();
-								return;
-							}
+//							if (mIap == null) {
+//								MainMenu.getInstance().mWaitingDialog.dismiss();
+//								return;
+//							}
 						}
 					});
 					mIap.queryInventoryAsync(mGotInventoryListener);
@@ -138,15 +140,15 @@ public class IAPMethods {
 		@Override
 		public void onQueryInventoryFinished(IabResult result, Inventory inv) {
 			if (mIap == null) {
-				MainMenu.getInstance().mWaitingDialog.dismiss();
+//				MainMenu.getInstance().mWaitingDialog.dismiss();
 				return;
 			}
 
-			MainMenu.getInstance().btnBuy.setEnabled(true);
-			MainMenu.getInstance().prgProgress.setVisibility(View.GONE);
+//			MainMenu.getInstance().btnBuy.setEnabled(true);
+//			MainMenu.getInstance().prgProgress.setVisibility(View.GONE);
 
 			if (result.isFailure()) {
-				MainMenu.getInstance().mWaitingDialog.dismiss();
+				//MainMenu.getInstance().mWaitingDialog.dismiss();
 //				MainMenu.getInstance().complain("برای هماهنگ شدن خرید‌های درون برنامه‌ای با سرور اتصال اینترنت خودرا چک کنید.");
 				return;
 			}
@@ -160,10 +162,10 @@ public class IAPMethods {
 			handlePurchase(inv, SKU_GEM_50_new);
 			handlePurchase(inv, SKU_GEM_100_new);
 
-		 	MainMenu.getInstance().mWaitingDialog.dismiss();
+		 	//MainMenu.getInstance().mWaitingDialog.dismiss();
 		}
 
-		private void handlePurchase(Inventory inv, String p) {
+		private void handlePurchase(Inventory inv, String p) {//delete
 			Purchase gemPurchase = inv.getPurchase(p);
 			if (gemPurchase != null && verifyDeveloperPayload(gemPurchase)) {
 				mIap.consumeAsync(gemPurchase, mConsumeFinishedListener);
@@ -264,3 +266,4 @@ public class IAPMethods {
 		}
 	}
 }
+*/
