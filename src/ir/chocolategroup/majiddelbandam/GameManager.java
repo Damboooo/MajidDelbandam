@@ -5,6 +5,7 @@ import ir.chocolategroup.majiddelbandam.database.DataBaseManager;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import android.R.integer;
 import android.app.Application;
 
 public class GameManager extends Application{
@@ -15,7 +16,21 @@ public class GameManager extends Application{
 	private int mLevelCount;
 	private DataBaseManager dataBaseManager;
 	public GameManager() {
-		//TODO set mCoins from prefrence
+		super();
+		if(SharePrefrencesManager.isExistKey(this, getResources().getString(R.string.Coins)))
+		{
+			mCoins = Integer.parseInt(SharePrefrencesManager.getValue(this, getResources().getString(R.string.Coins)));
+		}
+		else
+		{
+			mCoins = 200;//initial coins
+			updateCoinsInSharePrefrences();
+		}
+	}
+	
+	private void updateCoinsInSharePrefrences()
+	{
+		SharePrefrencesManager.addValue(this, getResources().getString(R.string.Coins), mCoins+"");
 	}
 	
 	protected boolean spendCoins(int c)
@@ -23,14 +38,14 @@ public class GameManager extends Application{
 		if(mCoins < c) 
 			return false;
 		mCoins -= c;
+		updateCoinsInSharePrefrences();
 		return true;
-		//TODO file
 	}
 	
 	private void addCoins(int coin)
 	{
 		mCoins += coin;
-		//TODO file
+		updateCoinsInSharePrefrences();
 	}
 	
 	public int getCoins()
@@ -62,33 +77,51 @@ public class GameManager extends Application{
 			mLevels.put(temp.getLevelNumber(), temp);
 		}
 	}
+	
 	public ArrayList<String> getNextPosibleWords(String word)
 	{
 		return dataBaseManager.getNextPosibleWords(word);
 	}
 
-	public void goToNextLevel(Level level , boolean done)
+	public void goToNextLevel(Level level , int prizeCoins , boolean done)
 	{
 		if(done)
-			addCoins(LevelCoin);
-		
+			addCoins(prizeCoins);
+		dataBaseManager.updateLevel(level);
+		Level nextLevel;
+		int nextLevelNumber = level.getLevelNumber()+1;
+		if(!mLevels.containsKey(nextLevelNumber))
+		{
+			loadLevel(nextLevelNumber);
+		}
+		nextLevel = mLevels.get(nextLevelNumber);
+		//TODO start new Activity
 		
 		
 	}
-	public void goToNextLevel(Level level )
+	
+	public void goToNextLevel(Level level , int prizeCoins )
 	{
-		goToNextLevel(level, true);
+		goToNextLevel(level,prizeCoins, true);
 	}
 	
 
 	public Level getLevel(Integer i)
 	{
-		return null; // TO DO
+		return mLevels.get(i);
 	}
 
-	public int getLevelCount()
+	public MetaData getMetaData()
 	{
-		return mLevelCount;
+		MetaData result = new MetaData();
+		result.LevelCount = dataBaseManager.getNumberOfLevel();
+		result.minMove = new int[mLevels.size()];
+		result.userMove = new int[mLevels.size()];
+		for (Level level : mLevels.values()) {
+			result.minMove[level.getLevelNumber()] = level.getMinMove();
+			result.userMove[level.getLevelNumber()] = level.getMinUserMove();
+		}
+		return result;
 	}
 
 }

@@ -10,6 +10,7 @@ import java.io.OutputStream;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
@@ -178,4 +179,8 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     public long insert(String table ,String nullColumnHack ,ContentValues initialValues) {
         return myDataBase.insert(table, nullColumnHack, initialValues);
       }
+    public long numberOfRecord(String table)
+    {
+    	return DatabaseUtils.queryNumEntries(myDataBase, table);
+    }
 }
