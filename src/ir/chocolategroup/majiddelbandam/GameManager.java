@@ -7,14 +7,16 @@ import java.util.HashMap;
 
 import android.R.integer;
 import android.app.Application;
+import android.os.AsyncTask;
 
 public class GameManager extends Application{
 	private final int LevelCoin = 30;
 	
 	private int mCoins;
 	private HashMap<Integer,Level> mLevels;
-	private int mLevelCount;
+	private long mLevelCount;
 	private DataBaseManager dataBaseManager;
+	private GameManager mGameManager;
 	
 	private boolean loadLevels = false;
 	public void setLoadLevels()
@@ -41,6 +43,7 @@ public class GameManager extends Application{
 	@Override
     public void onCreate() {
         super.onCreate();
+        mGameManager = this;
         if(SharePrefrencesManager.isExistKey(this, getResources().getString(R.string.Coins)))
 		{
 			mCoins = Integer.parseInt(SharePrefrencesManager.getValue(this, getResources().getString(R.string.Coins)));
@@ -50,7 +53,8 @@ public class GameManager extends Application{
 			mCoins = 200;//initial coins
 			updateCoinsInSharePrefrences();
 		}
-        
+        mLevels = new HashMap<Integer, Level>();
+        loadUnlockedLevel();
 	}
 	
 	private void updateCoinsInSharePrefrences()
@@ -88,10 +92,20 @@ public class GameManager extends Application{
 	
 	public void loadUnlockedLevel()
 	{
-		mLevels.clear();
-		for (Level level : dataBaseManager.loadUnlockLevels(this)) {
-			mLevels.put(level.getLevelNumber(), level);
-		} 
+//		loadLevels = false;
+//		if(dataBaseManager == null)
+//		{
+//			dataBaseManager = new DataBaseManager(getApplicationContext());
+//		}
+//		mLevelCount = dataBaseManager.getNumberOfLevel();
+//		mLevels.clear();
+//		for (Level level : dataBaseManager.loadUnlockLevels(mGameManager)) {
+//			mLevels.put(level.getLevelNumber(), level);
+//		} 
+//		setLoadLevels();
+		
+		
+		new LoadUnlockLevelAsync().execute(new Void[]{});
 	}
 	
 	public void loadLevel(int levelNumber)
@@ -139,7 +153,7 @@ public class GameManager extends Application{
 	public MetaData getMetaData()
 	{
 		MetaData result = new MetaData();
-		result.LevelCount = dataBaseManager.getNumberOfLevel();
+		result.LevelCount = mLevelCount;
 		result.minMove = new int[mLevels.size()];
 		result.userMove = new int[mLevels.size()];
 		for (Level level : mLevels.values()) {
@@ -147,6 +161,31 @@ public class GameManager extends Application{
 			result.userMove[level.getLevelNumber()] = level.getMinUserMove();
 		}
 		return result;
+	} 
+	
+	
+	
+	public class LoadUnlockLevelAsync extends AsyncTask<Void, Void, Void> {
+		
+		public LoadUnlockLevelAsync() {
+			super();
+		}
+
+		@Override
+		protected Void doInBackground(Void... arg0) {
+			loadLevels = false;
+			if(dataBaseManager == null)
+			{
+				dataBaseManager = new DataBaseManager(getApplicationContext());
+			}
+			mLevelCount = dataBaseManager.getNumberOfLevel();
+			mLevels.clear();
+			for (Level level : dataBaseManager.loadUnlockLevels(mGameManager)) {
+				mLevels.put(level.getLevelNumber(), level);
+			} 
+			setLoadLevels();
+			return null;
+		}
 	}
 
 }

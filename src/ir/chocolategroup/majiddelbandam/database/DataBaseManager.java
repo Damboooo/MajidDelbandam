@@ -12,6 +12,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
+import android.os.AsyncTask;
 import android.widget.Toast;
 
 public class DataBaseManager {
@@ -20,7 +21,7 @@ public class DataBaseManager {
 	private final String Levels_Table = "Levels";
 	private final String Levels_LevelNumber = "LevelNumber";
 	private final String words_word = "Word";
-	private final String words_ComparisionWord = "ComparisionWord";
+	private final String words_ComparisionWord = "ComparisonWord";
 	private final String Levels_StartWord = "StartWord";
 	private final String Levels_EndWord = "EndWord";
 	private final String Levels_MinMove = "MinMove";
@@ -28,9 +29,11 @@ public class DataBaseManager {
 	private final String Levels_Done = "Done";
 	private final String Levels_ListBestUserResult = "ListBestUserResult";
 	private final String Levels_ListBestResult = "ListBestResult";
-
+	
+	private final String DataBaseName = "Majid Delbandam Database";
+	
 	public DataBaseManager(Context context) {
-		myDbHelper = new DatabaseHelper(context);
+		myDbHelper = new DatabaseHelper(context ,DataBaseName);
 		try {
 			myDbHelper.createDataBase();
 		} catch (IOException e) {
@@ -67,13 +70,36 @@ public class DataBaseManager {
 		ArrayList<Level> result = new ArrayList<Level>();
 		if (cursor.moveToFirst()) {
 			do {
-				result.add(new Level(cursor.getInt(0), cursor.getInt(1) == 1,
-						cursor.getInt(2) == 1, cursor.getString(3), cursor
-								.getString(4), cursor.getString(5), cursor
-								.getInt(6), cursor.getString(7), gameManager));
+//				int number = cursor.getInt(0);
+//				int lock = cursor.getInt(1);
+//				int done = cursor.getInt(2);
+//				
+//				
+//				String a4 = cursor.getString(0);
+//				String a5 = cursor.getString(1);
+//				String a6 = cursor.getString(2);
+//				String start = cursor.getString(3);
+//				String end = cursor.getString(4);
+//				String a1 = cursor.getString(5);
+//				String a2 = cursor.getString(6);
+//				String a3 = cursor.getString(7);
+//				
+				Level temp = new Level(Integer.parseInt(cursor.getString(0)), Integer.parseInt(cursor.getString(4)) == 1,
+						Integer.parseInt(cursor.getString(5)) == 1, cursor.getString(1), cursor
+						.getString(2), cursor.getString(7), Integer.parseInt(cursor
+						.getString(3)), cursor.getString(6), gameManager);
+				result.add(temp);
+//				result.add(new Level(Integer.parseInt(cursor.getString(0)), Integer.parseInt(cursor.getString(4)) == 1,
+//						Integer.parseInt(cursor.getString(5)) == 1, cursor.getString(1), cursor
+//								.getString(2), cursor.getString(7), Integer.parseInt(cursor
+//								.getString(3)), cursor.getString(6), gameManager));
 			} while (cursor.moveToNext());
 		}
-		return (Level[]) result.toArray();
+		Level[] res = new Level[result.size()];
+		for (int i = 0; i < res.length; i++) {
+			res[i] = result.get(i);
+		}
+		return res;
 	}
 
 	public Level[] loadUnlockLevels(GameManager gameManager) {
@@ -149,4 +175,8 @@ public class DataBaseManager {
 	public long getNumberOfLevel() {
 		return myDbHelper.numberOfRecord(Levels_Table);
 	}
+	
+	
+	
+
 }

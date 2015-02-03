@@ -33,9 +33,10 @@ public class DatabaseHelper extends SQLiteOpenHelper{
      * Takes and keeps a reference of the passed context in order to access to the application assets and resources.
      * @param context
      */
-    public DatabaseHelper(Context context) {
+    public DatabaseHelper(Context context , String DataBaseName) {
   
         super(context, DB_NAME, null, 1);
+        DB_NAME = DataBaseName;
         this.myContext = context;
         if(android.os.Build.VERSION.SDK_INT >= 17){
             DB_PATH = context.getApplicationInfo().dataDir + "/databases/";         
