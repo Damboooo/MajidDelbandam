@@ -6,19 +6,43 @@ import android.R.layout;
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.Application;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences.Editor;
 import android.text.Layout;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.MarginLayoutParams;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TimePicker;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
 public class LevelActivity extends Activity {
+	
+	
+	TextView username;
+	TextView password;
+	Button save;
+	ImageView r1Image;
+	ImageView r2Image;
+	ImageView r3Image;
+	String usernameString, passwordString;
+	
+	TextView phoneNumber;
+	TimePicker time;
+	DatePicker date;
+	Button call;
+	Button BTNCanceltime;
+	String phoneString, dateString, timeString;
+	
+	
 	private Level level;
 	private GameManager mGameManager;
 	@Override
@@ -30,14 +54,24 @@ public class LevelActivity extends Activity {
 		Integer levelNumber = (Integer)getIntent().getExtras().get("levelnumber");
 		level = mGameManager.getLevel(levelNumber);
 		// set level details
-		
-		
+		final ImageView IM = (ImageView) findViewById(R.id.imageView2);
+		IM.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+
+				createDialogHelp();
+			}
+		});
 		final Button button = (Button) findViewById(R.id.submit);
 		button.setOnClickListener(new OnClickListener() {
 			TextView current = (TextView) findViewById(R.id.start);
 			int id = 0;
 			@Override
 			public void onClick(View v) {
+				
+				
 				// TODO Auto-generated method stub
 				TextView start = (TextView) findViewById(R.id.start);
 				start.setText(level.getStartWord());
@@ -111,5 +145,39 @@ public class LevelActivity extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.activity_main, menu);
 		return true;
+	}
+	
+	
+	private void createDialogHelp() {
+		final Dialog dialog = new Dialog(LevelActivity.this);
+		dialog.setContentView(R.layout.help_fragment);
+		r1Image = (ImageView) dialog.findViewById(R.id.R1_image);
+		r2Image = (ImageView) dialog.findViewById(R.id.R2_image);
+		r3Image = (ImageView) dialog.findViewById(R.id.R3_image);
+	
+		
+		r1Image.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// TO DO help1
+				dialog.dismiss();
+			}
+		});
+		r2Image.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// TO DO help2
+				dialog.dismiss();
+			}
+		});
+		r3Image.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// TO DO help3
+				dialog.dismiss();
+			}
+		});
+		
+		dialog.show();
 	}
 }
