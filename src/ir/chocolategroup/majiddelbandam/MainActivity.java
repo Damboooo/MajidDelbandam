@@ -3,12 +3,14 @@ package ir.chocolategroup.majiddelbandam;
 import android.os.Bundle;
 import android.os.Handler;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.ImageView;
 
 public class MainActivity extends Activity {
@@ -19,6 +21,18 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+
+		final ImageView IM = (ImageView) findViewById(R.id.imageView2);
+		IM.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+
+				createDialogPayment();
+			}
+		});		
+		
 		mGameManager = (GameManager)getApplication();
 		
 		final ImageView level1 = (ImageView)findViewById(R.id.level1);
@@ -141,5 +155,20 @@ public class MainActivity extends Activity {
 		getMenuInflater().inflate(R.menu.activity_main, menu);
 		return true;
 	}
-
+	private void createDialogPayment() {
+		final Dialog dialog = new Dialog(MainActivity.this);
+		dialog.setContentView(R.layout.payment_fragment);
+		Button cancel = (Button) dialog.findViewById(R.id.cancel);
+	
+		
+		cancel.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// TO DO payment
+				dialog.dismiss();
+			}
+		});
+		
+		dialog.show();
+	}
 }
