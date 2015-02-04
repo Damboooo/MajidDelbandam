@@ -10,8 +10,11 @@ import android.graphics.drawable.AnimationDrawable;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.MarginLayoutParams;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 public class MainActivity extends Activity {
 
@@ -33,9 +36,43 @@ public class MainActivity extends Activity {
 			}
 		});		
 		
+
+		final ImageView level1 = (ImageView)findViewById(R.id.level1);
+		
+		
 		mGameManager = (GameManager)getApplication();
 		
-		final ImageView level1 = (ImageView)findViewById(R.id.level1);
+		
+		
+		
+		for (int id = 0; id < mGameManager.getMetaData().LevelCount; id++) {
+			View levelLayout = findViewById(R.id.mainLayout);
+			ImageView valueTV = new ImageView(MainActivity.this);
+			valueTV.setImageDrawable(getResources().getDrawable(R.drawable.level_image));
+	
+			MarginLayoutParams marginParams = new MarginLayoutParams(
+					level1.getLayoutParams());
+			int[] position = findPosition(id);
+	//		marginParams.setMargins(left_margin, top_margin, right_margin, bottom_margin);
+			marginParams.setMargins(position[0],position[1],position[2],position[3]);
+			RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
+					marginParams);
+			valueTV.setLayoutParams(layoutParams);
+			
+			((RelativeLayout) levelLayout).addView(valueTV);
+			id++;
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 //		        handler.postDelayed(runnable, 2000); //for initial delay..
 		final Handler handler = new Handler();
 		
@@ -170,5 +207,13 @@ public class MainActivity extends Activity {
 		});
 		
 		dialog.show();
+	}
+	int[] findPosition(int id) {
+		int[] pos = new int[4];
+		pos[0] = 50+(4-id%4)*30;
+		pos[1] = 30+(id/4+1)*30;
+		pos[2] = (id%4)*30;
+		pos[3] = 20;
+		return pos;
 	}
 }

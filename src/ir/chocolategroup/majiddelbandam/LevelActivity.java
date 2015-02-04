@@ -53,7 +53,14 @@ public class LevelActivity extends Activity {
 		mGameManager = (GameManager) getApplication();
 		Integer levelNumber = (Integer)getIntent().getExtras().get("levelnumber");
 		level = mGameManager.getLevel(levelNumber);
+		
 		// set level details
+		final TextView  start = (TextView) findViewById(R.id.start);
+		final TextView  end = (TextView) findViewById(R.id.start);
+//		start.setText(level.getStartWord());
+//		end.setText(level.getEndWord());
+		
+		
 		final ImageView IM = (ImageView) findViewById(R.id.imageView2);
 		IM.setOnClickListener(new OnClickListener() {
 			

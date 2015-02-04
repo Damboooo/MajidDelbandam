@@ -347,7 +347,6 @@ public class IAPMethods {
 	}
 }
 */
-=======
 //						}
 //					});
 //					mIap.queryInventoryAsync(mGotInventoryListener);
