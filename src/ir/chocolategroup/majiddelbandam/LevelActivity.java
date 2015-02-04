@@ -55,10 +55,14 @@ public class LevelActivity extends Activity {
 		level = mGameManager.getLevel(levelNumber);
 		
 		// set level details
+		
+		// start and end properties
 		final TextView  start = (TextView) findViewById(R.id.start);
-		final TextView  end = (TextView) findViewById(R.id.start);
-//		start.setText(level.getStartWord());
-//		end.setText(level.getEndWord());
+		final TextView  end = (TextView) findViewById(R.id.end);
+		
+	// TODO read from level.getStartWord() & level.getEndWord()
+		start.setText(level.getStartWord());
+		end.setText(level.getEndWord());
 		
 		
 		final ImageView IM = (ImageView) findViewById(R.id.imageView2);
@@ -73,35 +77,25 @@ public class LevelActivity extends Activity {
 		});
 		final Button button = (Button) findViewById(R.id.submit);
 		button.setOnClickListener(new OnClickListener() {
-			TextView current = (TextView) findViewById(R.id.start);
+			TextView previous = (TextView) findViewById(R.id.start);
 			int id = 0;
 			@Override
 			public void onClick(View v) {
 				
 				
 				// TODO Auto-generated method stub
-				TextView start = (TextView) findViewById(R.id.start);
-				start.setText(level.getStartWord());
-				
-				TextView end = (TextView) findViewById(R.id.end);
-				end.setText(level.getEndWord());
 				
 				EditText input = (EditText) findViewById(R.id.current);
-				if (isValid(current, input) == "null") {
-					// is invalid
-				}
-				if (isValid(current, input) != null
-						&& isValid(current, input) != "null") {
-					
-					if(isValid(current, input).equals((String)end.getText()))
+
+					if(input.getText().equals((String)end.getText()))
 						button.setText("Fenito");
 						
 					View levelLayout = findViewById(R.id.levelLayout);
 					TextView valueTV = new TextView(LevelActivity.this);
-					valueTV.setText(isValid(current, input)); // set text
+					valueTV.setText(input.getText()); // set text
 
 					MarginLayoutParams marginParams = new MarginLayoutParams(
-							current.getLayoutParams());
+							previous.getLayoutParams());
 					int[] position = findPosition(id);
 //					marginParams.setMargins(left_margin, top_margin, right_margin, bottom_margin);
 					marginParams.setMargins(position[0],position[1],position[2],position[3]);
@@ -110,10 +104,8 @@ public class LevelActivity extends Activity {
 					valueTV.setLayoutParams(layoutParams);
 
 					((RelativeLayout) levelLayout).addView(valueTV);
-					current = valueTV;
+					previous = valueTV;
 					id++;
-				}
-
 				// end.setText(isValid(start,input));
 			}
 		});
@@ -122,30 +114,30 @@ public class LevelActivity extends Activity {
 
 	int[] findPosition(int id) {
 		int[] pos = new int[4];
-		pos[0] = 50+(4-id%4)*30;
-		pos[1] = 30+(id/4+1)*30;
+		pos[0] = 50+(2-id%2)*50;
+		pos[1] = 30+(id/2+1)*30;
 		pos[2] = (id%4)*30;
 		pos[3] = 20;
 		return pos;
 	}
 
-	String isValid(TextView tv, EditText et) {
-		String first = (String) tv.getText();
-		String second = et.getText().toString();
-		char[] firstC = first.toCharArray();
-		char[] secondC = second.toCharArray();
-		if(firstC.length != secondC.length)
-			return "null";
-		int counter = 0;
-		for (int i = 0; i < firstC.length; i++) {
-			if (firstC[i] != secondC[i])
-				counter++;
-		}
-		if (counter == 1)
-			return second;
-		else
-			return "null";
-	}
+//	String isValid(TextView tv, EditText et) {
+//		String first = (String) tv.getText();
+//		String second = et.getText().toString();
+//		char[] firstC = first.toCharArray();
+//		char[] secondC = second.toCharArray();
+//		if(firstC.length != secondC.length)
+//			return "null";
+//		int counter = 0;
+//		for (int i = 0; i < firstC.length; i++) {
+//			if (firstC[i] != secondC[i])
+//				counter++;
+//		}
+//		if (counter == 1)
+//			return second;
+//		else
+//			return "null";
+//	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

@@ -5,16 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <TextView
-        android:id="@+id/start"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginRight="48dp"
-        android:layout_marginTop="44dp"
-        android:text="@string/sib" />
-
     <EditText
         android:id="@+id/current"
         android:layout_width="wrap_content"
@@ -34,15 +24,6 @@
         android:layout_marginBottom="36dp"
         android:text="@string/accept" />
 
-    <TextView
-        android:id="@+id/end"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/start"
-        android:layout_alignLeft="@+id/start"
-        android:layout_marginBottom="70dp"
-        android:text="@string/saz" />
-
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="wrap_content"
@@ -58,5 +39,22 @@
         android:layout_alignBottom="@+id/imageView2"
         android:layout_alignLeft="@+id/current"
         android:text="514" />
+
+    <TextView
+        android:id="@+id/start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/current"
+        android:layout_marginBottom="35dp"
+        android:layout_toRightOf="@+id/imageView2"
+        android:text="@string/sib" />
+
+    <TextView
+        android:id="@+id/end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/current"
+        android:layout_below="@+id/textView1"
+        android:text="@string/saz" />
 
 </RelativeLayout>
