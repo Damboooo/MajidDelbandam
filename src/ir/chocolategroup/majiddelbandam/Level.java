@@ -42,6 +42,7 @@ public class Level {
 	}
 	
 	public Level(int levelNumber, boolean lock , boolean done , String startWord , String endWord , String bestResult , int minMove , String bestUserResult , GameManager gameManager ) {
+		mGameManager = gameManager;
 		mLevelNumber = levelNumber;
 		mLock = lock;
 		mDone = done;
@@ -53,7 +54,7 @@ public class Level {
 		mCurrenUserResult = new ArrayList<String>();
 		mCurrenUserResult.add(startWord);
 		mNextValidWord = getNextPossible(startWord);
-		mGameManager = gameManager;
+		
 	}
 	
 	private String[] strtinToArray(String input)
@@ -62,7 +63,7 @@ public class Level {
 		{
 			return null;
 		}
-		input = input.substring(1,input.length()-2);
+		input = input.substring(1,input.length()-1);
 		String[] splited = input.split(",");
 		return splited;
 	}
