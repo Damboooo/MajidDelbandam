@@ -157,8 +157,8 @@ public class GameManager extends Application{
 		result.minMove = new int[mLevels.size()];
 		result.userMove = new int[mLevels.size()];
 		for (Level level : mLevels.values()) {
-			result.minMove[level.getLevelNumber()] = level.getMinMove();
-			result.userMove[level.getLevelNumber()] = level.getMinUserMove();
+			result.minMove[level.getLevelNumber()-1] = level.getMinMove();
+			result.userMove[level.getLevelNumber()-1] = level.getMinUserMove();
 		}
 		return result;
 	} 
