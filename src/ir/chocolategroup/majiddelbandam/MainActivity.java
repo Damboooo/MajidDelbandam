@@ -163,7 +163,7 @@ public class MainActivity extends Activity {
 						public void run() {
 							Intent level = new Intent(MainActivity.this,
 									LevelActivity.class);
-							level.putExtra("levelnumber", id+1); // id is the level number
+							level.putExtra("levelnumber", /*id +*/ 1); // id is the level number
 							startActivity(level);
 						}
 					}, 1200);
