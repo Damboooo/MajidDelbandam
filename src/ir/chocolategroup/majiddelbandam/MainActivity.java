@@ -46,8 +46,12 @@ public class MainActivity extends Activity {
 		for (id = 0; id < (int)mGameManager.getMetaData().LevelCount; id++) {
 			levels[id] = new ImageView(MainActivity.this);
 			// TODO An if for lock or unlock levels
-			levels[id].setImageDrawable(getResources().getDrawable(
-					R.drawable.level_image));
+			if(id+1 <= mGameManager.getMetaData().userMove.length)
+				levels[id].setImageDrawable(getResources().getDrawable(
+						R.drawable.level_image));
+			else
+				levels[id].setImageDrawable(getResources().getDrawable(
+						R.drawable.level_image_bw));
 
 			MarginLayoutParams marginParams = new MarginLayoutParams(70, 70);
 			// level1.getLayoutParams());
@@ -65,7 +69,7 @@ public class MainActivity extends Activity {
 			final Handler handler = new Handler();
 
 			levels[id].setOnClickListener(new OnClickListener() {
-
+				int id1 = id;
 				@Override
 				public void onClick(View v) {
 
@@ -161,16 +165,19 @@ public class MainActivity extends Activity {
 					handler.postDelayed(new Runnable() {
 						@Override
 						public void run() {
-							Intent level = new Intent(MainActivity.this,
-									LevelActivity.class);
-							level.putExtra("levelnumber", id+1); // id is the level number
-							startActivity(level);
+							if(id1+1 <= mGameManager.getMetaData().userMove.length)
+							{
+								Intent level = new Intent(MainActivity.this,
+										LevelActivity.class);
+								level.putExtra("levelnumber", id1+1); // id is the level number
+								startActivity(level);
+							}
 						}
 					}, 1200);
 
-					DrawView drawView = new DrawView(MainActivity.this);
-					drawView.setBackgroundColor(Color.DKGRAY);
-					setContentView(drawView);
+//					DrawView drawView = new DrawView(MainActivity.this);
+//					drawView.setBackgroundColor(Color.DKGRAY);
+//					setContentView(drawView);
 
 				}
 			});
