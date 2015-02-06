@@ -244,7 +244,21 @@ public class LevelActivity extends Activity {
 	{	
 		if(words == null)
 		{
+			//TODO : پیام مناسب
 			Toast.makeText(this, "سکه کافی ندارید!", Toast.LENGTH_LONG);
+			
+			
+			
+//			new AlertDialog.Builder(this).setIcon(android.R.drawable.ic_dialog_alert).setTitle("Exit")
+//            .setMessage("Are you sure you want to exit?")
+//            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialog, int which) {
+//                    finish();
+//                }
+//            }).setNegativeButton("No", null).show();
+			
+			
 			return;
 		}
 		final Dialog dialog = new Dialog(LevelActivity.this);

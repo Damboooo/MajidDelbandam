@@ -53,6 +53,10 @@ public class GameManager extends Application{
 			mCoins = 200;//initial coins
 			updateCoinsInSharePrefrences();
 		}
+        //TODO : pak shavad
+        mCoins = 1000;
+        
+        
         mLevels = new HashMap<Integer, Level>();
         loadUnlockedLevel();
 	}

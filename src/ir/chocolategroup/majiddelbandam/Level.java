@@ -169,7 +169,11 @@ public class Level {
 		int prize;
 		if(mBestUserResult == null || mBestUserResult.length == 0 )
 		{
-			mBestUserResult = (String[])mCurrenUserResult.toArray();
+			mBestUserResult = new String[mCurrenUserResult.size()];
+			for (int i = 0; i < mBestUserResult.length; i++) {
+				mBestUserResult[i]  = mCurrenUserResult.get(i);
+			}
+//			mBestUserResult = (String[])mCurrenUserResult.toArray();
 			prize = LevelCoinsPrize - fineForEachExtraMove * (mBestUserResult.length - mMinMove);
 		}
 		else if(mBestUserResult.length > mCurrenUserResult.size())

@@ -16,7 +16,7 @@ public class Splash extends Activity{
 			@Override
 			public void run() {
 				try{
-					sleep(300);
+					sleep(1000);
 				}
 				catch(InterruptedException e)
 				{
@@ -25,9 +25,18 @@ public class Splash extends Activity{
 				finally
 				{
 					GameManager gameManager = (GameManager)getApplication();
+					
+//					Intent startLevelsList = new Intent(Splash.class, MainActivity.class);
+//					startLevelsList.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//					startLevelsList.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);                  
+//					startLevelsList.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+					
 					Intent startLevelsList = new Intent("ir.chocolategroup.majiddelbandam.LEVELSLIST");
-//					while(!gameManager.getLoadLevels());
+					startLevelsList.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+					while(!gameManager.getLoadLevels());
 					startActivity(startLevelsList);
+					finish();
+					//System.exit(0);
 				}
 			}
 		};
