@@ -240,7 +240,7 @@ public class LevelActivity extends Activity {
 		dialog.show();
 	}
 
-	private void createDialogNextPossibleWord(String[] words)
+	private void createDialogNextPossibleWord(final String[] words)
 	{	
 		if(words == null)
 		{
@@ -260,8 +260,9 @@ public class LevelActivity extends Activity {
 		lvNextWords.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int pos,
-					long arg3) {
+			public void onItemClick(AdapterView<?> arg0, View arg1, int pos,long arg3) {
+				level.addWord(words[pos]);
+				//TODO : add viwe
 				 //Toast.makeText(getApplicationContext(), pos, Toast.LENGTH_SHORT).show();
 				dialog.dismiss();
 				

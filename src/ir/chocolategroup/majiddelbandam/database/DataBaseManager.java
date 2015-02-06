@@ -125,7 +125,7 @@ public class DataBaseManager {
 			// tempWordChar = Arrays.copyOf(wordChar, wordChar.length);
 			tempWordChar = new char[wordChar.length];
 			for (int j = 0; j < wordChar.length; j++) {
-				tempWordChar[i] = wordChar[i];
+				tempWordChar[j] = wordChar[j];
 			}
 			tempWordChar[i] = '_';
 			selectionArg[2*i] = new String(tempWordChar);
@@ -144,6 +144,18 @@ public class DataBaseManager {
 				result.add(cursor.getString(0));
 			} while (cursor.moveToNext());
 		}
+		
+//		cursor = myDbHelper.query(Words_Table, new String[] { words_word },
+//				words_word + " like ? OR " + words_word + " like ?", new String[]{"شی_" , "_یر"}, null, null, null);
+//		
+//		ArrayList<String> result2 = new ArrayList<String>();
+//		if (cursor.moveToFirst()) {
+//			do {
+//				result2.add(cursor.getString(0));
+//			} while (cursor.moveToNext());
+//		}
+		
+		
 		return result;
 
 	}
