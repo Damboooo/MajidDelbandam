@@ -18,12 +18,18 @@ import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.MarginLayoutParams;
+import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TimePicker;
+import android.widget.Toast;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
@@ -80,7 +86,6 @@ public class LevelActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-
 				createDialogHelp();
 			}
 		});
@@ -180,7 +185,7 @@ public class LevelActivity extends Activity {
 		r2Image.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// TO DO help2
+				createDialogNextPossibleWord(level.helpGetNextPossibleWords());
 				dialog.dismiss();
 			}
 		});
@@ -231,6 +236,37 @@ public class LevelActivity extends Activity {
 			}
 		});
 		
+		
+		dialog.show();
+	}
+
+	private void createDialogNextPossibleWord(String[] words)
+	{	
+		if(words == null)
+		{
+			Toast.makeText(this, "سکه کافی ندارید!", Toast.LENGTH_LONG);
+			return;
+		}
+		final Dialog dialog = new Dialog(LevelActivity.this);
+		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		dialog.setContentView(R.layout.next_possible_words_fragment);
+		
+		ListView lvNextWords = (ListView)dialog.findViewById(R.id.lvNextWord);
+		
+		ArrayAdapter<String> listAdapter = new ArrayAdapter<String>(this, R.layout.listview_row ,words );
+		
+		lvNextWords.setAdapter(listAdapter);
+		
+		lvNextWords.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int pos,
+					long arg3) {
+				 //Toast.makeText(getApplicationContext(), pos, Toast.LENGTH_SHORT).show();
+				dialog.dismiss();
+				
+			}
+		});
 		
 		dialog.show();
 	}

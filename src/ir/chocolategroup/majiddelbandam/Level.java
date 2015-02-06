@@ -212,7 +212,11 @@ public class Level {
 		{			
 			return null;
 		}
-		return (String[])mNextValidWord.toArray();
+		String[] res = new String[mNextValidWord.size()];
+		for (int i = 0; i < res.length; i++) {
+			res[i] = mNextValidWord.get(i);
+		}
+		return res;
 	}
 	
 	//help
