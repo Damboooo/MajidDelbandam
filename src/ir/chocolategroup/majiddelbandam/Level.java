@@ -132,6 +132,7 @@ public class Level {
 	
 	public AddWordResult addWord(String word)
 	{
+		mGameManager.loadLevel(mLevelNumber+1);
 		if(word.equals(mEndWord))
 		{
 			return new AddWordResult(true, true, finishLevel());
@@ -144,7 +145,7 @@ public class Level {
 		}
 		else
 		{
-			return new AddWordResult(true, false, 0);
+			return new AddWordResult(false, false, 0);
 		}
 	}
 	
@@ -182,6 +183,7 @@ public class Level {
 			prize = fineForEachExtraMove * (mBestUserResult.length - temp.length);
 			mBestUserResult = temp;
 		}
+		mGameManager.updateLevel(this);
 		return prize;
 
 	}

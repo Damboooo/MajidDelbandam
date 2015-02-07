@@ -50,7 +50,7 @@ public class GameManager extends Application{
 		}
 		else
 		{
-			mCoins = 200;//initial coins
+			mCoins = 500;//initial coins
 			updateCoinsInSharePrefrences();
 		}
         //TODO : pak shavad
@@ -114,10 +114,9 @@ public class GameManager extends Application{
 	
 	public void loadLevel(int levelNumber)
 	{
-		if(!mLevels.containsKey(levelNumber))
+		if(!mLevels.containsKey(levelNumber) && levelNumber < mLevelCount)
 		{		
-			Level temp = dataBaseManager.loadLevel(levelNumber,this);
-			mLevels.put(temp.getLevelNumber(), temp);
+			new LoadLevelAsync().execute(new Integer[]{levelNumber});
 		}
 	}
 	
@@ -148,7 +147,6 @@ public class GameManager extends Application{
 		goToNextLevel(level,prizeCoins, true);
 	}
 	
-
 	public Level getLevel(Integer i)
 	{
 		return mLevels.get(i);
@@ -167,7 +165,10 @@ public class GameManager extends Application{
 		return result;
 	} 
 	
-	
+	public void updateLevel(Level level)
+	{
+		new UpdateLevelAsync().execute(new Level[]{level});
+	}
 	
 	public class LoadUnlockLevelAsync extends AsyncTask<Void, Void, Void> {
 		
@@ -188,6 +189,35 @@ public class GameManager extends Application{
 				mLevels.put(level.getLevelNumber(), level);
 			} 
 			setLoadLevels();
+			return null;
+		}
+	}
+	
+	public class UpdateLevelAsync extends AsyncTask<Level, Void, Void> {
+		
+		public UpdateLevelAsync() {
+			super();
+		}
+
+		@Override
+		protected Void doInBackground(Level... arg0) {
+			Level level = arg0[0];
+			dataBaseManager.updateLevel(level);
+			return null;
+		}
+	}
+	public class LoadLevelAsync extends AsyncTask<Integer, Void, Void> {
+		
+		public LoadLevelAsync() {
+			super();
+		}
+
+		@Override
+		protected Void doInBackground(Integer... arg0) {
+			int levelNumber = arg0[0];
+			Level temp = dataBaseManager.loadLevel(levelNumber,mGameManager);
+			if(!mLevels.containsKey(temp.getLevelNumber()))
+				mLevels.put(temp.getLevelNumber(), temp);
 			return null;
 		}
 	}
