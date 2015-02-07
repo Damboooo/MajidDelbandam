@@ -57,6 +57,13 @@ public class Level {
 		
 	}
 	
+	public void reset()
+	{
+		mCurrenUserResult = new ArrayList<String>();
+		mCurrenUserResult.add(mStartWord);
+		mNextValidWord = getNextPossible(mStartWord);
+	}
+	
 	private String[] strtinToArray(String input)
 	{
 		if(input == null || input == "")

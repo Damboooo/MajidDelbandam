@@ -71,7 +71,7 @@ public class LevelActivity extends Activity {
 		mGameManager = (GameManager) getApplication();
 		levelNumber = (Integer) getIntent().getExtras().get("levelnumber");
 		level = mGameManager.getLevel(levelNumber);
-
+		level.reset();
 		// set level details
 
 		// start and end properties
