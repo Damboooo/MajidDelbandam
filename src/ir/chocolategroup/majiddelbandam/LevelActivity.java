@@ -20,6 +20,7 @@ import android.text.Layout;
 import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.MarginLayoutParams;
 import android.view.Window;
@@ -68,6 +69,11 @@ public class LevelActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+//		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		
 		setContentView(R.layout.activity_level);
 		// get level from MainActivity
 		mGameManager = (GameManager) getApplication();
@@ -108,17 +114,23 @@ public class LevelActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 
-				// TODO Auto-generated method stub
-
 				EditText input = (EditText) findViewById(R.id.current);
 				// TODO if word is valid
-				if (level.addWord(input.getText().toString()).isValidWord) {
+				AddWordResult res = level.addWord(input.getText().toString());
+				if(res.isFinish)
+				{
+					createDialogWin();
+				}
+				else if (res.isValidWord) {
 					addWordInGraphic(input.getText().toString());
 					input.setText("");
 					input.setHint(input.getText().toString());
 				} else
+				{
 					// TO DO پیغام مناسب
 					showToast("نه دیگه! باید فقط یه حرفش با حرف قبلی فرق بکنه.");
+				}
+				
 				// end.setText(isValid(start,input));
 			}
 
@@ -136,8 +148,8 @@ public class LevelActivity extends Activity {
 	}
 
 	private void addWordInGraphic(String input) {
-		if (input.equals((String) end.getText()))
-			createDialogWin();
+//		if (input.equals((String) end.getText()))
+//			createDialogWin();
 
 		View levelLayout = findViewById(R.id.linearLayout);
 		TextView current = new TextView(LevelActivity.this);
@@ -311,8 +323,14 @@ public class LevelActivity extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int pos,
 					long arg3) {
-				level.addWord(words[pos]);
-				addWordInGraphic(words[pos]);
+				if(level.addWord(words[pos]).isFinish)
+				{
+					createDialogWin();
+				}
+				else
+				{
+					addWordInGraphic(words[pos]);
+				}
 				// TODO : add view
 				// Toast.makeText(getApplicationContext(), pos,
 				// Toast.LENGTH_SHORT).show();

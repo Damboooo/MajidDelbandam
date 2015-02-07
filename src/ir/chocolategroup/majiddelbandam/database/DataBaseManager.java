@@ -112,7 +112,7 @@ public class DataBaseManager {
 	public Level loadLevel(int levelNumber, GameManager gameManager) {
 		Cursor cursor;
 		cursor = myDbHelper.query(Levels_Table, null, Levels_LevelNumber
-				+ " = ?", new String[] { "0" }, null, null, null);
+				+ " = ?", new String[] { levelNumber+"" }, null, null, null);
 		return getLevelsFromCursor(cursor, gameManager)[0];
 	}
 
