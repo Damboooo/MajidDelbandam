@@ -41,7 +41,7 @@ public class MainActivity extends Activity {
 
 		mGameManager = (GameManager) getApplication();
 
-		View levelLayout = findViewById(R.id.mainLayout);
+		View levelLayout = findViewById(R.id.mainSpace);
 		final ImageView[] levels = new ImageView[(int) mGameManager.getMetaData().LevelCount];
 		for (id = 0; id < (int)mGameManager.getMetaData().LevelCount; id++) {
 			levels[id] = new ImageView(MainActivity.this);
