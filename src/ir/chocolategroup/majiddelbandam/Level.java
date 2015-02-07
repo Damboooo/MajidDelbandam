@@ -183,6 +183,9 @@ public class Level {
 			prize = fineForEachExtraMove * (mBestUserResult.length - temp.length);
 			mBestUserResult = temp;
 		}
+		Level nextLevel = mGameManager.getLevel(mLevelNumber+1);
+		nextLevel.mLock = false;
+		mGameManager.updateLevel(nextLevel);
 		mGameManager.updateLevel(this);
 		return prize;
 

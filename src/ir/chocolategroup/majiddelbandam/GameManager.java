@@ -166,7 +166,7 @@ public class GameManager extends Application{
 	} 
 	
 	public void updateLevel(Level level)
-	{
+	{ 
 		new UpdateLevelAsync().execute(new Level[]{level});
 	}
 	
