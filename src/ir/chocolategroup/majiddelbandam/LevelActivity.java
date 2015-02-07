@@ -120,6 +120,8 @@ public class LevelActivity extends Activity {
 				// TODO if word is valid
 				if (level.addWord(input.getText().toString()).isValidWord) {
 					addWordInGraphic(input.getText().toString());
+					input.setText("");
+					input.setHint(input.getText().toString());
 				} else
 					// TO DO پیغام مناسب
 					showToast("نه دیگه! باید فقط یه حرفش با حرف قبلی فرق بکنه.");
@@ -157,9 +159,11 @@ public class LevelActivity extends Activity {
 		final DisplayMetrics displayMetrics=getResources().getDisplayMetrics();
 		final float screenWidthInDp=displayMetrics.widthPixels/displayMetrics.density;
 		final float screenHeightInDp=displayMetrics.heightPixels/displayMetrics.density;
+		final int screenWidth = Math.round(screenWidthInDp);
+		final int screenHeight  = Math.round(screenHeightInDp);
 		
 		previous.getLeft();
-		if ((id %12)/6 == 1)
+		if ((id %(screenWidth/60))/(screenWidth/120) == 1)
 			marginParams.setMargins(previous.getLeft() + 100, position[1],
 					position[2], position[3]);
 		else
