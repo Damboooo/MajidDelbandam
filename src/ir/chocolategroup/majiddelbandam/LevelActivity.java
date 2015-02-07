@@ -110,12 +110,17 @@ public class LevelActivity extends Activity {
 
 				EditText input = (EditText) findViewById(R.id.current);
 				// TODO if word is valid
-				if (level.addWord(input.getText().toString())) {
+				AddWordResult res = level.addWord(input.getText().toString());
+				if (res.isFinish) {
+					createDialogWin(res.prize);
+				} else if (res.isValidWord) {
 					addWordInGraphic(input.getText().toString());
-				}
-				else
+					input.setHint(input.getText().toString());
+					input.setText("");
+				} else
 					// TO DO پیغام مناسب
 					showToast("نه دیگه! باید فقط یه حرفش با حرف قبلی فرق بکنه.");
+					input.setText("");
 				// end.setText(isValid(start,input));
 			}
 
@@ -133,8 +138,8 @@ public class LevelActivity extends Activity {
 	}
 
 	private void addWordInGraphic(String input) {
-		if (input.equals((String) end.getText()))
-			createDialogWin();
+		// if (input.equals((String) end.getText()))
+		// createDialogWin();
 
 		View levelLayout = findViewById(R.id.linearLayout);
 		TextView current = new TextView(LevelActivity.this);
@@ -145,20 +150,20 @@ public class LevelActivity extends Activity {
 		int[] position = findPosition(id);
 		// marginParams.setMargins(left_margin, top_margin,
 		// right_margin, bottom_margin);
-//		marginParams.setMargins(position[0], position[1], position[2],
-//				position[3]);
+		// marginParams.setMargins(position[0], position[1], position[2],
+		// position[3]);
 
 		previous.getLeft();
-		if(id%7 == 1)
-		marginParams.setMargins(previous.getLeft()+500, position[1], position[2],
-				position[3]);
+		if (id % 7 == 1)
+			marginParams.setMargins(previous.getLeft() + 500, position[1],
+					position[2], position[3]);
 		else
 
-			marginParams.setMargins(previous.getLeft()-100, position[1], position[2],
-					position[3]);
+			marginParams.setMargins(previous.getLeft() - 100, position[1],
+					position[2], position[3]);
 		RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
 				marginParams);
-		
+
 		current.setLayoutParams(layoutParams);
 
 		((RelativeLayout) levelLayout).addView(current);
@@ -228,18 +233,22 @@ public class LevelActivity extends Activity {
 		dialog.show();
 	}
 
-	private void createDialogWin() {
+	private void createDialogWin(int numberOfCoins) {
 		final Dialog dialog = new Dialog(LevelActivity.this);
 		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		dialog.setContentView(R.layout.win_fragment);
 		Button menu = (Button) dialog.findViewById(R.id.menu);
+		TextView prize = (TextView) dialog.findViewById(R.id.prize);
+		prize.setText(numberOfCoins + "");
 		menu.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Intent main = new Intent(LevelActivity.this, MainActivity.class);
+				main.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(main);
+				finish();
 			}
 		});
 		Button again = (Button) dialog.findViewById(R.id.again);
@@ -248,22 +257,26 @@ public class LevelActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent level = new Intent(LevelActivity.this,
+				Intent levelIntent = new Intent(LevelActivity.this,
 						LevelActivity.class);
-				startActivity(level);
+				levelIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				levelIntent.putExtra("levelnumber", level.getLevelNumber());
+				startActivity(levelIntent);
+				finish();
 			}
 		});
 		Button next = (Button) dialog.findViewById(R.id.next);
-		again.setOnClickListener(new OnClickListener() {
+		next.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Intent levelIntent = new Intent(LevelActivity.this,
 						LevelActivity.class);
-				// TODO unlock the level then start
-				levelIntent.putExtra("levelnumber", level.getLevelNumber());
+				levelIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				levelIntent.putExtra("levelnumber", level.getLevelNumber() + 1);
 				startActivity(levelIntent);
+				finish();
 			}
 		});
 
@@ -303,8 +316,11 @@ public class LevelActivity extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int pos,
 					long arg3) {
-				level.addWord(words[pos]);
-				addWordInGraphic(words[pos]);
+				AddWordResult res = level.addWord(words[pos]);
+				if (res.isFinish) {
+					createDialogWin(res.prize);
+				} else
+					addWordInGraphic(words[pos]);
 				// TODO : add view
 				// Toast.makeText(getApplicationContext(), pos,
 				// Toast.LENGTH_SHORT).show();
@@ -318,21 +334,21 @@ public class LevelActivity extends Activity {
 
 	private void showToast(String message) {
 
-		Toast.makeText(getApplicationContext(), message,
-		Toast.LENGTH_SHORT).show();
-		
-//		new AlertDialog.Builder(this)
-//				.setIcon(android.R.drawable.ic_dialog_alert)
-//				.setTitle("Exit")
-//				.setMessage("Are you sure you want to exit?")
-//				.setPositiveButton("Yes",
-//						new DialogInterface.OnClickListener() {
-//							@Override
-//							public void onClick(DialogInterface dialog,
-//									int which) {
-//								finish();
-//							}
-//						}).setNegativeButton("No", null).show();
+		Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT)
+				.show();
+
+		// new AlertDialog.Builder(this)
+		// .setIcon(android.R.drawable.ic_dialog_alert)
+		// .setTitle("Exit")
+		// .setMessage("Are you sure you want to exit?")
+		// .setPositiveButton("Yes",
+		// new DialogInterface.OnClickListener() {
+		// @Override
+		// public void onClick(DialogInterface dialog,
+		// int which) {
+		// finish();
+		// }
+		// }).setNegativeButton("No", null).show();
 	}
 
 }
