@@ -26,9 +26,10 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
+		mGameManager = (GameManager) getApplication();
 
-//		coins = (TextView) findViewById(R.id.menuNumberOfCoins);
-//		coins.setText(mGameManager.getCoins() + "");
+		coins = (TextView) findViewById(R.id.menuNumberOfCoins);
+		coins.setText(mGameManager.getCoins()+"");
 		final ImageView IM = (ImageView) findViewById(R.id.imageView2);
 		IM.setOnClickListener(new OnClickListener() {
 
@@ -42,7 +43,6 @@ public class MainActivity extends Activity {
 
 //		final ImageView level1 = (ImageView) findViewById(R.id.level1);
 
-		mGameManager = (GameManager) getApplication();
 
 		View levelLayout = findViewById(R.id.mainSpace);
 		final ImageView[] levels = new ImageView[(int) mGameManager.getMetaData().LevelCount];

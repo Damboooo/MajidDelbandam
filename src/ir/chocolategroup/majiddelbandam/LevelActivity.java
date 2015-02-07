@@ -157,11 +157,11 @@ public class LevelActivity extends Activity {
 		final int screenHeight  = Math.round(screenHeightInDp);
 		
 		previous.getLeft();
-		if ((id %(screenWidth/60))/(screenWidth/120) == 1)
-			marginParams.setMargins(previous.getLeft() + 100, position[1],
+		if ((id %(screenWidth/80))/(screenWidth/160) == 1)
+			marginParams.setMargins(previous.getLeft() + 160, position[1],
 					position[2], position[3]);
 		else
-			marginParams.setMargins(previous.getLeft() - 100, position[1],
+			marginParams.setMargins(previous.getLeft() - 160, position[1],
 					position[2], position[3]);
 		RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
 				marginParams);
