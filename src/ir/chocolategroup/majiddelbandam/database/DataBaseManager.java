@@ -155,7 +155,7 @@ public class DataBaseManager {
 //			} while (cursor.moveToNext());
 //		}
 		
-		
+		result.remove(word);
 		return result;
 
 	}
