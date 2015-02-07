@@ -170,6 +170,7 @@ public class LevelActivity extends Activity {
 
 	private void createDialogHelp() {
 		final Dialog dialog = new Dialog(LevelActivity.this);
+		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		dialog.setContentView(R.layout.help_fragment);
 		r1Image = (ImageView) dialog.findViewById(R.id.R1_image);
 		r2Image = (ImageView) dialog.findViewById(R.id.R2_image);
@@ -202,6 +203,7 @@ public class LevelActivity extends Activity {
 
 	private void createDialogWin() {
 		final Dialog dialog = new Dialog(LevelActivity.this);
+		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		dialog.setContentView(R.layout.win_fragment);
 		Button menu = (Button) dialog.findViewById(R.id.menu);
 		menu.setOnClickListener(new OnClickListener() {
