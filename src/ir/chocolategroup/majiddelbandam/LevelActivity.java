@@ -211,7 +211,7 @@ public class LevelActivity extends Activity {
 		r1Image.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// TO DO help1
+				showToast(level.helpMidWord());
 				dialog.dismiss();
 			}
 		});
@@ -225,7 +225,15 @@ public class LevelActivity extends Activity {
 		r3Image.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// TO DO help3
+				if(level.helpGoToNextLevel())
+				{
+					Intent levelIntent = new Intent(LevelActivity.this,
+							LevelActivity.class);
+					levelIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+					levelIntent.putExtra("levelnumber", level.getLevelNumber() + 1);
+					startActivity(levelIntent);
+					finish();
+				}
 				dialog.dismiss();
 			}
 		});
@@ -244,7 +252,7 @@ public class LevelActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+				
 				Intent main = new Intent(LevelActivity.this, MainActivity.class);
 				main.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(main);
@@ -256,7 +264,6 @@ public class LevelActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				Intent levelIntent = new Intent(LevelActivity.this,
 						LevelActivity.class);
 				levelIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
