@@ -16,7 +16,8 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="ir.chocolategroup.majiddelbandam.Splash"
-            android:label="@string/app_name" >
+            android:label="@string/app_name" 
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -25,7 +26,8 @@
         </activity>
         <activity
             android:name="ir.chocolategroup.majiddelbandam.MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="ir.chocolategroup.majiddelbandam.LEVELSLIST" />
 
@@ -34,7 +36,8 @@
         </activity>
         <activity
             android:name="ir.chocolategroup.majiddelbandam.LevelActivity"
-            android:label="@string/app_name" />
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
