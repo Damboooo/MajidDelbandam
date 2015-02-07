@@ -33,7 +33,7 @@
         android:src="@drawable/ic_launcher" />
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/numberOfCoins"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/imageView2"
@@ -41,7 +41,7 @@
         android:text="514" />
 
     <TextView
-        android:id="@+id/start"
+        android:id="@+id/end"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/current"
@@ -50,7 +50,7 @@
         android:text="@string/sib" />
 
     <TextView
-        android:id="@+id/end"
+        android:id="@+id/start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignRight="@+id/current"

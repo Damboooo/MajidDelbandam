@@ -50,35 +50,41 @@ public class LevelActivity extends Activity {
 	Button BTNCanceltime;
 	String phoneString, dateString, timeString;
 
+	TextView start;
+	TextView end;
+	TextView coins;
+	TextView previous;
+	
 	private Level level;
 	private GameManager mGameManager;
 	Integer levelNumber;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_level);
 		// get level from MainActivity
 		mGameManager = (GameManager) getApplication();
-		levelNumber = (Integer) getIntent().getExtras().get(
-				"levelnumber");
+		levelNumber = (Integer) getIntent().getExtras().get("levelnumber");
 		level = mGameManager.getLevel(levelNumber);
 
 		// set level details
 
 		// start and end properties
-		
-//		final TextView  start = (TextView) findViewById(R.id.start);
-////		final TextView  end = (TextView) findViewById(R.id.start);
-//		final TextView  end = (TextView) findViewById(R.id.end);
-		
-	// TODO read from level.getStartWord() & level.getEndWord()
-		
-		final TextView start = (TextView) findViewById(R.id.start);
-		final TextView end = (TextView) findViewById(R.id.end);
 
+		// final TextView start = (TextView) findViewById(R.id.start);
+		// // final TextView end = (TextView) findViewById(R.id.start);
+		// final TextView end = (TextView) findViewById(R.id.end);
+
+		// TODO read from level.getStartWord() & level.getEndWord()
+
+		start = (TextView) findViewById(R.id.start);
+		end = (TextView) findViewById(R.id.end);
+		coins = (TextView) findViewById(R.id.numberOfCoins);
 
 		start.setText(level.getStartWord());
 		end.setText(level.getEndWord());
+		coins.setText(mGameManager.getCoins());
 
 		final ImageView IM = (ImageView) findViewById(R.id.imageView2);
 		IM.setOnClickListener(new OnClickListener() {
@@ -91,7 +97,7 @@ public class LevelActivity extends Activity {
 		});
 		final Button button = (Button) findViewById(R.id.submit);
 		button.setOnClickListener(new OnClickListener() {
-			TextView previous = (TextView) findViewById(R.id.start);
+			previous = (TextView) findViewById(R.id.start);
 			int id = 0;
 
 			@Override
@@ -101,35 +107,13 @@ public class LevelActivity extends Activity {
 
 				EditText input = (EditText) findViewById(R.id.current);
 				// TODO if word is valid
-				if (input.getText().equals((String) end.getText()))
-					createDialogWin();
-
-				View levelLayout = findViewById(R.id.levelLayout);
-				TextView current = new TextView(LevelActivity.this);
-				current.setText(input.getText()); // set text
-
-				MarginLayoutParams marginParams = new MarginLayoutParams(
-						previous.getLayoutParams());
-				int[] position = findPosition(id);
-				// marginParams.setMargins(left_margin, top_margin,
-				// right_margin, bottom_margin);
-				marginParams.setMargins(position[0], position[1], position[2],
-						position[3]);
-				RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
-						marginParams);
-				current.setLayoutParams(layoutParams);
-
-				((RelativeLayout) levelLayout).addView(current);
-				// draw Line
-				// DrawView drawView = new
-				// DrawView(LevelActivity.this,previous.getRight(),current.getRight(),previous.getBottom(),current.getBottom());
-				// setContentView(drawView);
-
-				previous = current;
-				id++;
-
+				if (level.addWord(input.getText().toString())) {
+					addWordInGraphic(input.getText().toString());
+				}
 				// end.setText(isValid(start,input));
 			}
+
+			
 		});
 
 	}
@@ -142,7 +126,34 @@ public class LevelActivity extends Activity {
 		pos[3] = 20;
 		return pos;
 	}
+	private void addWordInGraphic(String input) {
+		if (input.equals((String) end.getText()))
+			createDialogWin();
 
+		View levelLayout = findViewById(R.id.levelLayout);
+		TextView current = new TextView(LevelActivity.this);
+		current.setText(input); // set text
+
+		MarginLayoutParams marginParams = new MarginLayoutParams(
+				previous.getLayoutParams());
+		int[] position = findPosition(id);
+		// marginParams.setMargins(left_margin, top_margin,
+		// right_margin, bottom_margin);
+		marginParams.setMargins(position[0], position[1],
+				position[2], position[3]);
+		RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
+				marginParams);
+		current.setLayoutParams(layoutParams);
+
+		((RelativeLayout) levelLayout).addView(current);
+		// draw Line
+		// DrawView drawView = new
+		// DrawView(LevelActivity.this,previous.getRight(),current.getRight(),previous.getBottom(),current.getBottom());
+		// setContentView(drawView);
+
+		previous = current;
+		id++;
+	}
 	// String isValid(TextView tv, EditText et) {
 	// String first = (String) tv.getText();
 	// String second = et.getText().toString();
@@ -205,84 +216,85 @@ public class LevelActivity extends Activity {
 		dialog.setContentView(R.layout.win_fragment);
 		Button menu = (Button) dialog.findViewById(R.id.menu);
 		menu.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent main = new Intent(LevelActivity.this,MainActivity.class);
+				Intent main = new Intent(LevelActivity.this, MainActivity.class);
 				startActivity(main);
 			}
 		});
 		Button again = (Button) dialog.findViewById(R.id.again);
 		again.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent level = new Intent(LevelActivity.this,LevelActivity.class);
+				Intent level = new Intent(LevelActivity.this,
+						LevelActivity.class);
 				startActivity(level);
 			}
 		});
 		Button next = (Button) dialog.findViewById(R.id.next);
 		again.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent level = new Intent(LevelActivity.this,LevelActivity.class);
-				//TODO unlock the level then start
-				level.putExtra("levelnumber", levelNumber+1); 
+				Intent level = new Intent(LevelActivity.this,
+						LevelActivity.class);
+				// TODO unlock the level then start
+				level.putExtra("levelnumber", levelNumber + 1);
 				startActivity(level);
 			}
 		});
-		
-		
+
 		dialog.show();
 	}
 
-	private void createDialogNextPossibleWord(final String[] words)
-	{	
-		if(words == null)
-		{
-			//TODO : پیام مناسب
+	private void createDialogNextPossibleWord(final String[] words) {
+		if (words == null) {
+			// TODO : پیام مناسب
 			Toast.makeText(this, "سکه کافی ندارید!", Toast.LENGTH_LONG);
-			
-			
-			
-//			new AlertDialog.Builder(this).setIcon(android.R.drawable.ic_dialog_alert).setTitle("Exit")
-//            .setMessage("Are you sure you want to exit?")
-//            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-//                @Override
-//                public void onClick(DialogInterface dialog, int which) {
-//                    finish();
-//                }
-//            }).setNegativeButton("No", null).show();
-			
-			
+
+			// new
+			// AlertDialog.Builder(this).setIcon(android.R.drawable.ic_dialog_alert).setTitle("Exit")
+			// .setMessage("Are you sure you want to exit?")
+			// .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+			// @Override
+			// public void onClick(DialogInterface dialog, int which) {
+			// finish();
+			// }
+			// }).setNegativeButton("No", null).show();
+
 			return;
 		}
 		final Dialog dialog = new Dialog(LevelActivity.this);
 		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		dialog.setContentView(R.layout.next_possible_words_fragment);
-		
-		ListView lvNextWords = (ListView)dialog.findViewById(R.id.lvNextWord);
-		
-		ArrayAdapter<String> listAdapter = new ArrayAdapter<String>(this, R.layout.listview_row ,words );
-		
+
+		ListView lvNextWords = (ListView) dialog.findViewById(R.id.lvNextWord);
+
+		ArrayAdapter<String> listAdapter = new ArrayAdapter<String>(this,
+				R.layout.listview_row, words);
+
 		lvNextWords.setAdapter(listAdapter);
-		
+
 		lvNextWords.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int pos,long arg3) {
+			public void onItemClick(AdapterView<?> arg0, View arg1, int pos,
+					long arg3) {
 				level.addWord(words[pos]);
-				//TODO : add viwe
-				 //Toast.makeText(getApplicationContext(), pos, Toast.LENGTH_SHORT).show();
+				ad
+				// TODO : add viwe
+				// Toast.makeText(getApplicationContext(), pos,
+				// Toast.LENGTH_SHORT).show();
 				dialog.dismiss();
-				
+
 			}
 		});
-		
+
 		dialog.show();
 	}
 }
