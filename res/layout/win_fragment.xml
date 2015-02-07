@@ -7,6 +7,18 @@
     android:orientation="vertical"
     >
 
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/coin" />
+
+    <TextView
+        android:id="@+id/prize"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:text="123" />
+
     <LinearLayout
         android:id="@+id/R2"
         android:layout_width="248dp"

@@ -10,7 +10,7 @@
     <string name="SharedPreferencesFileName">UsernamesAndPasswords</string>
     <string name="Coins">Coins</string>
 	<string name="Enter">Enter</string>
-	<string name="accept">accept</string>
+	<string name="accept">قبوله!</string>
 	<string name="rahnamaE1">کلمه وسط تو مسیر جواب رو بده</string>
 	<string name="rahnamaE2">چه کلمه هایی می تونم بنویسم</string>
 	<string name="rahnamaE3">این مرحله رو رد کن</string>
