@@ -60,9 +60,17 @@ public class Level {
 		mNextValidWord = getNextPossible(startWord);
 
 	}
-
-	private String[] strtinToArray(String input) {
-		if (input == null || input == "") {
+	public void reset()
+	{
+		mCurrenUserResult = new ArrayList<String>();
+		mCurrenUserResult.add(mStartWord);
+		mNextValidWord = getNextPossible(mStartWord);
+	}
+	
+	private String[] strtinToArray(String input)
+	{
+		if(input == null || input == "")
+		{
 			return null;
 		}
 		input = input.substring(1, input.length() - 1);
