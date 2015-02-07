@@ -110,7 +110,7 @@ public class LevelActivity extends Activity {
 
 				EditText input = (EditText) findViewById(R.id.current);
 				// TODO if word is valid
-				if (level.addWord(input.getText().toString())) {
+				if (level.addWord(input.getText().toString()).isValidWord) {
 					addWordInGraphic(input.getText().toString());
 				}
 				else

@@ -130,21 +130,21 @@ public class Level {
 			return mBestUserResult.length;
 	}
 	
-	public boolean addWord(String word)
+	public AddWordResult addWord(String word)
 	{
+		if(word.equals(mEndWord))
+		{
+			return new AddWordResult(true, true, finishLevel());
+		}
 		if(mNextValidWord.contains(word))
 		{
 			mCurrenUserResult.add(word);
 			mNextValidWord = getNextPossible(word);
-			if(mNextValidWord.contains(mEndWord))
-			{
-				finishLevel();
-			}
-			return true;
+			return new AddWordResult(true, false, 0);
 		}
 		else
 		{
-			return false;
+			return new AddWordResult(true, false, 0);
 		}
 	}
 	
@@ -163,10 +163,10 @@ public class Level {
 		return mGameManager.getNextPosibleWords(word);
 	}
 	
-	private void finishLevel()
+	private int finishLevel()
 	{
 		mDone = true;
-		int prize;
+		int prize = 0;
 		if(mBestUserResult == null || mBestUserResult.length == 0 )
 		{
 			mBestUserResult = new String[mCurrenUserResult.size()];
@@ -182,6 +182,7 @@ public class Level {
 			prize = fineForEachExtraMove * (mBestUserResult.length - temp.length);
 			mBestUserResult = temp;
 		}
+		return prize;
 
 	}
 	//help
