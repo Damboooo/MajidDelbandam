@@ -17,6 +17,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.text.BoringLayout.Metrics;
 import android.text.Layout;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -147,9 +148,9 @@ public class LevelActivity extends Activity {
 		// right_margin, bottom_margin);
 		// marginParams.setMargins(position[0], position[1], position[2],
 		// position[3]);
-//		final DisplayMetrics displayMetrics=getResources().getDisplayMetrics();
-//		final float screenWidthInDp=displayMetrics.widthPixels/displayMetrics.density;
-//		final float screenHeightInDp=displayMetrics.heightPixels/displayMetrics.density;
+		final DisplayMetrics displayMetrics=getResources().getDisplayMetrics();
+		final float screenWidthInDp=displayMetrics.widthPixels/displayMetrics.density;
+		final float screenHeightInDp=displayMetrics.heightPixels/displayMetrics.density;
 		
 		previous.getLeft();
 		if ((id %12)/6 == 1)
