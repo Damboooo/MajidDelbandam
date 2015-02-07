@@ -5,9 +5,11 @@ import java.util.Random;
 import android.R.layout;
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Application;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences.Editor;
 import android.graphics.Canvas;
@@ -54,7 +56,9 @@ public class LevelActivity extends Activity {
 	TextView end;
 	TextView coins;
 	TextView previous;
-	
+
+	int id = 0;
+
 	private Level level;
 	private GameManager mGameManager;
 	Integer levelNumber;
@@ -84,7 +88,7 @@ public class LevelActivity extends Activity {
 
 		start.setText(level.getStartWord());
 		end.setText(level.getEndWord());
-		coins.setText(mGameManager.getCoins());
+		coins.setText(mGameManager.getCoins() + "");
 
 		final ImageView IM = (ImageView) findViewById(R.id.imageView2);
 		IM.setOnClickListener(new OnClickListener() {
@@ -96,9 +100,8 @@ public class LevelActivity extends Activity {
 			}
 		});
 		final Button button = (Button) findViewById(R.id.submit);
+		previous = (TextView) findViewById(R.id.start);
 		button.setOnClickListener(new OnClickListener() {
-			previous = (TextView) findViewById(R.id.start);
-			int id = 0;
 
 			@Override
 			public void onClick(View v) {
@@ -110,10 +113,12 @@ public class LevelActivity extends Activity {
 				if (level.addWord(input.getText().toString())) {
 					addWordInGraphic(input.getText().toString());
 				}
+				else
+					// TO DO پیغام مناسب
+					showToast("نه دیگه! باید فقط یه حرفش با حرف قبلی فرق بکنه.");
 				// end.setText(isValid(start,input));
 			}
 
-			
 		});
 
 	}
@@ -126,6 +131,7 @@ public class LevelActivity extends Activity {
 		pos[3] = 20;
 		return pos;
 	}
+
 	private void addWordInGraphic(String input) {
 		if (input.equals((String) end.getText()))
 			createDialogWin();
@@ -135,12 +141,12 @@ public class LevelActivity extends Activity {
 		current.setText(input); // set text
 
 		MarginLayoutParams marginParams = new MarginLayoutParams(
-				previous.getLayoutParams());
+				start.getLayoutParams());
 		int[] position = findPosition(id);
 		// marginParams.setMargins(left_margin, top_margin,
 		// right_margin, bottom_margin);
-		marginParams.setMargins(position[0], position[1],
-				position[2], position[3]);
+		marginParams.setMargins(position[0], position[1], position[2],
+				position[3]);
 		RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
 				marginParams);
 		current.setLayoutParams(layoutParams);
@@ -154,6 +160,7 @@ public class LevelActivity extends Activity {
 		previous = current;
 		id++;
 	}
+
 	// String isValid(TextView tv, EditText et) {
 	// String first = (String) tv.getText();
 	// String second = et.getText().toString();
@@ -286,8 +293,8 @@ public class LevelActivity extends Activity {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int pos,
 					long arg3) {
 				level.addWord(words[pos]);
-				ad
-				// TODO : add viwe
+				addWordInGraphic(words[pos]);
+				// TODO : add view
 				// Toast.makeText(getApplicationContext(), pos,
 				// Toast.LENGTH_SHORT).show();
 				dialog.dismiss();
@@ -297,4 +304,24 @@ public class LevelActivity extends Activity {
 
 		dialog.show();
 	}
+
+	private void showToast(String message) {
+
+		Toast.makeText(getApplicationContext(), message,
+		Toast.LENGTH_SHORT).show();
+		
+//		new AlertDialog.Builder(this)
+//				.setIcon(android.R.drawable.ic_dialog_alert)
+//				.setTitle("Exit")
+//				.setMessage("Are you sure you want to exit?")
+//				.setPositiveButton("Yes",
+//						new DialogInterface.OnClickListener() {
+//							@Override
+//							public void onClick(DialogInterface dialog,
+//									int which) {
+//								finish();
+//							}
+//						}).setNegativeButton("No", null).show();
+	}
+
 }
