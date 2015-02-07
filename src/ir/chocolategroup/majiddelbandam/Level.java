@@ -20,13 +20,15 @@ public class Level {
 	private ArrayList<String> mNextValidWord;
 	private GameManager mGameManager;
 	private final int LevelCoinsPrize = 50;
-	private final int neededCoins_NextLevel = 50; 
-	private final int neededCoins_NextWord = 30; 
+	private final int neededCoins_NextLevel = 50;
+	private final int neededCoins_NextWord = 30;
 	private final int neededCoins_NextPossible = 20;
 	private final int neededCoins_MidWord = 20;
 	private final int fineForEachExtraMove = 5;
-	
-	public Level(int levelNumber, boolean lock , boolean done , String startWord , String endWord , String[] bestResult , int minMove , String[] bestUserResult, GameManager gameManager  ) {
+
+	public Level(int levelNumber, boolean lock, boolean done, String startWord,
+			String endWord, String[] bestResult, int minMove,
+			String[] bestUserResult, GameManager gameManager) {
 		mLevelNumber = levelNumber;
 		mLock = lock;
 		mDone = done;
@@ -40,8 +42,10 @@ public class Level {
 		mNextValidWord = getNextPossible(startWord);
 		mGameManager = gameManager;
 	}
-	
-	public Level(int levelNumber, boolean lock , boolean done , String startWord , String endWord , String bestResult , int minMove , String bestUserResult , GameManager gameManager ) {
+
+	public Level(int levelNumber, boolean lock, boolean done, String startWord,
+			String endWord, String bestResult, int minMove,
+			String bestUserResult, GameManager gameManager) {
 		mGameManager = gameManager;
 		mLevelNumber = levelNumber;
 		mLock = lock;
@@ -54,172 +58,157 @@ public class Level {
 		mCurrenUserResult = new ArrayList<String>();
 		mCurrenUserResult.add(startWord);
 		mNextValidWord = getNextPossible(startWord);
-		
+
 	}
-	
-	private String[] strtinToArray(String input)
-	{
-		if(input == null || input == "")
-		{
+
+	private String[] strtinToArray(String input) {
+		if (input == null || input == "") {
 			return null;
 		}
-		input = input.substring(1,input.length()-1);
+		input = input.substring(1, input.length() - 1);
 		String[] splited = input.split(",");
 		return splited;
 	}
-	
-	private String ArrayToString(String[] array)
-	{
-		if(array == null)
-		{
+
+	private String ArrayToString(String[] array) {
+		if (array == null) {
 			return "{}";
 		}
 		StringBuilder res = new StringBuilder("{");
 		for (int i = 0; i < array.length; i++) {
 			res.append(array[i]);
-			if(i != array.length-1)
+			if (i != array.length - 1)
 				res.append(",");
 		}
 		return res.toString();
-		
+
 	}
-	
+
 	public int getLevelNumber() {
 		return mLevelNumber;
 	}
 
 	public String getStartWord() {
-		if(mLock) return null;
+		if (mLock)
+			return null;
 		return mStartWord;
 	}
 
 	public String getEndWord() {
-		if(mLock) return null;
+		if (mLock)
+			return null;
 		return mEndWord;
 	}
 
 	public int getMinMove() {
-		if(mLock) return 0;
+		if (mLock)
+			return 0;
 		return mMinMove;
 	}
-	
-	public String getBestResult()
-	{
+
+	public String getBestResult() {
 		return ArrayToString(mBestResult);
 	}
-	
-	public String getBestUserResult()
-	{
+
+	public String getBestUserResult() {
 		return ArrayToString(mBestUserResult);
 	}
-	
+
 	public boolean isLock() {
 		return mLock;
 	}
 
 	public boolean isDone() {
-		if(mLock) return false;
+		if (mLock)
+			return false;
 		return mDone;
 	}
-	
-	public int getMinUserMove()
-	{
-		if(mBestUserResult == null || mBestUserResult.length == 0)
+
+	public int getMinUserMove() {
+		if (mBestUserResult == null || mBestUserResult.length == 0)
 			return Integer.MAX_VALUE;
 		else
 			return mBestUserResult.length;
 	}
-	
-	public AddWordResult addWord(String word)
-	{
-		mGameManager.loadLevel(mLevelNumber+1);
-		if(word.equals(mEndWord))
-		{
+
+	public AddWordResult addWord(String word) {
+		mGameManager.loadLevel(mLevelNumber + 1);
+		if (word.equals(mEndWord)) {
 			return new AddWordResult(true, true, finishLevel());
 		}
-		if(mNextValidWord.contains(word))
-		{
+		if (mNextValidWord.contains(word)) {
 			mCurrenUserResult.add(word);
 			mNextValidWord = getNextPossible(word);
 			return new AddWordResult(true, false, 0);
-		}
-		else
-		{
+		} else {
 			return new AddWordResult(false, false, 0);
 		}
 	}
-	
-	public void deleteFrom(String word)
-	{
+
+	public void deleteFrom(String word) {
 		int index = mCurrenUserResult.indexOf(word);
-		while(mCurrenUserResult.size()-1 >= index)
-		{
+		while (mCurrenUserResult.size() - 1 >= index) {
 			mCurrenUserResult.remove(index);
 		}
-		mNextValidWord = getNextPossible(mCurrenUserResult.get(mCurrenUserResult.size()-1));
+		mNextValidWord = getNextPossible(mCurrenUserResult
+				.get(mCurrenUserResult.size() - 1));
 	}
-	
-	private ArrayList<String> getNextPossible(String word)
-	{
+
+	private ArrayList<String> getNextPossible(String word) {
 		return mGameManager.getNextPosibleWords(word);
 	}
-	
-	private int finishLevel()
-	{
+
+	private int finishLevel() {
 		mDone = true;
 		int prize = 0;
-		if(mBestUserResult == null || mBestUserResult.length == 0 )
-		{
+		if (mBestUserResult == null || mBestUserResult.length == 0) {
 			mBestUserResult = new String[mCurrenUserResult.size()];
 			for (int i = 0; i < mBestUserResult.length; i++) {
-				mBestUserResult[i]  = mCurrenUserResult.get(i);
+				mBestUserResult[i] = mCurrenUserResult.get(i);
 			}
-//			mBestUserResult = (String[])mCurrenUserResult.toArray();
-			prize = LevelCoinsPrize - fineForEachExtraMove * (mBestUserResult.length - mMinMove);
-		}
-		else if(mBestUserResult.length > mCurrenUserResult.size())
-		{
-			String[] temp = (String[])mCurrenUserResult.toArray();
-			prize = fineForEachExtraMove * (mBestUserResult.length - temp.length);
+			// mBestUserResult = (String[])mCurrenUserResult.toArray();
+			prize = LevelCoinsPrize - fineForEachExtraMove
+					* (mBestUserResult.length - mMinMove);
+		} else if (mBestUserResult.length > mCurrenUserResult.size()) {
+			String[] temp = (String[]) mCurrenUserResult.toArray();
+			prize = fineForEachExtraMove
+					* (mBestUserResult.length - temp.length);
 			mBestUserResult = temp;
 		}
-		Level nextLevel = mGameManager.getLevel(mLevelNumber+1);
-		nextLevel.mLock = false;
-		mGameManager.updateLevel(nextLevel);
+		Level nextLevel = mGameManager.getLevel(mLevelNumber + 1);
+		if (nextLevel != null) {
+			nextLevel.mLock = false;
+			mGameManager.updateLevel(nextLevel);
+		}
 		mGameManager.updateLevel(this);
 		return prize;
 
 	}
-	//help
-	//return false if haven't enough coins
-	public boolean helpGoToNextLevel()
-	{
-		if(!mGameManager.spendCoins(neededCoins_NextLevel))
-		{			
+
+	// help
+	// return false if haven't enough coins
+	public boolean helpGoToNextLevel() {
+		if (!mGameManager.spendCoins(neededCoins_NextLevel)) {
 			return false;
 		}
 		mGameManager.goToNextLevel(this, 0, false);
 		return true;
 	}
-	
-	//help
-	//return null if haven't enough coins
-	public String HelpGetNextWord()
-	{
-		if(!mGameManager.spendCoins(neededCoins_NextWord))
-		{			
+
+	// help
+	// return null if haven't enough coins
+	public String HelpGetNextWord() {
+		if (!mGameManager.spendCoins(neededCoins_NextWord)) {
 			return null;
 		}
-		//TODO 
+		// TODO
 		return null;
 	}
-	
-	//help
-	//return null if haven't enough coins
-	public String[] helpGetNextPossibleWords()
-	{
-		if(!mGameManager.spendCoins(neededCoins_NextPossible))
-		{			
+
+	// help
+	// return null if haven't enough coins
+	public String[] helpGetNextPossibleWords() {
+		if (!mGameManager.spendCoins(neededCoins_NextPossible)) {
 			return null;
 		}
 		String[] res = new String[mNextValidWord.size()];
@@ -228,26 +217,22 @@ public class Level {
 		}
 		return res;
 	}
-	
-	//help
-	//return null if haven't enough coins
-	public String helpMidWord()
-	{
-		if(!mGameManager.spendCoins(neededCoins_MidWord))
-		{			
+
+	// help
+	// return null if haven't enough coins
+	public String helpMidWord() {
+		if (!mGameManager.spendCoins(neededCoins_MidWord)) {
 			return null;
 		}
 		int i = 0;
-		while(i < mCurrenUserResult.size() && i < mBestResult.length)
-		{
-			if(!mCurrenUserResult.get(i).equals(mBestResult[i]))
-			{
+		while (i < mCurrenUserResult.size() && i < mBestResult.length) {
+			if (!mCurrenUserResult.get(i).equals(mBestResult[i])) {
 				break;
 			}
 			i++;
 		}
-		int index = (int) Math.floor((mBestResult.length - i)/2) ;
-		while(mCurrenUserResult.contains(mBestResult[index]))
+		int index = (int) Math.floor((mBestResult.length - i) / 2);
+		while (mCurrenUserResult.contains(mBestResult[index]))
 			index++;
 		return mBestResult[index];
 	}

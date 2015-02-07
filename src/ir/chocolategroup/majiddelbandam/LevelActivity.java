@@ -68,6 +68,7 @@ public class LevelActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_level);
 		// get level from MainActivity
+		id = 0;
 		mGameManager = (GameManager) getApplication();
 		levelNumber = (Integer) getIntent().getExtras().get("levelnumber");
 		level = mGameManager.getLevel(levelNumber);
@@ -152,8 +153,10 @@ public class LevelActivity extends Activity {
 		// right_margin, bottom_margin);
 		// marginParams.setMargins(position[0], position[1], position[2],
 		// position[3]);
-
 		previous.getLeft();
+//		System.out.printf("id=%d**********************"+id);
+//		marginParams.setMargins(100,100,100,100);
+//		position[2], position[3]);
 		if (id % 7 == 1)
 			marginParams.setMargins(previous.getLeft() + 500, position[1],
 					position[2], position[3]);
