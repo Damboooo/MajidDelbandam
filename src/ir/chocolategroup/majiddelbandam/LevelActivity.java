@@ -15,6 +15,7 @@ import android.content.SharedPreferences.Editor;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.text.BoringLayout.Metrics;
 import android.text.Layout;
 import android.view.Menu;
 import android.view.View;
@@ -112,8 +113,7 @@ public class LevelActivity extends Activity {
 				// TODO if word is valid
 				if (level.addWord(input.getText().toString())) {
 					addWordInGraphic(input.getText().toString());
-				}
-				else
+				} else
 					// TO DO پیغام مناسب
 					showToast("نه دیگه! باید فقط یه حرفش با حرف قبلی فرق بکنه.");
 				// end.setText(isValid(start,input));
@@ -136,7 +136,7 @@ public class LevelActivity extends Activity {
 		if (input.equals((String) end.getText()))
 			createDialogWin();
 
-		View levelLayout = findViewById(R.id.levelLayout);
+		View levelLayout = findViewById(R.id.linearLayout);
 		TextView current = new TextView(LevelActivity.this);
 		current.setText(input); // set text
 
@@ -145,10 +145,22 @@ public class LevelActivity extends Activity {
 		int[] position = findPosition(id);
 		// marginParams.setMargins(left_margin, top_margin,
 		// right_margin, bottom_margin);
-		marginParams.setMargins(position[0], position[1], position[2],
-				position[3]);
+		// marginParams.setMargins(position[0], position[1], position[2],
+		// position[3]);
+//		final DisplayMetrics displayMetrics=getResources().getDisplayMetrics();
+//		final float screenWidthInDp=displayMetrics.widthPixels/displayMetrics.density;
+//		final float screenHeightInDp=displayMetrics.heightPixels/displayMetrics.density;
+		
+		previous.getLeft();
+		if ((id %12)/6 == 1)
+			marginParams.setMargins(previous.getLeft() + 100, position[1],
+					position[2], position[3]);
+		else
+			marginParams.setMargins(previous.getLeft() - 100, position[1],
+					position[2], position[3]);
 		RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
 				marginParams);
+
 		current.setLayoutParams(layoutParams);
 
 		((RelativeLayout) levelLayout).addView(current);
@@ -156,7 +168,6 @@ public class LevelActivity extends Activity {
 		// DrawView drawView = new
 		// DrawView(LevelActivity.this,previous.getRight(),current.getRight(),previous.getBottom(),current.getBottom());
 		// setContentView(drawView);
-
 		previous = current;
 		id++;
 	}
@@ -309,21 +320,21 @@ public class LevelActivity extends Activity {
 
 	private void showToast(String message) {
 
-		Toast.makeText(getApplicationContext(), message,
-		Toast.LENGTH_SHORT).show();
-		
-//		new AlertDialog.Builder(this)
-//				.setIcon(android.R.drawable.ic_dialog_alert)
-//				.setTitle("Exit")
-//				.setMessage("Are you sure you want to exit?")
-//				.setPositiveButton("Yes",
-//						new DialogInterface.OnClickListener() {
-//							@Override
-//							public void onClick(DialogInterface dialog,
-//									int which) {
-//								finish();
-//							}
-//						}).setNegativeButton("No", null).show();
+		Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT)
+				.show();
+
+		// new AlertDialog.Builder(this)
+		// .setIcon(android.R.drawable.ic_dialog_alert)
+		// .setTitle("Exit")
+		// .setMessage("Are you sure you want to exit?")
+		// .setPositiveButton("Yes",
+		// new DialogInterface.OnClickListener() {
+		// @Override
+		// public void onClick(DialogInterface dialog,
+		// int which) {
+		// finish();
+		// }
+		// }).setNegativeButton("No", null).show();
 	}
 
 }

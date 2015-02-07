@@ -20,12 +20,15 @@ import android.widget.TextView;
 public class MainActivity extends Activity {
 	private int id = 0;
 	private GameManager mGameManager;
-
+	TextView coins;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
+
+//		coins = (TextView) findViewById(R.id.menuNumberOfCoins);
+//		coins.setText(mGameManager.getCoins() + "");
 		final ImageView IM = (ImageView) findViewById(R.id.imageView2);
 		IM.setOnClickListener(new OnClickListener() {
 
