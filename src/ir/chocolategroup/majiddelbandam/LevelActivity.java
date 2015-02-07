@@ -150,6 +150,7 @@ public class LevelActivity extends Activity {
 		// right_margin, bottom_margin);
 		// marginParams.setMargins(position[0], position[1], position[2],
 		// position[3]);
+
 		final DisplayMetrics displayMetrics=getResources().getDisplayMetrics();
 		final float screenWidthInDp=displayMetrics.widthPixels/displayMetrics.density;
 		final float screenHeightInDp=displayMetrics.heightPixels/displayMetrics.density;
