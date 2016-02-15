@@ -157,7 +157,7 @@ public class GameManager extends Application{
 	public MetaData getMetaData()
 	{
 		MetaData result = new MetaData();
-		result.LevelCount = 100;//mLevelCount;
+		result.LevelCount = mLevelCount;
 		result.minMove = new int[mLevels.size()];
 		result.userMove = new int[mLevels.size()];
 		int numberOfUnlockLevels = 0;

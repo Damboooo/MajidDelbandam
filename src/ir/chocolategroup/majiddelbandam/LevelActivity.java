@@ -16,6 +16,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.text.Layout;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -68,6 +69,7 @@ public class LevelActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_level);
 		// get level from MainActivity
+		id = 0;
 		mGameManager = (GameManager) getApplication();
 		levelNumber = (Integer) getIntent().getExtras().get("levelnumber");
 		level = mGameManager.getLevel(levelNumber);
@@ -120,7 +122,7 @@ public class LevelActivity extends Activity {
 				} else
 					// TO DO پیغام مناسب
 					showToast("نه دیگه! باید فقط یه حرفش با حرف قبلی فرق بکنه.");
-					input.setText("");
+				input.setText("");
 				// end.setText(isValid(start,input));
 			}
 
@@ -152,14 +154,24 @@ public class LevelActivity extends Activity {
 		// right_margin, bottom_margin);
 		// marginParams.setMargins(position[0], position[1], position[2],
 		// position[3]);
-
+		final DisplayMetrics displayMetrics = getResources()
+				.getDisplayMetrics();
+		final float screenWidthInDp = displayMetrics.widthPixels
+				/ displayMetrics.density;
+		final float screenHeightInDp = displayMetrics.heightPixels
+				/ displayMetrics.density;
+		final int screenWidth = Math.round(screenWidthInDp);
+		final int screenHeight = Math.round(screenHeightInDp);
 		previous.getLeft();
-		if (id % 7 == 1)
-			marginParams.setMargins(previous.getLeft() + 500, position[1],
+		// System.out.printf("id=%d**********************"+id);
+		// marginParams.setMargins(100,100,100,100);
+		// position[2], position[3]);
+		// if (id % 7 == 1)
+		if ((id % (screenWidth / 80)) / (screenWidth / 160) == 1)
+			marginParams.setMargins(previous.getLeft() + 160, position[1],
 					position[2], position[3]);
 		else
-
-			marginParams.setMargins(previous.getLeft() - 100, position[1],
+			marginParams.setMargins(previous.getLeft() - 160, position[1],
 					position[2], position[3]);
 		RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
 				marginParams);
