@@ -44,7 +44,11 @@ public class GameManager extends Application{
     public void onCreate() {
         super.onCreate();
         mGameManager = this;
-        if(SharePrefrencesManager.isExistKey(this, getResources().getString(R.string.Coins)))
+
+	}
+	public void load()
+	{
+		if(SharePrefrencesManager.isExistKey(this, getResources().getString(R.string.Coins)))
 		{
 			mCoins = Integer.parseInt(SharePrefrencesManager.getValue(this, getResources().getString(R.string.Coins)));
 		}
@@ -53,12 +57,10 @@ public class GameManager extends Application{
 			mCoins = 500;//initial coins
 			updateCoinsInSharePrefrences();
 		}
-        //TODO : pak shavad
-        mCoins = 1000;
-        
-        
-        mLevels = new HashMap<Integer, Level>();
-        loadUnlockedLevel();
+
+
+		mLevels = new HashMap<Integer, Level>();
+		loadUnlockedLevel();
 	}
 	
 	private void updateCoinsInSharePrefrences()
@@ -158,10 +160,13 @@ public class GameManager extends Application{
 		result.LevelCount = 100;//mLevelCount;
 		result.minMove = new int[mLevels.size()];
 		result.userMove = new int[mLevels.size()];
+		int numberOfUnlockLevels = 0;
 		for (Level level : mLevels.values()) {
+			if(!level.isLock())numberOfUnlockLevels++;
 			result.minMove[level.getLevelNumber()-1] = level.getMinMove();
 			result.userMove[level.getLevelNumber()-1] = level.getMinUserMove();
 		}
+		result.numberOfUnlockLevel = numberOfUnlockLevels;
 		return result;
 	} 
 	
@@ -191,6 +196,8 @@ public class GameManager extends Application{
 			setLoadLevels();
 			return null;
 		}
+
+
 	}
 	
 	public class UpdateLevelAsync extends AsyncTask<Level, Void, Void> {

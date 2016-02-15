@@ -7,8 +7,13 @@ public class MetaData {
 	public int[] minMove;
 	//if not done yet userMove = infinity
 	public int[] userMove;
+	public int numberOfUnlockLevel;
 	public MetaData() {
 		
+	}
+	public int getLastUnlockLevel()
+	{
+		return numberOfUnlockLevel;
 	}
 
 }

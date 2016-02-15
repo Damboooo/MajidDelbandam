@@ -1,40 +1,62 @@
 package ir.chocolategroup.majiddelbandam;
 
+import android.graphics.*;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Menu;
-import android.view.View;
+import android.view.*;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.MarginLayoutParams;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+import android.widget.*;
 
 public class MainActivity extends Activity {
+	private static final int numberOfLevelInEachRow = 2;
+	private static final int lockLevelColor = Color.TRANSPARENT;
+	private static final int notDoneLevelColor = Color.BLUE;
+	private static final int done1LevelColor = Color.GREEN;
+	private static final int done2LevelColor = Color.MAGENTA;
+	private static final int done3LevelColor = Color.YELLOW;
+
+	private Bitmap ActiveBitmap;
+	private Bitmap DeactiveBitmap;
+	private Paint circlePaint;
+	private Paint textPaint;
+
 	private int id = 0;
 	private GameManager mGameManager;
 	TextView coins;
 
+	private void initConst(){
+		ActiveBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.level_image);
+		DeactiveBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.level_image_bw);
+		circlePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+		circlePaint.setStrokeWidth(20);
+		circlePaint.setStyle(Paint.Style.STROKE);
+
+		textPaint = new Paint();
+		textPaint.setColor(Color.BLACK);
+		textPaint.setTextSize(150);
+		Typeface font = Typeface.createFromAsset(getAssets(),
+				"swissko.ttf");
+		textPaint.setTypeface(font);
+	}
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-		
+
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 //		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		
-		
+
+
 		setContentView(R.layout.activity_main);
+		initConst();
 
 		mGameManager = (GameManager) getApplication();
 
@@ -56,51 +78,22 @@ public class MainActivity extends Activity {
 		View levelLayout = findViewById(R.id.mainSpace);
 		final ImageView[] levels = new ImageView[(int) mGameManager
 				.getMetaData().LevelCount];
-		for (id = 0; id < (int) mGameManager.getMetaData().LevelCount; id++) {
+		TableRow row=new TableRow(MainActivity.this);
+		MetaData metaData = mGameManager.getMetaData();
+		for (id = 0; id < (int)metaData.LevelCount ; id++) {
 			levels[id] = new ImageView(MainActivity.this);
-			// TODO An if for lock or unlock levels
-			if (id + 1 <= mGameManager.getMetaData().userMove.length)
-				levels[id].setImageDrawable(getResources().getDrawable(
-						R.drawable.level_image));
-			else
-				levels[id].setImageDrawable(getResources().getDrawable(
-						R.drawable.level_image_bw));
-
-			MarginLayoutParams marginParams = new MarginLayoutParams(120, 120);
-			// level1.getLayoutParams());
-			int[] position = findPosition(id);
-			// marginParams.setMargins(left_margin, top_margin, right_margin,
-			// bottom_margin);
-			
-			 final DisplayMetrics displayMetrics=getResources().getDisplayMetrics();
-			 final float
-			 screenWidthInDp=displayMetrics.widthPixels/displayMetrics.density;
-			 final float
-			 screenHeightInDp=displayMetrics.heightPixels/displayMetrics.density;
-			 final int screenWidth = Math.round(screenWidthInDp);
-			 final int screenHeight = Math.round(screenHeightInDp);
-			
-			if (id != 0) {
-//				if (id%6/3 == 1)
-					marginParams.setMargins(screenWidth-50 - (id%3)*screenWidth/3, (id%3)*screenHeight/9+(id/3)*screenHeight/4,
-							10, screenHeight-100-(id%3)*screenHeight/5);
-//				else
-//					marginParams.setMargins(screenWidth-50 + (id%3)*50, position[1],
-//							position[2], position[3]);
-//				if ((id % 6) / 3 == 1)
-//					marginParams.setMargins(levels[id - 1].getLeft()-screenWidth/4, screenHeight-levels[id - 1].getTop()+10,
-//							levels[id - 1].getRight()-screenWidth/4, screenHeight-levels[id - 1].getBottom()-10);
-//				else
-//					marginParams.setMargins(position[2], position[1],
-//							(int)(levels[id - 1].getRight()+screenWidth/4), position[3]); // levels[id - 1].getLeft()
-
-			} else
-				marginParams.setMargins(screenWidth-50, 0, 0,
-						screenHeight-100);
-			RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
-					marginParams);
-			levels[id].setLayoutParams(layoutParams);
-			((RelativeLayout) levelLayout).addView(levels[id]);
+			// if for lock or unlock levels
+			if (id + 1 <= metaData.getLastUnlockLevel())
+				levels[id].setImageDrawable(new BitmapDrawable(getResources(), createPiture(true,getCircleColor(metaData,id),id+1 )));
+			else {
+				levels[id].setImageDrawable(new BitmapDrawable(getResources(), createPiture(false,lockLevelColor,id+1)));
+			}
+			if(id % numberOfLevelInEachRow == 0) {
+				row = new TableRow(MainActivity.this);
+				((TableLayout) levelLayout).addView(row);
+			}
+			row.setGravity(Gravity.CENTER_HORIZONTAL);
+			row.addView(levels[id]);
 
 			// handler.postDelayed(runnable, 2000); //for initial delay..
 			final Handler handler = new Handler();
@@ -223,6 +216,36 @@ public class MainActivity extends Activity {
 				}
 			});
 		}
+	}
+	private int getCircleColor(MetaData metaData ,int  levelId)
+	{
+		if(metaData.userMove[levelId] == Integer.MIN_VALUE)
+			return notDoneLevelColor;
+		int diff  =metaData.userMove[levelId] - metaData.minMove[levelId];
+		if(diff<= 0)
+			return done1LevelColor;
+		if(diff <= 2)
+			return done2LevelColor;
+		return done3LevelColor;
+	}
+	private Bitmap createPiture(boolean isActive,int circleColor,int levelNumber){
+		Bitmap basePic;
+		if(isActive)
+			basePic = ActiveBitmap;
+		else
+			basePic = DeactiveBitmap;
+
+		Bitmap resPic = Bitmap.createBitmap(basePic.getWidth()+40,basePic.getHeight()+40,Bitmap.Config.ARGB_8888);
+		Canvas tempCanvas = new Canvas(resPic);
+
+		String text = levelNumber + "";
+		Rect bounds = new Rect();
+		textPaint.getTextBounds(text, 0, text.length(), bounds);
+		tempCanvas.drawCircle(resPic.getWidth() / 2, resPic.getHeight() / 2, resPic.getWidth() / 2 - 20, circlePaint);
+		circlePaint.setColor(circleColor);
+		tempCanvas.drawBitmap(basePic, 20, 20, null);
+		tempCanvas.drawText(text, resPic.getWidth() / 2-bounds.width()/2, resPic.getHeight() / 2+bounds.height()/2,textPaint);
+		return resPic;
 	}
 
 	@Override

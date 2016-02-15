@@ -16,7 +16,8 @@ public class Splash extends Activity{
 //		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		
 		setContentView(R.layout.splash);
-		
+		GameManager gameManager = (GameManager)getApplication();
+		gameManager.load();
 		Thread timer = new Thread()
 		{
 			@Override
@@ -30,7 +31,7 @@ public class Splash extends Activity{
 				}
 				finally
 				{
-					GameManager gameManager = (GameManager)getApplication();
+
 					
 //					Intent startLevelsList = new Intent(Splash.class, MainActivity.class);
 //					startLevelsList.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -46,7 +47,7 @@ public class Splash extends Activity{
 				}
 			}
 		};
-		//TODO : load from DB
+
 		timer.start();
 	}
 

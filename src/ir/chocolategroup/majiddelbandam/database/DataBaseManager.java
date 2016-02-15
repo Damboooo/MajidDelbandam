@@ -16,12 +16,13 @@ import android.os.AsyncTask;
 import android.widget.Toast;
 
 public class DataBaseManager {
-	private DatabaseHelper myDbHelper;
+
 	private final String Words_Table = "Words";
-	private final String Levels_Table = "Levels";
-	private final String Levels_LevelNumber = "LevelNumber";
 	private final String words_word = "Word";
 	private final String words_ComparisionWord = "ComparisonWord";
+
+	private final String Levels_Table = "Levels";
+	private final String Levels_LevelNumber = "LevelNumber";
 	private final String Levels_StartWord = "StartWord";
 	private final String Levels_EndWord = "EndWord";
 	private final String Levels_MinMove = "MinMove";
@@ -31,7 +32,9 @@ public class DataBaseManager {
 	private final String Levels_ListBestResult = "ListBestResult";
 	
 	private final String DataBaseName = "Majid Delbandam Database";
-	
+
+	private DatabaseHelper myDbHelper;
+
 	public DataBaseManager(Context context) {
 		myDbHelper = new DatabaseHelper(context ,DataBaseName);
 		try {
@@ -95,6 +98,7 @@ public class DataBaseManager {
 //								.getString(3)), cursor.getString(6), gameManager));
 			} while (cursor.moveToNext());
 		}
+
 		Level[] res = new Level[result.size()];
 		for (int i = 0; i < res.length; i++) {
 			res[i] = result.get(i);

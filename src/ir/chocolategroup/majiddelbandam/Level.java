@@ -163,7 +163,7 @@ public class Level {
 		{
 			mCurrenUserResult.remove(index);
 		}
-		mNextValidWord = getNextPossible(mCurrenUserResult.get(mCurrenUserResult.size()-1));
+		mNextValidWord = getNextPossible(mCurrenUserResult.get(mCurrenUserResult.size() - 1));
 	}
 	
 	private ArrayList<String> getNextPossible(String word)
@@ -253,9 +253,11 @@ public class Level {
 			}
 			i++;
 		}
-		int index = (int) Math.floor((mBestResult.length - i)/2) ;
-		while(mCurrenUserResult.contains(mBestResult[index]))
+		int index = (int) Math.floor((mBestResult.length + i)/2) ;
+		while(mCurrenUserResult.contains(mBestResult[index])) {
 			index++;
+			//TODO: momkene az out of bounds exception bede
+		}
 		return mBestResult[index];
 	}
 }
