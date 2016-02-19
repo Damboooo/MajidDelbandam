@@ -17,11 +17,11 @@ import android.widget.*;
 
 public class MainActivity extends Activity {
 	private static final int numberOfLevelInEachRow = 2;
-	private static final int lockLevelColor = Color.TRANSPARENT;
+	private static final int lockLevelColor = Color.RED;
 	private static final int notDoneLevelColor = Color.BLUE;
-	private static final int done1LevelColor = Color.GREEN;
-	private static final int done2LevelColor = Color.MAGENTA;
-	private static final int done3LevelColor = Color.YELLOW;
+	private static final int doneLevelColor = Color.GREEN;
+//	private static final int done2LevelColor = Color.MAGENTA;
+//	private static final int done3LevelColor = Color.YELLOW;
 
 	private Bitmap ActiveBitmap;
 	private Bitmap DeactiveBitmap;
@@ -84,9 +84,9 @@ public class MainActivity extends Activity {
 			levels[id] = new ImageView(MainActivity.this);
 			// if for lock or unlock levels
 			if (id + 1 <= metaData.getLastUnlockLevel())
-				levels[id].setImageDrawable(new BitmapDrawable(getResources(), createPiture(true,getCircleColor(metaData,id),id+1 )));
+				levels[id].setImageDrawable(new BitmapDrawable(getResources(), createPiture(true,doneLevelColor, id+1,((double)metaData.minMove[id])/((double)metaData.userMove[id]) )));
 			else {
-				levels[id].setImageDrawable(new BitmapDrawable(getResources(), createPiture(false,lockLevelColor,id+1)));
+				levels[id].setImageDrawable(new BitmapDrawable(getResources(), createPiture(false,lockLevelColor,id+1,0)));
 			}
 			if(id % numberOfLevelInEachRow == 0) {
 				row = new TableRow(MainActivity.this);
@@ -217,18 +217,18 @@ public class MainActivity extends Activity {
 			});
 		}
 	}
-	private int getCircleColor(MetaData metaData ,int  levelId)
-	{
-		if(metaData.userMove[levelId] == Integer.MIN_VALUE)
-			return notDoneLevelColor;
-		int diff  =metaData.userMove[levelId] - metaData.minMove[levelId];
-		if(diff<= 0)
-			return done1LevelColor;
-		if(diff <= 2)
-			return done2LevelColor;
-		return done3LevelColor;
-	}
-	private Bitmap createPiture(boolean isActive,int circleColor,int levelNumber){
+//	private int getCircleColor(MetaData metaData ,int  levelId)
+//	{
+//		if(metaData.userMove[levelId] == Integer.MIN_VALUE)
+//			return notDoneLevelColor;
+//		int diff  =metaData.userMove[levelId] - metaData.minMove[levelId];
+//		if(diff<= 0)
+//			return done1LevelColor;
+//		if(diff <= 2)
+//			return done2LevelColor;
+//		return done3LevelColor;
+//	}
+	private Bitmap createPiture(boolean isActive,int circleColor,int levelNumber,double arc){
 		Bitmap basePic;
 		if(isActive)
 			basePic = ActiveBitmap;
@@ -241,8 +241,22 @@ public class MainActivity extends Activity {
 		String text = levelNumber + "";
 		Rect bounds = new Rect();
 		textPaint.getTextBounds(text, 0, text.length(), bounds);
-		tempCanvas.drawCircle(resPic.getWidth() / 2, resPic.getHeight() / 2, resPic.getWidth() / 2 - 20, circlePaint);
 		circlePaint.setColor(circleColor);
+
+		if(isActive)
+		{
+			RectF rec = new RectF(20,20, resPic.getWidth()-20,resPic.getHeight()-20);
+			int deg =(int)(arc * 360);
+			tempCanvas.drawArc(rec, 270, deg, false, circlePaint);
+			circlePaint.setColor(Color.RED);
+			tempCanvas.drawArc(rec, (270+deg)%360, 360-deg, false, circlePaint);
+		}
+		else{
+			tempCanvas.drawCircle(resPic.getWidth() / 2, resPic.getHeight() / 2, resPic.getWidth() / 2 - 20, circlePaint);
+		}
+
+
+
 		tempCanvas.drawBitmap(basePic, 20, 20, null);
 		tempCanvas.drawText(text, resPic.getWidth() / 2-bounds.width()/2, resPic.getHeight() / 2+bounds.height()/2,textPaint);
 		return resPic;

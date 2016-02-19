@@ -87,6 +87,7 @@ public class Level {
 			if(i != array.length-1)
 				res.append(",");
 		}
+		res.append('}');
 		return res.toString();
 		
 	}
@@ -191,8 +192,13 @@ public class Level {
 			mBestUserResult = temp;
 		}
 		Level nextLevel = mGameManager.getLevel(mLevelNumber+1);
-		nextLevel.mLock = false;
-		mGameManager.updateLevel(nextLevel);
+		if(nextLevel != null) {
+			nextLevel.mLock = false;
+			mGameManager.updateLevel(nextLevel);
+		}else
+		{
+			//TODO : load from server
+		}
 		mGameManager.updateLevel(this);
 		return prize;
 

@@ -116,7 +116,7 @@ public class GameManager extends Application{
 	
 	public void loadLevel(int levelNumber)
 	{
-		if(!mLevels.containsKey(levelNumber) && levelNumber < mLevelCount)
+		if(!mLevels.containsKey(levelNumber) && levelNumber < mLevelCount+1)
 		{		
 			new LoadLevelAsync().execute(new Integer[]{levelNumber});
 		}
