@@ -2,39 +2,19 @@ package ir.chocolategroup.majiddelbandam;
 
 import java.util.Random;
 
-import android.R.layout;
+import android.graphics.*;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Application;
 import android.app.Dialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences.Editor;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.text.Layout;
 import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup.MarginLayoutParams;
 import android.view.Window;
-import android.widget.AdapterView;
+import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.TimePicker;
-import android.widget.Toast;
-import android.widget.RelativeLayout.LayoutParams;
-import android.widget.TextView;
 
 public class LevelActivity extends Activity {
 
@@ -53,7 +33,7 @@ public class LevelActivity extends Activity {
 	Button BTNCanceltime;
 	String phoneString, dateString, timeString;
 
-	TextView start;
+	ImageView endImage;
 	TextView end;
 	TextView coins;
 	TextView previous;
@@ -64,33 +44,22 @@ public class LevelActivity extends Activity {
 	private GameManager mGameManager;
 	Integer levelNumber;
 
+	private Paint wordPaint;
+	DisplayMetrics displayMetrics;
+	float screenHeightInDp;
+	float screenWidthInDp;
+	int screenHeight;
+	int screenWidth;
+	Random random;
+	int numberOfWords;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_level);
-		// get level from MainActivity
-		id = 0;
-		mGameManager = (GameManager) getApplication();
-		levelNumber = (Integer) getIntent().getExtras().get("levelnumber");
-		level = mGameManager.getLevel(levelNumber);
-		level.reset();
-		// set level details
-
-		// start and end properties
-
-		// final TextView start = (TextView) findViewById(R.id.start);
-		// // final TextView end = (TextView) findViewById(R.id.start);
-		// final TextView end = (TextView) findViewById(R.id.end);
+		initialize();
 
 		// TODO read from level.getStartWord() & level.getEndWord()
-
-		start = (TextView) findViewById(R.id.start);
-		end = (TextView) findViewById(R.id.end);
-		coins = (TextView) findViewById(R.id.numberOfCoins);
-
-		start.setText(level.getStartWord());
-		end.setText(level.getEndWord());
-		coins.setText(mGameManager.getCoins() + "");
 
 		final ImageView IM = (ImageView) findViewById(R.id.imageView2);
 		IM.setOnClickListener(new OnClickListener() {
@@ -102,7 +71,7 @@ public class LevelActivity extends Activity {
 			}
 		});
 		final Button button = (Button) findViewById(R.id.submit);
-		previous = (TextView) findViewById(R.id.start);
+//		previous = (TextView) findViewById(R.id.start);
 		button.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -116,20 +85,57 @@ public class LevelActivity extends Activity {
 				if (res.isFinish) {
 					createDialogWin(res.prize);
 				} else if (res.isValidWord) {
-					addWordInGraphic(input.getText().toString());
+					addWordInGraphic(input.getText().toString(),7*(random.nextInt(20)-10)-21*numberOfWords,8*(random.nextInt(20)-10)+18*numberOfWords);
 					input.setHint(input.getText().toString());
 					input.setText("");
+					numberOfWords++;
 				} else
 					// TO DO پیغام مناسب
 					showToast("نه دیگه! باید فقط یه حرفش با حرف قبلی فرق بکنه.");
-				input.setText("");
+					input.setText("");
 				// end.setText(isValid(start,input));
 			}
 
 		});
+	}
+	void initialize()
+	{
+		random = new Random();
+		numberOfWords = 0;
+		// screen size
+		displayMetrics = getResources()
+				.getDisplayMetrics();
+		screenWidthInDp = displayMetrics.widthPixels
+				/ displayMetrics.density;
+		screenHeightInDp = displayMetrics.heightPixels
+				/ displayMetrics.density;
+		screenWidth = Math.round(screenWidthInDp);
+		screenHeight = Math.round(screenHeightInDp);
+		// get level from MainActivity
+		id = 0;
+		mGameManager = (GameManager) getApplication();
+		levelNumber = (Integer) getIntent().getExtras().get("levelnumber");
+		level = mGameManager.getLevel(levelNumber);
+		level.reset();
+		// word paint
+		wordPaint = new Paint();
+		wordPaint.setColor(Color.BLACK);
+		wordPaint.setTextSize(80);
+		Typeface font = Typeface.createFromAsset(getAssets(),
+				"SOGAND.ttf");
+		wordPaint.setTypeface(font);
+		// level details
+		coins = (TextView) findViewById(R.id.numberOfCoins);
+		coins.setText(mGameManager.getCoins() + "");
+		end = (TextView) findViewById(R.id.end);
+		end.setText(level.getEndWord() + "");
+//		endImage = (ImageView)findViewById(R.id.endImageView);
+//		endImage.setImageDrawable(getResources().getDrawable(R.drawable.goldencoin));
+
+		addWordInGraphic(level.getStartWord(), 0, 1);
+//		addWordInGraphic(level.getEndWord(),1,0);
 
 	}
-
 	int[] findPosition(int id) {
 		int[] pos = new int[4];
 		pos[0] = 50 + (2 - id % 2) * 50;
@@ -138,72 +144,61 @@ public class LevelActivity extends Activity {
 		pos[3] = 20;
 		return pos;
 	}
-
-	private void addWordInGraphic(String input) {
-		// if (input.equals((String) end.getText()))
-		// createDialogWin();
-
-		View levelLayout = findViewById(R.id.linearLayout);
-		TextView current = new TextView(LevelActivity.this);
-		current.setText(input); // set text
-
-		MarginLayoutParams marginParams = new MarginLayoutParams(
-				start.getLayoutParams());
-		int[] position = findPosition(id);
-		// marginParams.setMargins(left_margin, top_margin,
-		// right_margin, bottom_margin);
-		// marginParams.setMargins(position[0], position[1], position[2],
-		// position[3]);
+	int[] findPosition2(int id) {
+		int[] pos = new int[4];
 		final DisplayMetrics displayMetrics = getResources()
 				.getDisplayMetrics();
-		final float screenWidthInDp = displayMetrics.widthPixels
-				/ displayMetrics.density;
-		final float screenHeightInDp = displayMetrics.heightPixels
-				/ displayMetrics.density;
-		final int screenWidth = Math.round(screenWidthInDp);
-		final int screenHeight = Math.round(screenHeightInDp);
-		previous.getLeft();
-		// System.out.printf("id=%d**********************"+id);
-		// marginParams.setMargins(100,100,100,100);
-		// position[2], position[3]);
-		// if (id % 7 == 1)
-		if ((id % (screenWidth / 80)) / (screenWidth / 160) == 1)
-			marginParams.setMargins(previous.getLeft() + 160, position[1],
-					position[2], position[3]);
-		else
-			marginParams.setMargins(previous.getLeft() - 160, position[1],
-					position[2], position[3]);
-		RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
-				marginParams);
-
-		current.setLayoutParams(layoutParams);
-
-		((RelativeLayout) levelLayout).addView(current);
-		// draw Line
-		// DrawView drawView = new
-		// DrawView(LevelActivity.this,previous.getRight(),current.getRight(),previous.getBottom(),current.getBottom());
-		// setContentView(drawView);
-		previous = current;
-		id++;
+		pos[0] = (int)(displayMetrics.widthPixels	/ displayMetrics.density)-10-10*random.nextInt(10);
+		pos[1] = 100+10*random.nextInt(10);
+		pos[2] = 70;
+		pos[3] = 70;
+		return pos;
 	}
 
-	// String isValid(TextView tv, EditText et) {
-	// String first = (String) tv.getText();
-	// String second = et.getText().toString();
-	// char[] firstC = first.toCharArray();
-	// char[] secondC = second.toCharArray();
-	// if(firstC.length != secondC.length)
-	// return "null";
-	// int counter = 0;
-	// for (int i = 0; i < firstC.length; i++) {
-	// if (firstC[i] != secondC[i])
-	// counter++;
-	// }
-	// if (counter == 1)
-	// return second;
-	// else
-	// return "null";
-	// }
+	private void addWordInGraphic(String text , int width , int height){
+		ImageView wordView = new ImageView(LevelActivity.this);
+		Bitmap coin;
+		if(numberOfWords <= level.getMinMove())
+			coin = BitmapFactory.decodeResource(getResources(), R.drawable.goldencoin);
+		else if(numberOfWords < 3*level.getMinMove()/2+2)
+			coin = BitmapFactory.decodeResource(getResources(), R.drawable.redcoin);
+		else
+			coin = BitmapFactory.decodeResource(getResources(), R.drawable.graycoin);
+		coin = getResizedBitmap(coin, 200 ,200);
+		Bitmap resPic = Bitmap.createBitmap(displayMetrics.widthPixels, displayMetrics.heightPixels, Bitmap.Config.ARGB_8888);
+		Canvas tempCanvas = new Canvas(resPic);
+
+		Rect bounds = new Rect();
+		wordPaint.getTextBounds(text, 0, text.length(), bounds);
+
+		if(width == 0 && height == 1)
+		{ // start
+			tempCanvas.drawBitmap(coin, 4*resPic.getWidth() / 5+width, resPic.getHeight() / 100+height, null);
+			tempCanvas.drawText(text, 4*resPic.getWidth() / 5+60+width, resPic.getHeight() / 100+120+height, wordPaint);
+		}
+//		else if(width == 1 && height == 0)
+//		{ // end
+//			tempCanvas.drawBitmap(coin, 3*resPic.getWidth() / 50+width, resPic.getHeight() / 10+height, null);
+//			tempCanvas.drawText(text, 3*resPic.getWidth() / 50+60+width, resPic.getHeight() / 10+120+height, wordPaint);
+//			wordView.setImageDrawable(new BitmapDrawable(getResources(), resPic));
+//			View levelLayout = findViewById(R.id.levelLayout);
+//			((LinearLayout)levelLayout).addView(wordView);
+//			return;
+//		}
+		else { // others
+			tempCanvas.drawBitmap(coin, 3 * resPic.getWidth() / 5 + width, resPic.getHeight() / 10 + height, null);
+			tempCanvas.drawText(text, 3 * resPic.getWidth() / 5 + 60 + width, resPic.getHeight() / 10 + 120 + height, wordPaint);
+		}
+
+		wordView.setImageDrawable(new BitmapDrawable(getResources(), resPic));
+		View linearLayout = findViewById(R.id.relativeLayout);
+		((RelativeLayout)linearLayout).addView(wordView, numberOfWords);
+
+
+	}
+
+
+
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -264,7 +259,7 @@ public class LevelActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				
+
 				Intent main = new Intent(LevelActivity.this, MainActivity.class);
 				main.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(main);
@@ -339,7 +334,7 @@ public class LevelActivity extends Activity {
 				if (res.isFinish) {
 					createDialogWin(res.prize);
 				} else
-					addWordInGraphic(words[pos]);
+					addWordInGraphic(words[pos],100,100);
 				// TODO : add view
 				// Toast.makeText(getApplicationContext(), pos,
 				// Toast.LENGTH_SHORT).show();
@@ -368,6 +363,23 @@ public class LevelActivity extends Activity {
 		// finish();
 		// }
 		// }).setNegativeButton("No", null).show();
+	}
+
+	public Bitmap getResizedBitmap(Bitmap bm, int newWidth, int newHeight) {
+		int width = bm.getWidth();
+		int height = bm.getHeight();
+		float scaleWidth = ((float) newWidth) / width;
+		float scaleHeight = ((float) newHeight) / height;
+		// CREATE A MATRIX FOR THE MANIPULATION
+		Matrix matrix = new Matrix();
+		// RESIZE THE BIT MAP
+		matrix.postScale(scaleWidth, scaleHeight);
+
+		// "RECREATE" THE NEW BITMAP
+		Bitmap resizedBitmap = Bitmap.createBitmap(
+				bm, 0, 0, width, height, matrix, false);
+		bm.recycle();
+		return resizedBitmap;
 	}
 
 }

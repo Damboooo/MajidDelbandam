@@ -4,7 +4,8 @@
     android:id="@+id/levelLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:background="@drawable/back2">
 
     <LinearLayout
         android:id="@+id/header"
@@ -36,7 +37,7 @@
         android:layout_weight="1.0" >
 
         <RelativeLayout
-            android:id="@+id/linearLayout"
+            android:id="@+id/relativeLayout"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:orientation="vertical" >
@@ -50,18 +51,20 @@
                 android:layout_marginBottom="35dp"
                 android:paddingRight="25dp"
                 android:paddingTop="25dp"
-                android:text="@string/sib" />
+                android:text="" />
         </RelativeLayout>
     </ScrollView>
-
     <TextView
         android:id="@+id/end"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignRight="@+id/current"
-        android:layout_below="@+id/textView1"
         android:text="@string/saz" />
 
+    <ImageView
+            android:layout_width="81dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/endImageView" android:layout_weight="0.08"/>
     <EditText
         android:id="@+id/current"
         android:layout_width="wrap_content"
@@ -71,13 +74,12 @@
         android:layout_weight="0"
         android:ems="10"
         android:hint="@string/Enter" />
-
     <Button
         android:id="@+id/submit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:layout_alignBottom="@id/current"
         android:layout_weight="0"
         android:text="@string/accept" />
-
 </LinearLayout>
