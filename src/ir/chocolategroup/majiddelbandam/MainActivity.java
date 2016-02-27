@@ -77,7 +77,7 @@ public class MainActivity extends Activity {
 
 		View levelLayout = findViewById(R.id.mainSpace);
 		final ImageView[] levels = new ImageView[(int) mGameManager
-				.getMetaData().LevelCount];
+				.getLevelCount()];
 		TableRow row=new TableRow(MainActivity.this);
 		MetaData metaData = mGameManager.getMetaData();
 		for (id = 0; id < (int)metaData.LevelCount ; id++) {

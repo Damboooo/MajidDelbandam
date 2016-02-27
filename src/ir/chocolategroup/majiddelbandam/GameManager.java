@@ -153,7 +153,10 @@ public class GameManager extends Application{
 	{
 		return mLevels.get(i);
 	}
-
+	public long getLevelCount()
+	{
+		return mLevelCount;
+	}
 	public MetaData getMetaData()
 	{
 		MetaData result = new MetaData();

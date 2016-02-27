@@ -6,6 +6,7 @@ import java.util.Random;
 import android.graphics.*;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.Dialog;
@@ -94,7 +95,7 @@ public class LevelActivity extends Activity {
 				// TODO if word is valid
 				AddWordResult res = level.addWord(input.getText().toString());
 				if (res.isFinish) {
-					createDialogWin(res.prize);
+					createDialogWin(res.prize,res.userMove,res.minMove);
 				} else if (res.isValidWord) {
 					addWordInGraphic(input.getText().toString(),7*(random.nextInt(20)-10)-21*numberOfWords,8*(random.nextInt(20)-10)+18*numberOfWords);
 					input.setHint(input.getText().toString());
@@ -221,7 +222,7 @@ public class LevelActivity extends Activity {
 		chars = new ImageView[start.length()];
 		for (charI = 0; charI < start.length();charI++)
 		{
-			Log.e("char " + charI, "-"+start.charAt(charI)+"-");
+			Log.e("char " + charI, "-" + start.charAt(charI) + "-");
 			Drawable d =  getCharImage(start.charAt(start.length()-1-charI));
 
 			chars[charI] = new ImageView(LevelActivity.this);
@@ -277,14 +278,14 @@ public class LevelActivity extends Activity {
 		{
 			word=charMap.get(chars[i].getDrawable())+word;
 		}
-		Log.e("word is ",word);
+		Log.e("word is ", word);
 		return word;
 	}
 	void addWord(String word){
 		// TODO if word is valid
 		AddWordResult res = level.addWord(word);
 		if (res.isFinish) {
-			createDialogWin(res.prize);
+			createDialogWin(res.prize,res.userMove,res.minMove);
 		} else if (res.isValidWord) {
 			addWordInGraphic(word, 7 * (random.nextInt(20) - 10) - 21 * numberOfWords, 8 * (random.nextInt(20) - 10) + 18*numberOfWords);
 			numberOfWords++;
@@ -494,8 +495,7 @@ public class LevelActivity extends Activity {
 		r3Image.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if(level.helpGoToNextLevel())
-				{
+				if (level.helpGoToNextLevel()) {
 					Intent levelIntent = new Intent(LevelActivity.this,
 							LevelActivity.class);
 					levelIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -510,13 +510,50 @@ public class LevelActivity extends Activity {
 		dialog.show();
 	}
 
-	private void createDialogWin(int numberOfCoins) {
+	private void createDialogWin(int numberOfCoins,int userMove , int minMove) {
 		final Dialog dialog = new Dialog(LevelActivity.this);
 		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		dialog.setContentView(R.layout.win_fragment);
-		Button menu = (Button) dialog.findViewById(R.id.menu);
-		TextView prize = (TextView) dialog.findViewById(R.id.prize);
-		prize.setText(numberOfCoins + "");
+		dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+		dialog.setCancelable(false);
+		dialog.setCanceledOnTouchOutside(false);
+
+		ImageView menu = (ImageView) dialog.findViewById(R.id.imgMenu);
+
+		ImageView prize = (ImageView) dialog.findViewById(R.id.imgCoin);
+		Bitmap basePic =  BitmapFactory.decodeResource(getResources(), R.drawable.coin);
+		Bitmap resPic = Bitmap.createBitmap(basePic.getWidth(), basePic.getHeight(), Bitmap.Config.ARGB_8888);
+		Canvas tempCanvas = new Canvas(resPic);
+
+		String text = "+" + numberOfCoins;
+		Rect bounds = new Rect();
+		Paint paint = new Paint();
+		paint.setColor(Color.BLACK);
+		paint.setTextSize(150);
+		Typeface font = Typeface.createFromAsset(getAssets(),
+				"swissko.ttf");
+		paint.setTypeface(font);
+		paint.getTextBounds(text, 0, text.length(), bounds);
+		tempCanvas.drawBitmap(basePic, 0, 0, null);
+		tempCanvas.drawText(text, resPic.getWidth() / 2 - 20 - bounds.width() / 2, resPic.getHeight() / 2 + 30 + bounds.height() / 2, paint);
+		prize.setImageDrawable(new BitmapDrawable(getResources(), resPic));
+
+
+		ImageView mark = (ImageView) dialog.findViewById(R.id.mark);
+		Bitmap line =  BitmapFactory.decodeResource(getResources(), R.drawable.line);
+		Bitmap markPic = Bitmap.createBitmap(line.getWidth(), line.getHeight(), Bitmap.Config.ARGB_8888);
+		Canvas markCanvas = new Canvas(markPic);
+		markCanvas.drawBitmap(line,0,0,null);
+//		Bitmap markPic = Bitmap.createBitmap(prize.getWidth(), prize.getHeight(), Bitmap.Config.ARGB_8888);
+//		Canvas markCanvas = new Canvas(resPic);
+		Paint p =new Paint();
+		p.setStrokeWidth(10);
+		p.setTextSize(400);
+
+		markCanvas.drawText(""+userMove, (int) (markPic.getWidth() * 0.25), (int) (markPic.getHeight() *0.45), p);
+		markCanvas.drawText(""+minMove,(int)(markPic.getWidth() *0.5), (int)(markPic.getHeight() *0.9), p);
+		mark.setImageDrawable(new BitmapDrawable(getResources(), markPic));
+
 		menu.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -528,7 +565,7 @@ public class LevelActivity extends Activity {
 				finish();
 			}
 		});
-		Button again = (Button) dialog.findViewById(R.id.again);
+		ImageView again = (ImageView) dialog.findViewById(R.id.imgReset);
 		again.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -541,7 +578,7 @@ public class LevelActivity extends Activity {
 				finish();
 			}
 		});
-		Button next = (Button) dialog.findViewById(R.id.next);
+		ImageView next = (ImageView) dialog.findViewById(R.id.imgNext);
 		next.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -594,7 +631,7 @@ public class LevelActivity extends Activity {
 									long arg3) {
 				AddWordResult res = level.addWord(words[pos]);
 				if (res.isFinish) {
-					createDialogWin(res.prize);
+					createDialogWin(res.prize,res.userMove,res.minMove);
 				} else
 					addWordInGraphic(words[pos], 100, 100);
 				// TODO : add view

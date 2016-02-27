@@ -66,7 +66,7 @@ public class Level {
 	
 	private String[] strtinToArray(String input)
 	{
-		if(input == null || input == "")
+		if(input == null || input.equals(""))
 		{
 			return null;
 		}
@@ -143,7 +143,10 @@ public class Level {
 		mGameManager.loadLevel(mLevelNumber+1);
 		if(word.equals(mEndWord))
 		{
-			return new AddWordResult(true, true, finishLevel());
+			AddWordResult res = new AddWordResult(true, true, finishLevel());
+			res.minMove = getMinMove();
+			res.userMove = mCurrenUserResult.size();
+			return res;
 		}
 		if(mNextValidWord.contains(word))
 		{
