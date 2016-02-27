@@ -1,14 +1,17 @@
 package ir.chocolategroup.majiddelbandam;
 
+import java.util.HashMap;
 import java.util.Random;
 
 import android.graphics.*;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -52,7 +55,15 @@ public class LevelActivity extends Activity {
 	int screenWidth;
 	Random random;
 	int numberOfWords;
-
+//	int gray;
+	int prevGray;
+	Drawable prevDrawable;
+	ImageView[] chars;
+	ImageView[] keysView;
+	int[] keys;
+	int charI;
+	int keyI;
+	HashMap<Drawable,Character> charMap;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -89,17 +100,88 @@ public class LevelActivity extends Activity {
 					input.setHint(input.getText().toString());
 					input.setText("");
 					numberOfWords++;
-				} else
+				} else {
 					// TO DO پیغام مناسب
 					showToast("نه دیگه! باید فقط یه حرفش با حرف قبلی فرق بکنه.");
 					input.setText("");
+				}
 				// end.setText(isValid(start,input));
 			}
 
 		});
 	}
-	void initialize()
-	{
+	void initialize() {
+		charMap = new HashMap<Drawable,Character>();
+		charMap.put(getResources().getDrawable(R.drawable.a1),'ا');
+		charMap.put(getResources().getDrawable(R.drawable.a2),'ب');
+		charMap.put(getResources().getDrawable(R.drawable.a3),'پ');
+		charMap.put(getResources().getDrawable(R.drawable.a4),'ت');
+		charMap.put(getResources().getDrawable(R.drawable.a5),'ث');
+		charMap.put(getResources().getDrawable(R.drawable.a6),'ج');
+		charMap.put(getResources().getDrawable(R.drawable.a7),'چ');
+		charMap.put(getResources().getDrawable(R.drawable.a8),'ح');
+		charMap.put(getResources().getDrawable(R.drawable.a9),'خ');
+		charMap.put(getResources().getDrawable(R.drawable.a10),'د');
+		charMap.put(getResources().getDrawable(R.drawable.a11),'ذ');
+		charMap.put(getResources().getDrawable(R.drawable.a12),'ر');
+		charMap.put(getResources().getDrawable(R.drawable.a13),'ز');
+		charMap.put(getResources().getDrawable(R.drawable.a14),'ژ');
+		charMap.put(getResources().getDrawable(R.drawable.a15),'س');
+		charMap.put(getResources().getDrawable(R.drawable.a16),'ش');
+		charMap.put(getResources().getDrawable(R.drawable.a17),'ص');
+		charMap.put(getResources().getDrawable(R.drawable.a18),'ض');
+		charMap.put(getResources().getDrawable(R.drawable.a19),'ط');
+		charMap.put(getResources().getDrawable(R.drawable.a20),'ظ');
+		charMap.put(getResources().getDrawable(R.drawable.a21),'ع');
+		charMap.put(getResources().getDrawable(R.drawable.a22),'غ');
+		charMap.put(getResources().getDrawable(R.drawable.a23),'ف');
+		charMap.put(getResources().getDrawable(R.drawable.a24),'ق');
+		charMap.put(getResources().getDrawable(R.drawable.a25),'ک');
+		charMap.put(getResources().getDrawable(R.drawable.a26),'گ');
+		charMap.put(getResources().getDrawable(R.drawable.a27),'ل');
+		charMap.put(getResources().getDrawable(R.drawable.a28),'م');
+		charMap.put(getResources().getDrawable(R.drawable.a29),'ن');
+		charMap.put(getResources().getDrawable(R.drawable.a30),'و');
+		charMap.put(getResources().getDrawable(R.drawable.a31),'ه');
+		charMap.put(getResources().getDrawable(R.drawable.a32),'ی');
+		// keys
+		keys = new int[]{
+				R.drawable.a1,
+				R.drawable.a2,
+				R.drawable.a3,
+				R.drawable.a4,
+				R.drawable.a5,
+				R.drawable.a6,
+				R.drawable.a7,
+				R.drawable.a8,
+				R.drawable.a9,
+				R.drawable.a10,
+				R.drawable.a11,
+				R.drawable.a12,
+				R.drawable.a13,
+				R.drawable.a14,
+				R.drawable.a15,
+				R.drawable.a16,
+				R.drawable.a17,
+				R.drawable.a18,
+				R.drawable.a19,
+				R.drawable.a20,
+				R.drawable.a21,
+				R.drawable.a22,
+				R.drawable.a23,
+				R.drawable.a24,
+				R.drawable.a25,
+				R.drawable.a26,
+				R.drawable.a27,
+				R.drawable.a28,
+				R.drawable.a29,
+				R.drawable.a30,
+				R.drawable.a31,
+				R.drawable.a32
+		};
+		//
+		prevGray = -1;
+		prevDrawable = null;
 		random = new Random();
 		numberOfWords = 0;
 		// screen size
@@ -131,10 +213,85 @@ public class LevelActivity extends Activity {
 		end.setText(level.getEndWord() + "");
 //		endImage = (ImageView)findViewById(R.id.endImageView);
 //		endImage.setImageDrawable(getResources().getDrawable(R.drawable.goldencoin));
-
-		addWordInGraphic(level.getStartWord(), 0, 1);
+		String start = level.getStartWord();
+		addWordInGraphic(start, 0, 1);
 //		addWordInGraphic(level.getEndWord(),1,0);
 
+		// characters
+		chars = new ImageView[start.length()];
+		for (charI = 0; charI < start.length();charI++)
+		{
+			Log.e("char " + charI, "-"+start.charAt(charI)+"-");
+			Drawable d =  getCharImage(start.charAt(start.length()-1-charI));
+
+			chars[charI] = new ImageView(LevelActivity.this);
+			chars[charI].setImageBitmap(drawableToBitmap(d));
+
+			LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(100,100);
+			chars[charI].setLayoutParams(layoutParams);
+
+			View v = findViewById(R.id.footer);
+			((LinearLayout)v).addView(chars[charI],charI);
+
+			chars[charI].setOnClickListener(new OnClickListener() {
+				int charI1 = charI;
+
+				@Override
+				public void onClick(View view) {
+					Log.e("gray", charI1 + "");
+					graying(charI1);
+				}
+			});
+		}
+		// keyboard
+		keysView = new ImageView[32];
+		for (keyI = 0; keyI < keysView.length; keyI++)
+		{
+			keysView[keyI] = new ImageView(LevelActivity.this);
+			keysView[keyI].setImageDrawable(getResources().getDrawable(keys[keyI]));
+
+			LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(100,100);
+			keysView[keyI].setLayoutParams(layoutParams);
+
+			View v = findViewById(R.id.keyboard);
+			((LinearLayout)v).addView(keysView[keyI],keyI);
+
+			keysView[keyI].setOnClickListener(new OnClickListener() {
+				int keyI1 = keyI;
+				@Override
+				public void onClick(View view) {
+					if (prevGray != -1) {
+						chars[prevGray].setImageDrawable(keysView[keyI1].getDrawable());
+						prevGray = -1;
+						prevDrawable = null;
+						addWord(getWordFromChars());
+					}
+				}
+			});
+		}
+
+	}
+	String getWordFromChars(){
+		String word = "";
+		for (int i = 0; i < chars.length;i++)
+		{
+			word=charMap.get(chars[i].getDrawable())+word;
+		}
+		Log.e("word is ",word);
+		return word;
+	}
+	void addWord(String word){
+		// TODO if word is valid
+		AddWordResult res = level.addWord(word);
+		if (res.isFinish) {
+			createDialogWin(res.prize);
+		} else if (res.isValidWord) {
+			addWordInGraphic(word, 7 * (random.nextInt(20) - 10) - 21 * numberOfWords, 8 * (random.nextInt(20) - 10) + 18*numberOfWords);
+			numberOfWords++;
+		} else {
+			// TO DO پیغام مناسب
+			showToast("نه دیگه! باید فقط یه حرفش با حرف قبلی فرق بکنه.");
+		}
 	}
 	int[] findPosition(int id) {
 		int[] pos = new int[4];
@@ -155,6 +312,111 @@ public class LevelActivity extends Activity {
 		return pos;
 	}
 
+	private Drawable getCharImage(char c) {
+		Drawable d;
+		Log.e("In Switch","-"+(int)c+"-");
+		switch (c) {
+			case 'ا':
+				d = getResources().getDrawable(R.drawable.a1);
+				break;
+			case 'ب':
+				d = getResources().getDrawable(R.drawable.a2);
+				break;
+			case 'پ':
+				d = getResources().getDrawable(R.drawable.a3);
+				break;
+			case 'ت':
+				d = getResources().getDrawable(R.drawable.a4);
+				break;
+			case 'ث':
+				d = getResources().getDrawable(R.drawable.a5);
+				break;
+			case 'ج':
+				d = getResources().getDrawable(R.drawable.a6);
+				break;
+			case 'چ':
+				d = getResources().getDrawable(R.drawable.a7);
+				break;
+			case 'ح':
+				d = getResources().getDrawable(R.drawable.a8);
+				break;
+			case 'خ':
+				d = getResources().getDrawable(R.drawable.a9);
+				break;
+			case 'د':
+				d = getResources().getDrawable(R.drawable.a10);
+				break;
+			case 'ذ':
+				d = getResources().getDrawable(R.drawable.a11);
+				break;
+			case 'ر':
+				d = getResources().getDrawable(R.drawable.a12);
+				break;
+			case 'ز':
+				d = getResources().getDrawable(R.drawable.a13);
+				break;
+			case 'ژ':
+				d = getResources().getDrawable(R.drawable.a14);
+				break;
+			case 'س':
+				d = getResources().getDrawable(R.drawable.a15);
+				break;
+			case 'ش':
+				d = getResources().getDrawable(R.drawable.a16);
+				break;
+			case 'ص':
+				d = getResources().getDrawable(R.drawable.a17);
+				break;
+			case 'ض':
+				d = getResources().getDrawable(R.drawable.a18);
+				break;
+			case 'ط':
+				d = getResources().getDrawable(R.drawable.a19);
+				break;
+			case 'ظ':
+				d = getResources().getDrawable(R.drawable.a20);
+				break;
+			case 'ع':
+				d = getResources().getDrawable(R.drawable.a21);
+				break;
+			case 'غ':
+				d = getResources().getDrawable(R.drawable.a22);
+				break;
+			case 'ف':
+				d = getResources().getDrawable(R.drawable.a23);
+				break;
+			case 'ق':
+				d = getResources().getDrawable(R.drawable.a24);
+				break;
+			case 'ک':
+				d = getResources().getDrawable(R.drawable.a25);
+				break;
+			case 'گ':
+				d = getResources().getDrawable(R.drawable.a26);
+				break;
+			case 'ل':
+				d = getResources().getDrawable(R.drawable.a27);
+				break;
+			case 'م':
+				d = getResources().getDrawable(R.drawable.a28);
+				break;
+			case 'ن':
+				d = getResources().getDrawable(R.drawable.a29);
+				break;
+			case 'و':
+				d = getResources().getDrawable(R.drawable.a30);
+				break;
+			case 'ه':
+				d = getResources().getDrawable(R.drawable.a31);
+				break;
+			case 'ی':
+				d = getResources().getDrawable(R.drawable.a32);
+				break;
+			default:
+				d = getResources().getDrawable(R.drawable.a1);
+		}
+		return d;
+	}
 	private void addWordInGraphic(String text , int width , int height){
 		ImageView wordView = new ImageView(LevelActivity.this);
 		Bitmap coin;
@@ -329,12 +591,12 @@ public class LevelActivity extends Activity {
 
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int pos,
-					long arg3) {
+									long arg3) {
 				AddWordResult res = level.addWord(words[pos]);
 				if (res.isFinish) {
 					createDialogWin(res.prize);
 				} else
-					addWordInGraphic(words[pos],100,100);
+					addWordInGraphic(words[pos], 100, 100);
 				// TODO : add view
 				// Toast.makeText(getApplicationContext(), pos,
 				// Toast.LENGTH_SHORT).show();
@@ -380,6 +642,45 @@ public class LevelActivity extends Activity {
 				bm, 0, 0, width, height, matrix, false);
 		bm.recycle();
 		return resizedBitmap;
+	}
+	public static Bitmap drawableToBitmap (Drawable drawable) {
+		Bitmap bitmap = null;
+
+		if (drawable instanceof BitmapDrawable) {
+			BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
+			if(bitmapDrawable.getBitmap() != null) {
+				return bitmapDrawable.getBitmap();
+			}
+		}
+
+		if(drawable.getIntrinsicWidth() <= 0 || drawable.getIntrinsicHeight() <= 0) {
+			bitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888); // Single color bitmap will be created of 1x1 pixel
+		} else {
+			bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+		}
+
+		Canvas canvas = new Canvas(bitmap);
+		drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+		drawable.draw(canvas);
+		return bitmap;
+	}
+
+	void graying(int id){
+		for (int i = 0; i < chars.length; i++)
+		{
+			if(i == id)
+			{
+				if(prevGray != i) {
+					if(prevGray != -1) {
+						chars[prevGray].setImageDrawable(prevDrawable);
+					}
+					prevGray = i;
+					prevDrawable = chars[i].getDrawable();
+					chars[i].setImageDrawable(getResources().getDrawable(R.drawable.empty));
+				}
+				break;
+			}
+		}
 	}
 
 }
