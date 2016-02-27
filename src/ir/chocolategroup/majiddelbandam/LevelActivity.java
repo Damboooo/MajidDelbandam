@@ -422,11 +422,11 @@ public class LevelActivity extends Activity {
 		ImageView wordView = new ImageView(LevelActivity.this);
 		Bitmap coin;
 		if(numberOfWords <= level.getMinMove())
-			coin = BitmapFactory.decodeResource(getResources(), R.drawable.goldencoin);
+			coin = BitmapFactory.decodeResource(getResources(), R.drawable.golden_coin);
 		else if(numberOfWords < 3*level.getMinMove()/2+2)
-			coin = BitmapFactory.decodeResource(getResources(), R.drawable.redcoin);
+			coin = BitmapFactory.decodeResource(getResources(), R.drawable.red_coin);
 		else
-			coin = BitmapFactory.decodeResource(getResources(), R.drawable.graycoin);
+			coin = BitmapFactory.decodeResource(getResources(), R.drawable.gray_coin);
 		coin = getResizedBitmap(coin, 200 ,200);
 		Bitmap resPic = Bitmap.createBitmap(displayMetrics.widthPixels, displayMetrics.heightPixels, Bitmap.Config.ARGB_8888);
 		Canvas tempCanvas = new Canvas(resPic);
