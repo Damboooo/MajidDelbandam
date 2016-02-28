@@ -8,7 +8,7 @@
     <uses-sdk
         android:minSdkVersion="8"
         android:targetSdkVersion="17" />
-
+    <uses-permission android:name="com.farsitel.bazaar.permission.PAY_THROUGH_BAZAAR" />
     <application
         android:name="ir.chocolategroup.majiddelbandam.GameManager"
         android:allowBackup="true"
