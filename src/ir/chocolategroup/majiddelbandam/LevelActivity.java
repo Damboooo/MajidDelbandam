@@ -64,6 +64,8 @@ public class LevelActivity extends Activity {
 	int[] keys;
 	int charI;
 	int keyI;
+
+	private int counter;
 	HashMap<Drawable,Character> charMap;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -315,7 +317,7 @@ public class LevelActivity extends Activity {
 
 	private Drawable getCharImage(char c) {
 		Drawable d;
-		Log.e("In Switch","-"+(int)c+"-");
+		Log.e("In Switch", "-" + (int) c + "-");
 		switch (c) {
 			case 'ا':
 				d = getResources().getDrawable(R.drawable.a1);
@@ -488,7 +490,7 @@ public class LevelActivity extends Activity {
 		r2Image.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				createDialogNextPossibleWord(level.helpGetNextPossibleWords());
+				createDialogNextPossibleWord2(level.helpGetNextPossibleWords());
 				dialog.dismiss();
 			}
 		});
@@ -644,7 +646,50 @@ public class LevelActivity extends Activity {
 
 		dialog.show();
 	}
+	private void createDialogNextPossibleWord2(final String[] words) {
+		if (words == null) {
+			// TODO : پیام مناسب
+			Toast.makeText(this, "سکه کافی ندارید!", Toast.LENGTH_LONG);
+			return;
+		}
+		final Dialog dialog = new Dialog(LevelActivity.this);
+		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		dialog.setContentView(R.layout.next_possible_words_fragment2);
 
+		TableLayout table = (TableLayout) dialog.findViewById(R.id.tblNextWord);
+
+		ArrayAdapter<String> listAdapter = new ArrayAdapter<String>(this,
+				R.layout.listview_row, words);
+		TableRow row = new TableRow(LevelActivity.this);
+
+		for(counter = 0; counter < words.length;counter++) {
+			if (counter % 2 == 0) {
+				row = new TableRow(LevelActivity.this);
+				table.addView(row);
+			}
+			Button btn = new Button(LevelActivity.this);
+			btn.setText(words[counter]);
+			btn.setOnClickListener(new OnClickListener() {
+				String word = words[counter];
+
+				@Override
+				public void onClick(View v) {
+					AddWordResult res = level.addWord(word);
+					if (res.isFinish) {
+						createDialogWin(res.prize,res.userMove,res.minMove);
+					} else
+						addWordInGraphic(word, 100, 100);
+					// TODO : add view
+					// Toast.makeText(getApplicationContext(), pos,
+					// Toast.LENGTH_SHORT).show();
+					dialog.dismiss();
+				}
+			});
+			row.addView(btn);
+		}
+
+		dialog.show();
+	}
 	private void showToast(String message) {
 
 		Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT)

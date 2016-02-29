@@ -91,8 +91,8 @@ public class MainActivity extends Activity {
 			if(id % numberOfLevelInEachRow == 0) {
 				row = new TableRow(MainActivity.this);
 				((TableLayout) levelLayout).addView(row);
+				row.setGravity(Gravity.CENTER_HORIZONTAL);
 			}
-			row.setGravity(Gravity.CENTER_HORIZONTAL);
 			row.addView(levels[id]);
 
 			// handler.postDelayed(runnable, 2000); //for initial delay..
@@ -276,16 +276,22 @@ public class MainActivity extends Activity {
 
 	private void createDialogPayment() {
 		final Dialog dialog = new Dialog(MainActivity.this);
+		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		dialog.setContentView(R.layout.payment_fragment);
-		Button cancel = (Button) dialog.findViewById(R.id.cancel);
 
-		cancel.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				// TODO payment
-				dialog.dismiss();
-			}
-		});
+
+		//dialog.setOnDismissListener();
+
+
+//		Button cancel = (Button) dialog.findViewById(R.id.cancel);
+
+//		cancel.setOnClickListener(new View.OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				// TODO payment
+//				dialog.dismiss();
+//			}
+//		});
 
 		dialog.show();
 	}
