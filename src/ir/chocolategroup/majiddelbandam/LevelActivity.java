@@ -18,7 +18,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.*;
-import android.widget.AdapterView.OnItemClickListener;
 
 public class LevelActivity extends Activity {
 
@@ -490,7 +489,7 @@ public class LevelActivity extends Activity {
 		r2Image.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				createDialogNextPossibleWord2(level.helpGetNextPossibleWords());
+				createDialogNextPossibleWord(level.helpGetNextPossibleWords());
 				dialog.dismiss();
 			}
 		});
@@ -597,64 +596,15 @@ public class LevelActivity extends Activity {
 
 		dialog.show();
 	}
-
 	private void createDialogNextPossibleWord(final String[] words) {
 		if (words == null) {
 			// TODO : پیام مناسب
 			Toast.makeText(this, "سکه کافی ندارید!", Toast.LENGTH_LONG);
-
-			// new
-			// AlertDialog.Builder(this).setIcon(android.R.drawable.ic_dialog_alert).setTitle("Exit")
-			// .setMessage("Are you sure you want to exit?")
-			// .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-			// @Override
-			// public void onClick(DialogInterface dialog, int which) {
-			// finish();
-			// }
-			// }).setNegativeButton("No", null).show();
-
 			return;
 		}
 		final Dialog dialog = new Dialog(LevelActivity.this);
 		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		dialog.setContentView(R.layout.next_possible_words_fragment);
-
-		ListView lvNextWords = (ListView) dialog.findViewById(R.id.lvNextWord);
-
-		ArrayAdapter<String> listAdapter = new ArrayAdapter<String>(this,
-				R.layout.listview_row, words);
-
-		lvNextWords.setAdapter(listAdapter);
-
-		lvNextWords.setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int pos,
-									long arg3) {
-				AddWordResult res = level.addWord(words[pos]);
-				if (res.isFinish) {
-					createDialogWin(res.prize,res.userMove,res.minMove);
-				} else
-					addWordInGraphic(words[pos], 100, 100);
-				// TODO : add view
-				// Toast.makeText(getApplicationContext(), pos,
-				// Toast.LENGTH_SHORT).show();
-				dialog.dismiss();
-
-			}
-		});
-
-		dialog.show();
-	}
-	private void createDialogNextPossibleWord2(final String[] words) {
-		if (words == null) {
-			// TODO : پیام مناسب
-			Toast.makeText(this, "سکه کافی ندارید!", Toast.LENGTH_LONG);
-			return;
-		}
-		final Dialog dialog = new Dialog(LevelActivity.this);
-		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		dialog.setContentView(R.layout.next_possible_words_fragment2);
 
 		TableLayout table = (TableLayout) dialog.findViewById(R.id.tblNextWord);
 
