@@ -1,6 +1,7 @@
 package ir.chocolategroup.majiddelbandam;
 
 import android.graphics.*;
+import android.graphics.drawable.Animatable;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,6 +14,7 @@ import android.util.Log;
 import android.view.*;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.MarginLayoutParams;
+import android.view.animation.Animation;
 import android.widget.*;
 
 public class MainActivity extends Activity {
@@ -53,8 +55,6 @@ public class MainActivity extends Activity {
 
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 //		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
-
 		setContentView(R.layout.activity_main);
 		initConst();
 
