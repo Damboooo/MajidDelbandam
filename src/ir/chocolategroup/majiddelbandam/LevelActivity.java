@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
+import android.content.ClipData;
 import android.graphics.*;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -15,6 +16,7 @@ import android.content.Intent;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -71,6 +73,7 @@ public class LevelActivity extends Activity {
 	HashMap<Integer, Character> charMap;
 	ArrayList<String> current;
 	View linearLayout;
+	ImageView guideView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -291,8 +294,8 @@ public class LevelActivity extends Activity {
 		current.add(level.getStartWord());
 		keysView = new ImageView[32];
 		keyI = 0;
-//		for (keyI = 0; keyI < keysView.length; keyI++)
-//		{
+		for (keyI = 0; keyI < keysView.length; keyI++)
+		{
 		keysView[keyI] = new ImageView(LevelActivity.this);
 		keysView[keyI].setImageDrawable(getResources().getDrawable(keys[keyI]));
 
@@ -313,11 +316,15 @@ public class LevelActivity extends Activity {
 			public void onClick(View view) {
 				if (prevGray != -1) {
 					// word make
+					int pprev = current.get(current.size()-1).length()-prevGray-1;
 					Log.e("char is", "" + charMap.get(keyI1));
+					Log.e("word0 is ", current.get(current.size() - 1));
+//					Log.e("1 ", current.get(current.size() - 1).substring(0, prevGray));
+//					Log.e("2 ", charMap.get(keyI1 + 1)+"");
+//					Log.e("3 ", current.get(current.size() - 1).substring(prevGray + 1, current.get(current.size() - 1).length()));
+					current.add(current.get(current.size() - 1).substring(0, pprev) + charMap.get(keyI1 + 1) + current.get(current.size() - 1).substring(pprev + 1, current.get(current.size() - 1).length()));
 
-					current.add(current.get(current.size() - 1).substring(0, prevGray) + charMap.get(keyI1 + 1) + current.get(current.size() - 1).substring(prevGray + 1, current.get(current.size() - 1).length()));
-
-					Log.e("word is ", current.get(current.size() - 1));
+					Log.e("word1 is ", current.get(current.size() - 1));
 					addWord(current.get(current.size() - 1));
 					chars[prevGray].setImageDrawable(keysView[keyI1].getDrawable());
 					prevGray = -1;
@@ -325,7 +332,7 @@ public class LevelActivity extends Activity {
 				}
 			}
 		});
-//		}
+ 	}
 
 	}
 
@@ -518,7 +525,7 @@ public class LevelActivity extends Activity {
 				@Override
 				public void onClick(View view) {
 					((RelativeLayout) linearLayout).removeView(wordView1);
-					level.deleteFrom(current.get(current.size() - 1));
+					level.delete(current.get(current.size() - 1));
 					current.remove(current.size() - 1);
 					for (int i = 0; i < current.get(current.size() - 1).length(); i++) {
 						Log.e("char in for " + i, "-" + current.get(current.size() - 1).charAt(i) + "-");
@@ -541,11 +548,37 @@ public class LevelActivity extends Activity {
 		getMenuInflater().inflate(R.menu.activity_main, menu);
 		return true;
 	}
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle item selection
+		switch (item.getItemId()) {
+			case R.id.guide:
+//				guideView = (ImageView)findViewById(R.id.guideImage);
+//				Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fadeo);
+//				guideView.startAnimation(animation);
+				createDialogGuide();
+				return true;
+			default:
+				return super.onOptionsItemSelected(item);
+		}
+	}
 
 	private void createDialogGuide() {
-		final Dialog dialog = new Dialog(LevelActivity.this);
+		Dialog dialog = new Dialog(LevelActivity.this);
 		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		dialog.setContentView(R.layout.guide_fragment);
+		dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+		dialog.setCancelable(false);
+		dialog.setCanceledOnTouchOutside(false);
+		guideView = (ImageView)findViewById(R.id.guide_image);
+//		guideView.setOnClickListener(new OnClickListener() {
+//			@Override
+//			public void onClick(View view) {
+//				Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fadeo);
+//				guideView.startAnimation(animation);
+//				dialog.dismiss();
+//			}
+//		});
 
 		dialog.show();
 	}
