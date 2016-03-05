@@ -169,7 +169,17 @@ public class Level {
 		}
 		mNextValidWord = getNextPossible(mCurrenUserResult.get(mCurrenUserResult.size() - 1));
 	}
-	
+
+	public void delete(String word)
+	{
+		int index = mCurrenUserResult.indexOf(word);
+		if(mCurrenUserResult.size()-1 >= index)
+		{
+			mCurrenUserResult.remove(index);
+		}
+		mNextValidWord = getNextPossible(mCurrenUserResult.get(mCurrenUserResult.size() - 1));
+	}
+
 	private ArrayList<String> getNextPossible(String word)
 	{
 		return mGameManager.getNextPosibleWords(word);

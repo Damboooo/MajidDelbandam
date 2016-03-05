@@ -1,5 +1,6 @@
 package ir.chocolategroup.majiddelbandam;
 
+import android.util.Log;
 import ir.chocolategroup.majiddelbandam.database.DataBaseManager;
 
 import java.util.ArrayList;
@@ -13,7 +14,10 @@ public class GameManager extends Application{
 	private final int LevelCoin = 30;
 	
 	private int mCoins;
-	private HashMap<Integer,Level> mLevels;
+	private static HashMap<Integer,Level> mLevels;
+	{
+		Log.e("TEST","maked");
+	}
 	private long mLevelCount;
 	private DataBaseManager dataBaseManager;
 	private GameManager mGameManager;
@@ -42,12 +46,14 @@ public class GameManager extends Application{
 	
 	@Override
     public void onCreate() {
+		Log.e("Game manager","HI");
         super.onCreate();
         mGameManager = this;
 
 	}
 	public void load()
 	{
+		Log.e("TEST","LOAD");
 		if(SharePrefrencesManager.isExistKey(this, getResources().getString(R.string.Coins)))
 		{
 			mCoins = Integer.parseInt(SharePrefrencesManager.getValue(this, getResources().getString(R.string.Coins)));
@@ -161,6 +167,7 @@ public class GameManager extends Application{
 	{
 		MetaData result = new MetaData();
 		result.LevelCount = mLevelCount;
+		Log.e("mlevel size",mLevels.size()+"");
 		result.minMove = new int[mLevels.size()];
 		result.userMove = new int[mLevels.size()];
 		int numberOfUnlockLevels = 0;
