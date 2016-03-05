@@ -2,6 +2,7 @@ package ir.chocolategroup.majiddelbandam;
 
 import android.graphics.*;
 import android.graphics.drawable.BitmapDrawable;
+import android.media.CamcorderProfile;
 import android.os.Bundle;
 import android.os.Handler;
 import android.app.Activity;
@@ -75,23 +76,34 @@ public class MainActivity extends Activity {
 
 		// final ImageView level1 = (ImageView) findViewById(R.id.level1);
 
-		View levelLayout = findViewById(R.id.mainSpace);
+		TableLayout levelLayout =(TableLayout) findViewById(R.id.mainSpace);
+		View v = findViewById(R.id.scrollView1);
 		final ImageView[] levels = new ImageView[(int) mGameManager
 				.getLevelCount()];
 		TableRow row=new TableRow(MainActivity.this);
 		MetaData metaData = mGameManager.getMetaData();
 		for (id = 0; id < (int)metaData.LevelCount ; id++) {
+
 			levels[id] = new ImageView(MainActivity.this);
 			// if for lock or unlock levels
-			if (id + 1 <= metaData.getLastUnlockLevel())
-				levels[id].setImageDrawable(new BitmapDrawable(getResources(), createPiture(true,doneLevelColor, id+1,((double)metaData.minMove[id])/((double)metaData.userMove[id]) )));
+			if (id + 1 <= metaData.getLastUnlockLevel()) {
+				levels[id].setImageDrawable(new BitmapDrawable(getResources(), createPiture(true, doneLevelColor, id + 1, ((double) metaData.minMove[id]) / ((double) metaData.userMove[id]))));
+			}
 			else {
 				levels[id].setImageDrawable(new BitmapDrawable(getResources(), createPiture(false,lockLevelColor,id+1,0)));
 			}
+			levels[id].setLayoutParams(new TableRow.LayoutParams(
+					TableRow.LayoutParams.MATCH_PARENT,
+					TableRow.LayoutParams.WRAP_CONTENT
+			));
 			if(id % numberOfLevelInEachRow == 0) {
+//				if(id!= 0)
+//					levelLayout.addView(row);
 				row = new TableRow(MainActivity.this);
-				((TableLayout) levelLayout).addView(row);
+				row.setLayoutParams(new TableLayout.LayoutParams(TableLayout.LayoutParams.FILL_PARENT, TableLayout.LayoutParams.WRAP_CONTENT, 1.0f));
 				row.setGravity(Gravity.CENTER_HORIZONTAL);
+				levelLayout.addView(row);
+
 			}
 			row.addView(levels[id]);
 
@@ -103,96 +115,6 @@ public class MainActivity extends Activity {
 
 				@Override
 				public void onClick(View v) {
-
-					// Load the ImageView that will host the animation and
-					// set its background to our AnimationDrawable XML resource.
-					// ImageView img = (ImageView)findViewById(R.id.imageView2);
-					// img.setBackgroundResource(R.drawable.spin_animation);
-					//
-					// // Get the background, which has been compiled to an
-					// AnimationDrawable object.
-					// AnimationDrawable frameAnimation = (AnimationDrawable)
-					// img.getBackground();
-
-					// Start the animation (looped playback by default).
-					// frameAnimation.start();
-
-					// handler.postDelayed(new Runnable() {
-					// @Override
-					// public void run() {
-					// levels[id].setImageResource(R.drawable.i1);
-					// }
-					// }, 0);
-					//
-					// handler.postDelayed(new Runnable() {
-					// @Override
-					// public void run() {
-					// levels[id].setImageResource(R.drawable.i2);
-					// }
-					// }, 100);
-					// handler.postDelayed(new Runnable() {
-					// @Override
-					// public void run() {
-					// levels[id].setImageResource(R.drawable.i3);
-					// }
-					// }, 200);
-					// handler.postDelayed(new Runnable() {
-					// @Override
-					// public void run() {
-					// levels[id].setImageResource(R.drawable.i4);
-					// }
-					// }, 300);
-					//
-					// handler.postDelayed(new Runnable() {
-					// @Override
-					// public void run() {
-					// levels[id].setImageResource(R.drawable.i5);
-					// }
-					// }, 400);
-					// handler.postDelayed(new Runnable() {
-					// @Override
-					// public void run() {
-					// levels[id].setImageResource(R.drawable.i6);
-					// }
-					// }, 500);
-					// handler.postDelayed(new Runnable() {
-					// @Override
-					// public void run() {
-					// levels[id].setImageResource(R.drawable.i7);
-					// }
-					// }, 600);
-					//
-					// handler.postDelayed(new Runnable() {
-					// @Override
-					// public void run() {
-					// levels[id].setImageResource(R.drawable.i6);
-					// }
-					// }, 700);
-					// handler.postDelayed(new Runnable() {
-					// @Override
-					// public void run() {
-					// levels[id].setImageResource(R.drawable.i5);
-					// }
-					// }, 800);
-					// handler.postDelayed(new Runnable() {
-					// @Override
-					// public void run() {
-					// levels[id].setImageResource(R.drawable.i4);
-					// }
-					// }, 900);
-					//
-					// handler.postDelayed(new Runnable() {
-					// @Override
-					// public void run() {
-					// levels[id].setImageResource(R.drawable.i3);
-					// }
-					// }, 1000);
-					// handler.postDelayed(new Runnable() {
-					// @Override
-					// public void run() {
-					// levels[id].setImageResource(R.drawable.i2);
-					// }
-					// }, 1100);
 					handler.postDelayed(new Runnable() {
 						@Override
 						public void run() {
@@ -208,14 +130,10 @@ public class MainActivity extends Activity {
 
 						}
 					}, 1200);
-
-					// DrawView drawView = new DrawView(MainActivity.this);
-					// drawView.setBackgroundColor(Color.DKGRAY);
-					// setContentView(drawView);
-
 				}
 			});
 		}
+//		levelLayout.addView(row);
 	}
 //	private int getCircleColor(MetaData metaData ,int  levelId)
 //	{
@@ -228,6 +146,40 @@ public class MainActivity extends Activity {
 //			return done2LevelColor;
 //		return done3LevelColor;
 //	}
+public View getTableWithAllRowsStretchedView() {
+	LinearLayout linearLayout = new LinearLayout(this);
+	linearLayout.setOrientation(LinearLayout.VERTICAL);
+	linearLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+
+	TableLayout tableLayout = new TableLayout(this);
+	tableLayout.setStretchAllColumns(true);
+	tableLayout.setLayoutParams(new TableLayout.LayoutParams(TableLayout.LayoutParams.FILL_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
+	//tableLayout.setWeightSum(4);
+	tableLayout.setStretchAllColumns(true);//.setColumnShrinkable(4,true);
+	tableLayout.setShrinkAllColumns(true);
+
+
+	for (int i = 0; i < 10; i++) {
+		TableRow tableRow = new TableRow(this);
+		tableRow.setGravity(Gravity.CENTER);
+		tableRow.setLayoutParams(new TableLayout.LayoutParams(TableLayout.LayoutParams.FILL_PARENT, TableLayout.LayoutParams.WRAP_CONTENT, 1.0f));
+
+		for (int j = 0; j < 2; j++) {
+//			Button button = new Button(this);
+			ImageView im = new ImageView(MainActivity.this);
+			final int buttonNumber = (j + i * 2);
+			im.setImageDrawable(new BitmapDrawable(getResources(), createPiture(false, lockLevelColor, buttonNumber, 0)));
+
+			im.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.FILL_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
+
+			tableRow.addView(im);
+		}
+		tableLayout.addView(tableRow);
+	}
+
+	linearLayout.addView(tableLayout);
+	return linearLayout;
+}
 	private Bitmap createPiture(boolean isActive,int circleColor,int levelNumber,double arc){
 		Bitmap basePic;
 		if(isActive)
@@ -258,7 +210,7 @@ public class MainActivity extends Activity {
 
 
 		tempCanvas.drawBitmap(basePic, 20, 20, null);
-		tempCanvas.drawText(text, resPic.getWidth() / 2-bounds.width()/2, resPic.getHeight() / 2+bounds.height()/2,textPaint);
+		tempCanvas.drawText(text, resPic.getWidth() / 2 - bounds.width() / 2, resPic.getHeight() / 2 + bounds.height() / 2, textPaint);
 		return resPic;
 	}
 
