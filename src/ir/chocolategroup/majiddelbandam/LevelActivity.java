@@ -23,6 +23,7 @@ import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.*;
+import android.widget.AdapterView.OnItemClickListener;
 
 public class LevelActivity extends Activity {
 
@@ -229,6 +230,7 @@ public class LevelActivity extends Activity {
 		prevDrawable = null;
 		random = new Random();
 		numberOfWords = 0;
+		id = 0;
 		// screen size
 		displayMetrics = getResources()
 				.getDisplayMetrics();
@@ -239,7 +241,6 @@ public class LevelActivity extends Activity {
 		screenWidth = Math.round(screenWidthInDp);
 		screenHeight = Math.round(screenHeightInDp);
 		// get level from MainActivity
-		id = 0;
 		mGameManager = (GameManager) getApplication();
 		levelNumber = (Integer) getIntent().getExtras().get("levelnumber");
 		level = mGameManager.getLevel(levelNumber);
@@ -293,8 +294,8 @@ public class LevelActivity extends Activity {
 		current.add(level.getStartWord());
 		keysView = new ImageView[32];
 		keyI = 0;
-		for (keyI = 0; keyI < keysView.length; keyI++)
-		{
+//		for (keyI = 0; keyI < keysView.length; keyI++)
+//		{
 		keysView[keyI] = new ImageView(LevelActivity.this);
 		keysView[keyI].setImageDrawable(getResources().getDrawable(keys[keyI]));
 
@@ -331,7 +332,7 @@ public class LevelActivity extends Activity {
 				}
 			}
 		});
- 	}
+// 	}
 
 	}
 
@@ -557,23 +558,27 @@ public class LevelActivity extends Activity {
 //				guideView.startAnimation(animation);
 				createDialogGuide();
 				return true;
+			case R.id.reset:
+				Intent level = new Intent(LevelActivity.this,
+						LevelActivity.class);
+				level.putExtra("levelnumber",levelNumber); // id is
+				System.gc();
+				finish();
+				startActivity(level);
+				return true;
 			default:
 				return super.onOptionsItemSelected(item);
 		}
 	}
 
 	private void createDialogGuide() {
-		Dialog dialog = new Dialog(LevelActivity.this);
+		final Dialog dialog = new Dialog(LevelActivity.this);
 		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		dialog.setContentView(R.layout.guide_fragment);
 		dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-		LinearLayout linearLayout = (LinearLayout)findViewById(R.id.guide_linear);
-		int width = (int)(displayMetrics.widthPixels);
-		int height = (int) (width*0.71);
-		dialog.getWindow().setLayout(width, height);
-//		dialog.setCancelable(false);
-//		dialog.setCanceledOnTouchOutside(false);
-//		guideView = (ImageView)findViewById(R.id.guide_image);
+		dialog.setCancelable(false);
+		dialog.setCanceledOnTouchOutside(false);
+		guideView = (ImageView)findViewById(R.id.guide_image);
 //		guideView.setOnClickListener(new OnClickListener() {
 //			@Override
 //			public void onClick(View view) {
