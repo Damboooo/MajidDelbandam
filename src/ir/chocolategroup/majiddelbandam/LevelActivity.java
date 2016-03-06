@@ -567,9 +567,13 @@ public class LevelActivity extends Activity {
 		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		dialog.setContentView(R.layout.guide_fragment);
 		dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-		dialog.setCancelable(false);
-		dialog.setCanceledOnTouchOutside(false);
-		guideView = (ImageView)findViewById(R.id.guide_image);
+		LinearLayout linearLayout = (LinearLayout)findViewById(R.id.guide_linear);
+		int width = (int)(displayMetrics.widthPixels);
+		int height = (int) (width*0.71);
+		dialog.getWindow().setLayout(width, height);
+//		dialog.setCancelable(false);
+//		dialog.setCanceledOnTouchOutside(false);
+//		guideView = (ImageView)findViewById(R.id.guide_image);
 //		guideView.setOnClickListener(new OnClickListener() {
 //			@Override
 //			public void onClick(View view) {
