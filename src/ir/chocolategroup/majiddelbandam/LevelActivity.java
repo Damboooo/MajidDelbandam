@@ -708,6 +708,7 @@ public class LevelActivity extends Activity {
 
 		dialog.show();
 	}
+	private int counter;
 	private void createDialogNextPossibleWord(final String[] words) {
 		if (words == null) {
 			// TODO : پیام مناسب
