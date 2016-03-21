@@ -19,9 +19,9 @@ public class PaymentActivity extends Activity implements BillingProcessor.IBilli
     private WaitingDialog waitingDialog;
     private GameManager gameManager;
 
-    private final static String SKU_100_Coins = "";
-    private final static String SKU_200_Coins = "";
-    private final static String SKU_500_Coins = "";
+    private final static String SKU_100_Coins = "100";
+    private final static String SKU_200_Coins = "200";
+    private final static String SKU_500_Coins = "500";
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -67,10 +67,22 @@ public class PaymentActivity extends Activity implements BillingProcessor.IBilli
 
     private void processPurchase(String productId)
     {
-        int addedCoins = 100;
-        //TODO : bar asas tedad kharid shode
+        int addedCoins = 0;
+        switch (productId)
+        {
+            case SKU_100_Coins:
+                addedCoins = 100;
+                break;
+            case SKU_200_Coins:
+                addedCoins = 200;
+                break;
+            case SKU_500_Coins:
+                addedCoins = 500;
+                break;
 
-        gameManager.addCoins(100);
+        }
+
+        gameManager.addCoins(addedCoins);
     }
 
     @Override
@@ -93,7 +105,7 @@ public class PaymentActivity extends Activity implements BillingProcessor.IBilli
     }
 
     @Override
-    public void onBillingError(int i, Throwable throwable) {
+    public void onBillingError(int code, Throwable throwable) {
         if(waitingDialog != null)
             waitingDialog.dismiss();
         String message = "ERROR";
