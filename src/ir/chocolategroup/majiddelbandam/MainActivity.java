@@ -3,6 +3,7 @@ package ir.chocolategroup.majiddelbandam;
 import android.graphics.*;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.media.CamcorderProfile;
 import android.os.Bundle;
 import android.os.Handler;
@@ -146,7 +147,7 @@ public class MainActivity extends Activity {
 //			return done2LevelColor;
 //		return done3LevelColor;
 //	}
-public View getTableWithAllRowsStretchedView() {
+	public View getTableWithAllRowsStretchedView() {
 	LinearLayout linearLayout = new LinearLayout(this);
 	linearLayout.setOrientation(LinearLayout.VERTICAL);
 	linearLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
@@ -225,30 +226,42 @@ public View getTableWithAllRowsStretchedView() {
 		getMenuInflater().inflate(R.menu.activity_main, menu);
 		return true;
 	}
-
+//	private IAPMethods IAP;
 	private void createDialogPayment() {
-		final Dialog dialog = new Dialog(MainActivity.this);
-		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		dialog.setContentView(R.layout.payment_fragment);
+		Intent payment = new Intent(MainActivity.this,
+				PaymentActivity.class);
+		startActivity(payment);
 
 
-		//dialog.setOnDismissListener();
+//		final Dialog dialog = new Dialog(MainActivity.this);
+//		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//		dialog.setContentView(R.layout.payment_fragment);
+//		dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+//
+//		//dialog.setOnDismissListener();
+//
+//
+////		Button cancel = (Button) dialog.findViewById(R.id.cancel);
+//
+////		cancel.setOnClickListener(new View.OnClickListener() {
+////			@Override
+////			public void onClick(View v) {
+////				// TODO payment
+////				dialog.dismiss();
+////			}
+////		});
+//
+//		dialog.show();
+//		WaitingDialog.getInstance(this).show();
 
-
-//		Button cancel = (Button) dialog.findViewById(R.id.cancel);
-
-//		cancel.setOnClickListener(new View.OnClickListener() {
-//			@Override
-//			public void onClick(View v) {
-//				// TODO payment
-//				dialog.dismiss();
-//			}
-//		});
-
-		dialog.show();
 	}
-
-	// int[] findPosition(int id) {
+//	@Override
+//	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//		super.onActivityResult(requestCode, resultCode, data);
+//		if(IAP!= null)
+//			IAP.onActivityResult(requestCode,resultCode,data);
+//	}
+		// int[] findPosition(int id) {
 	// int[] pos = new int[4];
 	// int c = id % 4 + 1;
 	// int c2 = id / 4;
