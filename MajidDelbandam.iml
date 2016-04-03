@@ -28,5 +28,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="library" name="com.android.ide.eclipse.adt.DEPENDENCIES" level="application" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="nivad-billing-library-0.0.1" level="project" />
+    <orderEntry type="library" name="android-support-v4" level="project" />
   </component>
 </module>

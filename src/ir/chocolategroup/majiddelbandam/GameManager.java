@@ -83,7 +83,7 @@ public class GameManager extends Application{
 		return true;
 	}
 	
-	private void addCoins(int coin)
+	public void addCoins(int coin)
 	{
 		mCoins += coin;
 		updateCoinsInSharePrefrences();

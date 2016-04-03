@@ -15,5 +15,13 @@
 	<string name="rahnamaE2">چه کلمه هایی می تونم بنویسم</string>
 	<string name="rahnamaE3">این مرحله رو رد کن</string>
 	<string name="cancel">Cancel</string>
-    
+    <string name="buy_100_Coins">
+        100 تا سکه 950 تومان
+    </string>
+    <string name="buy_200_Coins">
+        200 تا سکه1800 تومان
+    </string>
+    <string name="buy_500_Coins">
+        500 تا سکه4400 تومان
+    </string>
 </resources>
