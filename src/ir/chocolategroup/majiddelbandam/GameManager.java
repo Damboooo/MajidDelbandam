@@ -21,7 +21,7 @@ public class GameManager extends Application{
 	private long mLevelCount;
 	private DataBaseManager dataBaseManager;
 	private GameManager mGameManager;
-	
+
 	private boolean loadLevels = false;
 	public void setLoadLevels()
 	{

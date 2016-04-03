@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Random;
 
 import android.content.ClipData;
+import android.content.Context;
 import android.graphics.*;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -13,6 +14,7 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
+import android.os.Vibrator;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
@@ -120,6 +122,10 @@ public class LevelActivity extends Activity {
 			}
 
 		});
+
+		//TODO : vibrate sample code
+//		Vibrator v = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
+//		v.vibrate(50);
 	}
 
 	void initialize() {
@@ -294,8 +300,8 @@ public class LevelActivity extends Activity {
 		current.add(level.getStartWord());
 		keysView = new ImageView[32];
 		keyI = 0;
-//		for (keyI = 0; keyI < keysView.length; keyI++)
-//		{
+		for (keyI = 0; keyI < keysView.length; keyI++)
+		{
 		keysView[keyI] = new ImageView(LevelActivity.this);
 		keysView[keyI].setImageDrawable(getResources().getDrawable(keys[keyI]));
 
@@ -332,7 +338,7 @@ public class LevelActivity extends Activity {
 				}
 			}
 		});
-// 	}
+ 	}
 
 	}
 
