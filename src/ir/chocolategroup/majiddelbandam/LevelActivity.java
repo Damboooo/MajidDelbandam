@@ -505,10 +505,10 @@ public class LevelActivity extends Activity {
 			tempCanvas.drawBitmap(coin, 3*resPic.getWidth() / 50+width, resPic.getHeight() / 10+height, null);
 			tempCanvas.drawText(text, 3*resPic.getWidth() / 50+60+width, resPic.getHeight() / 10+120+height, wordPaint);
 
-			wordView.setImageDrawable(new BitmapDrawable(getResources(), resPic));
-			View levelLayout = findViewById(R.id.footer);
-			((LinearLayout)levelLayout).addView(wordView);
-			return;
+//			wordView.setImageDrawable(new BitmapDrawable(getResources(), resPic));
+//			View levelLayout = findViewById(R.id.relativeLayout);
+//			((LinearLayout)levelLayout).addView(wordView);
+//			return;
 		}
 		else { // others
 			tempCanvas.drawBitmap(coin, 3 * resPic.getWidth() / 5 + width, resPic.getHeight() / 10 + height, null);
@@ -566,19 +566,26 @@ public class LevelActivity extends Activity {
 				finish();
 				startActivity(level);
 				return true;
+			case R.id.coin:
+
+				return true;
 			default:
 				return super.onOptionsItemSelected(item);
 		}
 	}
 
 	private void createDialogGuide() {
-		final Dialog dialog = new Dialog(LevelActivity.this);
+		Dialog dialog = new Dialog(LevelActivity.this);
 		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		dialog.setContentView(R.layout.guide_fragment);
 		dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-		dialog.setCancelable(false);
-		dialog.setCanceledOnTouchOutside(false);
-		guideView = (ImageView)findViewById(R.id.guide_image);
+		LinearLayout linearLayout = (LinearLayout)findViewById(R.id.guide_linear);
+		int width = (int)(displayMetrics.widthPixels);
+		int height = (int) (width*0.71);
+		dialog.getWindow().setLayout(width, height);
+//		dialog.setCancelable(false);
+//		dialog.setCanceledOnTouchOutside(false);
+//		guideView = (ImageView)findViewById(R.id.guide_image);
 //		guideView.setOnClickListener(new OnClickListener() {
 //			@Override
 //			public void onClick(View view) {
