@@ -1,10 +1,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
-        android:id="@+id/menu_settings"
-        android:orderInCategory="100"
-        android:showAsAction="always"
-        android:title="@string/menu_settings"/>
+            android:id="@+id/coin"
+            android:orderInCategory="100"
+            android:showAsAction="always"
+            android:icon="@drawable/gray_coin"
+            android:title="سکه ها"/>
+    <item
+            android:id="@+id/numberOfCoins2"
+            android:showAsAction="always"
+            android:text="514"
+            android:title="100"/>
     <item
             android:id="@+id/guide"
             android:orderInCategory="100"

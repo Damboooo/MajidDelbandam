@@ -23,6 +23,7 @@ import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.*;
+import android.widget.AdapterView.OnItemClickListener;
 
 public class LevelActivity extends Activity {
 
@@ -229,6 +230,7 @@ public class LevelActivity extends Activity {
 		prevDrawable = null;
 		random = new Random();
 		numberOfWords = 0;
+		id = 0;
 		// screen size
 		displayMetrics = getResources()
 				.getDisplayMetrics();
@@ -239,7 +241,6 @@ public class LevelActivity extends Activity {
 		screenWidth = Math.round(screenWidthInDp);
 		screenHeight = Math.round(screenHeightInDp);
 		// get level from MainActivity
-		id = 0;
 		mGameManager = (GameManager) getApplication();
 		levelNumber = (Integer) getIntent().getExtras().get("levelnumber");
 		level = mGameManager.getLevel(levelNumber);
@@ -293,8 +294,8 @@ public class LevelActivity extends Activity {
 		current.add(level.getStartWord());
 		keysView = new ImageView[32];
 		keyI = 0;
-		for (keyI = 0; keyI < keysView.length; keyI++)
-		{
+//		for (keyI = 0; keyI < keysView.length; keyI++)
+//		{
 		keysView[keyI] = new ImageView(LevelActivity.this);
 		keysView[keyI].setImageDrawable(getResources().getDrawable(keys[keyI]));
 
@@ -331,7 +332,7 @@ public class LevelActivity extends Activity {
 				}
 			}
 		});
- 	}
+// 	}
 
 	}
 
@@ -504,10 +505,10 @@ public class LevelActivity extends Activity {
 			tempCanvas.drawBitmap(coin, 3*resPic.getWidth() / 50+width, resPic.getHeight() / 10+height, null);
 			tempCanvas.drawText(text, 3*resPic.getWidth() / 50+60+width, resPic.getHeight() / 10+120+height, wordPaint);
 
-			wordView.setImageDrawable(new BitmapDrawable(getResources(), resPic));
-			View levelLayout = findViewById(R.id.footer);
-			((LinearLayout)levelLayout).addView(wordView);
-			return;
+//			wordView.setImageDrawable(new BitmapDrawable(getResources(), resPic));
+//			View levelLayout = findViewById(R.id.relativeLayout);
+//			((LinearLayout)levelLayout).addView(wordView);
+//			return;
 		}
 		else { // others
 			tempCanvas.drawBitmap(coin, 3 * resPic.getWidth() / 5 + width, resPic.getHeight() / 10 + height, null);
@@ -556,6 +557,17 @@ public class LevelActivity extends Activity {
 //				Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fadeo);
 //				guideView.startAnimation(animation);
 				createDialogGuide();
+				return true;
+			case R.id.reset:
+				Intent level = new Intent(LevelActivity.this,
+						LevelActivity.class);
+				level.putExtra("levelnumber",levelNumber); // id is
+				System.gc();
+				finish();
+				startActivity(level);
+				return true;
+			case R.id.coin:
+
 				return true;
 			default:
 				return super.onOptionsItemSelected(item);
