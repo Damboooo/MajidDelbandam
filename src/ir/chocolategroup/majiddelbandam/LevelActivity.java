@@ -94,7 +94,7 @@ public class LevelActivity extends Activity {
 				createDialogHelp();
 			}
 		});
-		final Button button = (Button) findViewById(R.id.submit);
+/*		final Button button = (Button) findViewById(R.id.submit);
 //		previous = (TextView) findViewById(R.id.start);
 		button.setOnClickListener(new OnClickListener() {
 
@@ -122,7 +122,7 @@ public class LevelActivity extends Activity {
 			}
 
 		});
-
+*/
 		//TODO : vibrate sample code
 //		Vibrator v = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
 //		v.vibrate(50);
@@ -194,7 +194,7 @@ public class LevelActivity extends Activity {
 		charMap.put(29, 'ن');
 		charMap.put(30, 'و');
 		charMap.put(31, 'ه');
-
+		charMap.put(32, 'ی');
 		// keys
 		keys = new int[]{
 				R.drawable.a1,
@@ -307,10 +307,22 @@ public class LevelActivity extends Activity {
 
 		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(100, 100);
 		keysView[keyI].setLayoutParams(layoutParams);
-
-		View v = findViewById(R.id.keyboard);
-		((LinearLayout) v).addView(keysView[keyI], keyI);
-
+		if(keyI < 8) {
+			View v = findViewById(R.id.keyboard1);
+			((LinearLayout) v).addView(keysView[keyI], keyI);
+		}
+		if(keyI >= 8 && keyI < 16) {
+			View v = findViewById(R.id.keyboard2);
+			((LinearLayout) v).addView(keysView[keyI], keyI-8);
+		}
+		if(keyI >= 16 && keyI < 24) {
+			View v = findViewById(R.id.keyboard3);
+			((LinearLayout) v).addView(keysView[keyI], keyI-16);
+		}
+		if(keyI >= 24 && keyI < 32) {
+			View v = findViewById(R.id.keyboard4);
+			((LinearLayout) v).addView(keysView[keyI], keyI-24);
+		}
 		// Animation
 		moveAnimation(keysView[keyI], keyI);
 
@@ -322,7 +334,7 @@ public class LevelActivity extends Activity {
 			public void onClick(View view) {
 				if (prevGray != -1) {
 					// word make
-					int pprev = current.get(current.size()-1).length()-prevGray-1;
+					int pprev = current.get(current.size() - 1).length() - prevGray - 1;
 					Log.e("char is", "" + charMap.get(keyI1));
 					Log.e("word0 is ", current.get(current.size() - 1));
 //					Log.e("1 ", current.get(current.size() - 1).substring(0, prevGray));
@@ -331,8 +343,11 @@ public class LevelActivity extends Activity {
 					current.add(current.get(current.size() - 1).substring(0, pprev) + charMap.get(keyI1 + 1) + current.get(current.size() - 1).substring(pprev + 1, current.get(current.size() - 1).length()));
 
 					Log.e("word1 is ", current.get(current.size() - 1));
-					addWord(current.get(current.size() - 1));
-					chars[prevGray].setImageDrawable(keysView[keyI1].getDrawable());
+					boolean added = addWord(current.get(current.size() - 1));
+					if(added)
+						chars[prevGray].setImageDrawable(keysView[keyI1].getDrawable());
+					else
+						chars[prevGray].setImageDrawable(prevDrawable);
 					prevGray = -1;
 					prevDrawable = null;
 				}
@@ -343,11 +358,11 @@ public class LevelActivity extends Activity {
 	}
 
 	private void moveAnimation(View view,int i) {
-		Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.move);
+		Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate);
 		keysView[i].startAnimation(animation);
 	}
 
-	void addWord(String word){
+	boolean addWord(String word){
 		// TODO if word is valid
 		AddWordResult res = level.addWord(word);
 		if (res.isFinish) {
@@ -358,7 +373,9 @@ public class LevelActivity extends Activity {
 		} else {
 			// TO DO پیغام مناسب
 			showToast("نه دیگه! باید فقط یه حرفش با حرف قبلی فرق بکنه.");
+			return false;
 		}
+		return true;
 	}
 	int[] findPosition(int id) {
 		int[] pos = new int[4];
@@ -507,13 +524,13 @@ public class LevelActivity extends Activity {
 		}
 		else if(width == 1 && height == 0)
 		{ // end
-			Log.e("END",text);
-			tempCanvas.drawBitmap(coin, 3*resPic.getWidth() / 50+width, resPic.getHeight() / 10+height, null);
-			tempCanvas.drawText(text, 3*resPic.getWidth() / 50+60+width, resPic.getHeight() / 10+120+height, wordPaint);
+			Log.e("END", text);
 
-//			wordView.setImageDrawable(new BitmapDrawable(getResources(), resPic));
-//			View levelLayout = findViewById(R.id.relativeLayout);
-//			((LinearLayout)levelLayout).addView(wordView);
+			tempCanvas.drawBitmap(coin, 1 * resPic.getWidth() / 5 + width, resPic.getHeight() / 10 + height, null);
+			tempCanvas.drawText(text, 1 * resPic.getWidth() / 5 + 60 + width, resPic.getHeight() / 10 + 120 + height, wordPaint);
+			wordView.setImageDrawable(new BitmapDrawable(getResources(), resPic));
+//			View levelLayout = findViewById(R.id.relative_scroll);
+//			((RelativeLayout)levelLayout).addView(wordView);
 //			return;
 		}
 		else { // others
