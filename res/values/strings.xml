@@ -24,4 +24,7 @@
     <string name="buy_500_Coins">
         500 تا سکه4400 تومان
     </string>
+    <integer name="short_vibrate_time">50</integer>
+    <integer name="medium_vibrate_time">100</integer>
+    <integer name="long_vibrate_time">200</integer>
 </resources>

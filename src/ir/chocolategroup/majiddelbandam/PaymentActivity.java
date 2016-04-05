@@ -34,7 +34,9 @@ public class PaymentActivity extends Activity implements BillingProcessor.IBilli
         waitingDialog = new WaitingDialog(this);
         waitingDialog.show();
 
-        mNivadBilling = new BillingProcessor(this, "Bazaar RSA Key", "Nivad Application ID", "Nivad Application Secret", this);
+        mNivadBilling = new BillingProcessor(this, "MIHNMA0GCSqGSIb3DQEBAQUAA4G7ADCBtwKBrwDkajbfLx49QRh8lk3pUZSVUnT0lhtDR3DMxlzCzWRGx0jeoLo30ULwutdVrO0G5T2A9ZuPjG+l6ioHdtnC39DTIokpHTVl5XL5rePhi/OquH9l12DxesQLrcAip5JgkG4AWGiqr1uzkbGUnh17w2xm+YCWR1VYUgMteu0N3voixLUZLm9oR5gqoqmBKiGiFcKjRYaqGlGadmICkQYMqBhU8qhcEk9zNIRZJbugQjcCAwEAAQ==",
+//                "Nivad Application ID", "Nivad Application Secret", this);
+                null, null, this);
 
         LinearLayout buy_100 = (LinearLayout)findViewById(R.id.buy_100);
         LinearLayout buy_200 = (LinearLayout)findViewById(R.id.buy_200);
