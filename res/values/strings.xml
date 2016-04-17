@@ -27,4 +27,6 @@
     <integer name="short_vibrate_time">50</integer>
     <integer name="medium_vibrate_time">100</integer>
     <integer name="long_vibrate_time">200</integer>
+    <integer name="win_fragment_main">10</integer>
+    <integer name="win_fragment_margin">1</integer>
 </resources>

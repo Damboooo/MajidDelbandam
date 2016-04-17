@@ -200,7 +200,10 @@ public class Level {
 		}
 		else if(mBestUserResult.length > mCurrenUserResult.size())
 		{
-			String[] temp = (String[])mCurrenUserResult.toArray();
+			String[] temp = new String[mCurrenUserResult.size()];
+			for (int i = 0; i < mCurrenUserResult.size();i++)
+				temp[i] = mCurrenUserResult.get(i);
+			//String[] temp = (String[])mCurrenUserResult.toArray();
 			prize = fineForEachExtraMove * (mBestUserResult.length - temp.length);
 			mBestUserResult = temp;
 		}

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
-import android.content.ClipData;
 import android.content.Context;
 import android.graphics.*;
 import android.graphics.drawable.BitmapDrawable;
@@ -14,18 +13,14 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
-import android.os.Vibrator;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
+import android.util.TypedValue;
+import android.view.*;
 import android.view.View.OnClickListener;
-import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.*;
-import android.widget.AdapterView.OnItemClickListener;
 
 public class LevelActivity extends Activity {
 
@@ -664,8 +659,17 @@ public class LevelActivity extends Activity {
 
 	private void createDialogWin(int numberOfCoins,int userMove , int minMove) {
 		final Dialog dialog = new Dialog(LevelActivity.this);
+
+		Rect displayRectangle = new Rect();
+		Window window = this.getWindow();
+		window.getDecorView().getWindowVisibleDisplayFrame(displayRectangle);
+
 		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		dialog.setContentView(R.layout.win_fragment);
+		LayoutInflater inflater = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View layout = inflater.inflate(R.layout.win_fragment, null);
+		dialog.setContentView(layout, new LinearLayout.LayoutParams(
+				displayRectangle.width(),
+				(int)(displayRectangle.width()*0.733)));
 		dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 		dialog.setCancelable(false);
 		dialog.setCanceledOnTouchOutside(false);
@@ -681,13 +685,21 @@ public class LevelActivity extends Activity {
 		Rect bounds = new Rect();
 		Paint paint = new Paint();
 		paint.setColor(Color.BLACK);
-		paint.setTextSize(150);
+
+
+		int pixel= (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+				120, getResources().getDisplayMetrics());
+		paint.setTextSize(pixel);
+		Log.e("font : ", "" + paint.getTextSize());
+
+
 		Typeface font = Typeface.createFromAsset(getAssets(),
 				"swissko.ttf");
 		paint.setTypeface(font);
 		paint.getTextBounds(text, 0, text.length(), bounds);
 		tempCanvas.drawBitmap(basePic, 0, 0, null);
-		tempCanvas.drawText(text, resPic.getWidth() / 2 - 20 - bounds.width() / 2, resPic.getHeight() / 2 + 30 + bounds.height() / 2, paint);
+		tempCanvas.drawText(text, (int) ((resPic.getWidth() - bounds.width()) / 2 * 0.8), resPic.getHeight() / 2 /*+ 30*/ + bounds.height() / 2, paint);
+//		tempCanvas.drawLine(resPic.getWidth() / 2 /*- 20*/ - bounds.width() / 2, resPic.getHeight() / 2 /*+ 30*/ - bounds.height() / 2, resPic.getWidth() / 2 + bounds.width() / 2, resPic.getHeight() / 2 + bounds.height() / 2, paint);
 		prize.setImageDrawable(new BitmapDrawable(getResources(), resPic));
 
 
@@ -700,10 +712,24 @@ public class LevelActivity extends Activity {
 //		Canvas markCanvas = new Canvas(resPic);
 		Paint p =new Paint();
 		p.setStrokeWidth(10);
-		p.setTextSize(400);
+		float textSize = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+				350, getResources().getDisplayMetrics());
+		textSize =((float) (markPic.getHeight()*0.5));
+		p.setTextSize(textSize);
 
-		markCanvas.drawText(""+userMove, (int) (markPic.getWidth() * 0.25), (int) (markPic.getHeight() *0.45), p);
-		markCanvas.drawText(""+minMove,(int)(markPic.getWidth() *0.5), (int)(markPic.getHeight() *0.9), p);
+		String userMoveText = ""+userMove;
+		String minMoveText = ""+minMove;
+
+		p.getTextBounds(userMoveText, 0, userMoveText.length(), bounds);
+
+		markCanvas.drawText(userMoveText, markPic.getWidth() / 2 - bounds.width(), (int) (markPic.getHeight() *0.40), p);
+
+		p.getTextBounds(minMoveText, 0, minMoveText.length(), bounds);
+		markCanvas.drawText(minMoveText, (int) (markPic.getWidth() * 0.5), (int) (markPic.getHeight()*0.55 + bounds.height()), p);
+
+
+//		markCanvas.drawText(userMoveText, (int) (markPic.getWidth() * 0.25), (int) (markPic.getHeight() *0.45), p);
+//		markCanvas.drawText(minMoveText,(int)(markPic.getWidth() *0.5), (int)(markPic.getHeight() *0.9), p);
 		mark.setImageDrawable(new BitmapDrawable(getResources(), markPic));
 
 		menu.setOnClickListener(new OnClickListener() {
