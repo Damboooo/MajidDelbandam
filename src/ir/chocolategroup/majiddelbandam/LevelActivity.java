@@ -17,11 +17,8 @@ import android.content.Intent;
 import android.os.Vibrator;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
+import android.view.*;
 import android.view.View.OnClickListener;
-import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.*;
@@ -261,8 +258,8 @@ public class LevelActivity extends Activity {
 		// level details
 		coins = (TextView) findViewById(R.id.numberOfCoins);
 		coins.setText(mGameManager.getCoins() + "");
-		end = (TextView) findViewById(R.id.end);
-		end.setText(level.getEndWord() + "");
+//		end = (TextView) findViewById(R.id.end);
+//		end.setText(level.getEndWord() + "");
 //		endImage = (ImageView)findViewById(R.id.endImageView);
 //		endImage.setImageDrawable(getResources().getDrawable(R.drawable.goldencoin));
 		String start = level.getStartWord();
@@ -279,6 +276,7 @@ public class LevelActivity extends Activity {
 			chars[charI].setImageBitmap(drawableToBitmap(d));
 
 			LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(100, 100);
+			layoutParams.gravity = Gravity.CENTER;
 			chars[charI].setLayoutParams(layoutParams);
 
 			View v = findViewById(R.id.footer);
@@ -305,7 +303,9 @@ public class LevelActivity extends Activity {
 		keysView[keyI] = new ImageView(LevelActivity.this);
 		keysView[keyI].setImageDrawable(getResources().getDrawable(keys[keyI]));
 
-		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(100, 100);
+//		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(100, 100);
+		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(screenWidth/8, screenWidth/8);
+		layoutParams.gravity = Gravity.CENTER;
 		keysView[keyI].setLayoutParams(layoutParams);
 		if(keyI < 8) {
 			View v = findViewById(R.id.keyboard1);
