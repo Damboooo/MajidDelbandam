@@ -1,59 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="500dp"
-            android:layout_height="350dp"
-            android:background="@android:color/transparent"
-            >
-        <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@layout/rounded_rectangle"
-                android:id="@+id/rect"
-                android:layout_above="@+id/imgMenu" android:layout_centerHorizontal="true"
-                android:layout_marginLeft="50dp" android:layout_marginRight="50dp" android:layout_marginBottom="-75dp"/>
-        <!--<shape xmlns:android="http://schemas.android.com/apk/res/android"-->
-        <!--android:shape="rectangle"-->
-               <!--android:layout_width="218dp"-->
-               <!--android:layout_height="207dp"-->
-               <!--android:layout_marginLeft="15dp">-->
-            <!--<corners-->
-                    <!--android:radius="10dp" />-->
+<RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+                 android:layout_width="750dp"
+                 android:layout_height="550dp"
+                 android:background="@android:color/transparent"
+        >
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_centerInParent="true">
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="@integer/win_fragment_margin">
+        </LinearLayout>
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="0dp" android:layout_weight="@integer/win_fragment_main">
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="0dp"
+                    android:layout_weight="@integer/win_fragment_margin"
+                    android:layout_height="fill_parent">
+            </LinearLayout>
+            <ImageView
+                    android:layout_width="0dp"
+                    android:layout_weight="@integer/win_fragment_main"
+                    android:layout_height="fill_parent"
+                    android:background="@layout/rounded_rectangle"
+                    android:id="@+id/rect"
+                    />
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="0dp"
+                    android:layout_weight="@integer/win_fragment_margin"
+                    android:layout_height="fill_parent">
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2">
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" android:layout_centerInParent="true">
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="0dp" android:layout_weight="60">
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp" android:layout_weight="1">
+            </LinearLayout>
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp" android:layout_weight="5">
+                <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent" android:layout_weight="1">
+                </LinearLayout>
+                <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="0dp"
+                        android:layout_weight="5"
+                        android:layout_height="fill_parent"
+                        android:layout_marginRight="5dp" android:layout_marginLeft="2dp">
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="fitCenter" android:layout_gravity="center"
+                        android:id="@+id/imgCoin"/>
+                </LinearLayout>
+                <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="0dp"
+                        android:layout_weight="5"
+                        android:layout_height="fill_parent"
+                        android:layout_marginLeft="5dp" android:layout_marginRight="2dp">
+                    <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginRight="5dp" android:id="@+id/mark" android:scaleType="fitCenter"/>
+                </LinearLayout>
+                <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent" android:layout_weight="1">
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="0dp" android:layout_weight="40">
+            <ImageView
+                    android:layout_width="0dp"
+                    android:layout_weight="30"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center" android:src="@drawable/next"
+                    android:scaleType="fitCenter"
+                    android:id="@+id/imgMenu"
+                    android:layout_marginRight="10dp" android:layout_marginLeft="10dp"/>
+                    <!--android:layout_alignParentLeft="true"-->
 
-        <!--</shape>-->
-
-
-        <ImageView
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:id="@+id/imgMenu" android:layout_gravity="center" android:src="@drawable/next"
-                android:adjustViewBounds="true" android:scaleType="centerCrop"
-                android:layout_alignParentBottom="true" android:layout_alignParentLeft="true"/>
-        <ImageView
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:id="@+id/imgReset" android:layout_gravity="center"
-                android:src="@drawable/next" android:scaleType="centerCrop"
-                android:layout_alignTop="@+id/imgMenu" android:layout_centerHorizontal="true"/>
-        <ImageView
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:layout_gravity="center" android:src="@drawable/next"
-                android:scaleType="centerCrop"
-                android:layout_alignTop="@+id/imgReset" android:layout_alignParentRight="true"
-                android:id="@+id/imgNext"/>
-        <ImageView
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:id="@+id/imgCoin"
-
-                android:scaleType="fitXY" android:layout_gravity="center"
-                android:layout_above="@+id/imgMenu" android:layout_alignLeft="@+id/rect"
-                android:layout_marginTop="10dp"/>
-        <ImageView
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:id="@+id/mark"
-                android:layout_alignTop="@+id/imgCoin" android:layout_alignRight="@+id/rect"
-                android:layout_marginRight="5dp"/>
-        <!--android:layout_gravity="left|top"-->
-    </RelativeLayout>
+            <ImageView
+                    android:layout_width="0dp"
+                    android:layout_weight="30"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center" android:src="@drawable/next"
+                    android:scaleType="fitCenter"
+                    android:id="@+id/imgReset" android:layout_alignParentRight="false"
+                    android:layout_marginLeft="10dp" android:layout_marginRight="10dp"/>
+                    <!--android:layout_alignParentLeft="false" android:layout_centerHorizontal="true"/>-->
+            <ImageView
+                    android:layout_width="0dp"
+                    android:layout_weight="30"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center" android:src="@drawable/next"
+                    android:scaleType="fitCenter" android:layout_marginLeft="10dp" android:layout_marginRight="10dp"
+                    android:id="@+id/imgNext"/>
+                    <!--android:id="@+id/imgNext3" android:layout_alignParentRight="true"/>-->
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>
