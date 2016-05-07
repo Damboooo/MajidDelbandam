@@ -53,6 +53,7 @@
                 android:screenOrientation="portrait"
                 android:theme="@android:style/Theme.Dialog"
                 />
+        <activity android:name=".MeaningActivity"/>
     </application>
 
 </manifest>
