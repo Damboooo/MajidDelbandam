@@ -116,6 +116,7 @@ public class ScreenLevelPageFragment extends Fragment {
 
                     @Override
                     public void onClick(View v) {
+                        VoiceManaget.play(getActivity(),R.raw.lock);
                         if (id1 + 1 <= _metaData.userMove.length) {
                             Intent level = new Intent(getActivity(),
                                     LevelActivity.class);
