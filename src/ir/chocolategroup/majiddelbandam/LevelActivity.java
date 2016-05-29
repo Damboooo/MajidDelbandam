@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
+import android.os.Vibrator;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
@@ -71,6 +72,7 @@ public class LevelActivity extends Activity {
 	int[] keys;
 	int charI;
 	int keyI;
+	ImageView[] wordView;
 	//	HashMap<Drawable,Character> charMap;
 	HashMap<Integer, Character> charMap;
 	ArrayList<String> current;
@@ -91,6 +93,7 @@ public class LevelActivity extends Activity {
 	}
 
 	private void levelDetails() {
+		wordView = new ImageView[100];
 		final ImageView IM = (ImageView) findViewById(R.id.imageView2);
 		IM.setOnClickListener(new OnClickListener() {
 
@@ -261,7 +264,7 @@ public class LevelActivity extends Activity {
 				((LinearLayout) v).addView(keysView[keyI], keyI-24);
 			}
 			// Animation
-			moveAnimation(keysView[keyI], keyI);
+			//moveAnimation(keysView[keyI], keyI);
 
 
 			keysView[keyI].setOnClickListener(new OnClickListener() {
@@ -269,21 +272,20 @@ public class LevelActivity extends Activity {
 
 				@Override
 				public void onClick(View view) {
-					fadeAnimation(keysView[keyI1],keyI1);
+//					fadeOutAnimation(keysView[keyI1]);
 					if (prevGray != -1) {
 						// word make
 						int pprev = current.get(current.size() - 1).length() - prevGray - 1;
 						Log.e("char is", "" + charMap.get(keyI1));
 						Log.e("word0 is ", current.get(current.size() - 1));
-//					Log.e("1 ", current.get(current.size() - 1).substring(0, prevGray));
-//					Log.e("2 ", charMap.get(keyI1 + 1)+"");
-//					Log.e("3 ", current.get(current.size() - 1).substring(prevGray + 1, current.get(current.size() - 1).length()));
 						current.add(current.get(current.size() - 1).substring(0, pprev) + charMap.get(keyI1 + 1) + current.get(current.size() - 1).substring(pprev + 1, current.get(current.size() - 1).length()));
 
 						Log.e("word1 is ", current.get(current.size() - 1));
 						boolean added = addWord(current.get(current.size() - 1));
-						if(added)
+						if(added) {
 							chars[prevGray].setImageDrawable(keysView[keyI1].getDrawable());
+							fadeInAnimation(chars[prevGray]);
+						}
 						else
 							chars[prevGray].setImageDrawable(prevDrawable);
 						prevGray = -1;
@@ -298,11 +300,13 @@ public class LevelActivity extends Activity {
 		Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate);
 //		keysView[i].startAnimation(animation);
 	}
-	private void fadeAnimation(View view,int i) {
+	private void fadeInAnimation(View view) {
+		Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade);
+		view.startAnimation(animation);
+	}
+	private void fadeOutAnimation(View view) {
 		Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fadeo);
 		view.startAnimation(animation);
-		Animation animation2 = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade);
-		view.startAnimation(animation2);
 	}
 	boolean addWord(String word){
 		// TODO if word is valid
@@ -429,7 +433,7 @@ public class LevelActivity extends Activity {
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	private void addWordInGraphic(String text , int width , int height){
 		wordPaint.setTextSize(80);
-		ImageView wordView = new ImageView(LevelActivity.this);
+		wordView[numberOfWords] = new ImageView(LevelActivity.this);
 		Bitmap coin;
 		if(numberOfWords <= level.getMinMove())
 			coin = BitmapFactory.decodeResource(getResources(), R.drawable.golden_coin);
@@ -437,7 +441,9 @@ public class LevelActivity extends Activity {
 			coin = BitmapFactory.decodeResource(getResources(), R.drawable.red_coin);
 		else
 			coin = BitmapFactory.decodeResource(getResources(), R.drawable.gray_coin);
-
+		if(width == 1 && height == 0) { // end
+			coin = BitmapFactory.decodeResource(getResources(), R.drawable.green_coin);
+		}
 
 		Rect displayRectangle = new Rect();
 		Window window = this.getWindow();
@@ -478,43 +484,51 @@ public class LevelActivity extends Activity {
 			tempCanvas.drawText(text, 3 * resPic.getWidth() / 5 + 40 + width, resPic.getHeight() / 10 + 85 + height, wordPaint);
 		}
 
-		wordView.setImageDrawable(new BitmapDrawable(getResources(), resPic));
+
+		wordView[numberOfWords].setImageDrawable(new BitmapDrawable(getResources(), resPic));
 		linearLayout = findViewById(R.id.relativeLayout);
-		((RelativeLayout)linearLayout).addView(wordView, numberOfWords);
-
-		//
-
-		wordView.setOnClickListener(new OnClickListener() {
-			private static final long DOUBLE_CLICK_TIME_DELTA = 300;//milliseconds
-			ImageView wordView1 = wordView;
-			long lastClickTime = 0;
-			@Override
-			public void onClick(View view) {
-				long clickTime = System.currentTimeMillis();
-				if (clickTime - lastClickTime < DOUBLE_CLICK_TIME_DELTA){
-					// on double click
-					Log.e("Double Click",wordView1.getX()+"");
-					Intent meaning = new Intent(LevelActivity.this,
-							MeaningActivity.class);
-					meaning.putExtra("mean", "معنی کلمه فلان است!"+ wordView1.getX());
-					startActivity(meaning);
-				} else {
-					// on single click
-				}
-				lastClickTime = clickTime;
-			}
-		});
+		((RelativeLayout)linearLayout).addView(wordView[numberOfWords], numberOfWords);
 
 		//
 
 
-		if(!(width == 0 && height == 1)) {
-			wordView.setOnClickListener(new View.OnClickListener() {
-				ImageView wordView1 = wordView;
+		//wordView.setLongClickable(true);
+
+//		wordView.setOnClickListener(new OnClickListener() {
+//			private static final long DOUBLE_CLICK_TIME_DELTA = 300;//milliseconds
+//			ImageView wordView1 = wordView;
+//			long lastClickTime = 0;
+//
+//			@Override
+//			public void onClick(View view) {
+//				long clickTime = System.currentTimeMillis();
+//				if (clickTime - lastClickTime < DOUBLE_CLICK_TIME_DELTA) {
+//					// on double click
+//					Log.e("Double Click", wordView1.getX() + "");
+//					Intent meaning = new Intent(LevelActivity.this,
+//							MeaningActivity.class);
+//					meaning.putExtra("mean", "معنی کلمه فلان است!" + wordView1.getX());
+//					startActivity(meaning);
+//				} else {
+//					// on single click
+//				}
+//				lastClickTime = clickTime;
+//			}
+//		});
+		if(!(width == 0 && height == 1) && !(width == 1 && height == 0)) {
+			final Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+			wordView[numberOfWords].setOnLongClickListener(new View.OnLongClickListener() {
+
+				private static final long DOUBLE_CLICK_TIME_DELTA = 300;//milliseconds
+				long lastClickTime = 0;
 
 				@Override
-				public void onClick(View view) {
-					((RelativeLayout) linearLayout).removeView(wordView1);
+				public boolean onLongClick(View view) {
+					if(numberOfWords < 1)
+						return false;
+					wordView[numberOfWords-1].setAlpha(0);
+					numberOfWords--;
+
 					level.delete(current.get(current.size() - 1));
 					current.remove(current.size() - 1);
 					for (int i = 0; i < current.get(current.size() - 1).length(); i++) {
@@ -523,10 +537,33 @@ public class LevelActivity extends Activity {
 						//chars[i] = new ImageView(LevelActivity.this);
 						chars[i].setImageBitmap(drawableToBitmap(d));
 					}
-//				return false;
+					vibrator.vibrate(100);
+					return true;
 				}
 			});
 		}
+		//
+
+
+//		if(!(width == 0 && height == 1)) {
+//			wordView.setOnClickListener(new View.OnClickListener() {
+//				ImageView wordView1 = wordView;
+//
+//				@Override
+//				public void onClick(View view) {
+//					((RelativeLayout) linearLayout).removeView(wordView1);
+//					level.delete(current.get(current.size() - 1));
+//					current.remove(current.size() - 1);
+//					for (int i = 0; i < current.get(current.size() - 1).length(); i++) {
+//						Log.e("char in for " + i, "-" + current.get(current.size() - 1).charAt(i) + "-");
+//						Drawable d = getCharImage(current.get(current.size() - 1).charAt(current.get(current.size() - 1).length() - 1 - i));
+//						//chars[i] = new ImageView(LevelActivity.this);
+//						chars[i].setImageBitmap(drawableToBitmap(d));
+//					}
+////				return false;
+//				}
+//			});
+//		}
 	}
 
 	@Override
@@ -850,4 +887,19 @@ public class LevelActivity extends Activity {
 
 		dialog.show();
 	}
+//class AnimThread extends Thread{
+//	View view;
+//	public void setView(View v)
+//	{
+//		view = v;
+//	}
+//	@Override
+//	public void run() {
+//		Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fadeo);
+//		view.startAnimation(animation);
+//		Animation animation2 = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade);
+//		view.startAnimation(animation2);
+//		super.run();
+//	}
+//}
 }
