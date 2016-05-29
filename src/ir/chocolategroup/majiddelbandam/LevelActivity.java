@@ -56,6 +56,8 @@ public class LevelActivity extends Activity {
 	private GameManager mGameManager;
 	Integer levelNumber;
 
+	Rect displayRectangle;
+	Window window;
 	private Paint wordPaint;
 	DisplayMetrics displayMetrics;
 	float screenHeightInDp;
@@ -93,6 +95,9 @@ public class LevelActivity extends Activity {
 	}
 
 	private void levelDetails() {
+		displayRectangle = new Rect();
+		window = this.getWindow();
+		window.getDecorView().getWindowVisibleDisplayFrame(displayRectangle);
 		wordView = new ImageView[100];
 		final ImageView IM = (ImageView) findViewById(R.id.imageView2);
 		IM.setOnClickListener(new OnClickListener() {
@@ -123,9 +128,10 @@ public class LevelActivity extends Activity {
 
 		wordPaint = new Paint();
 		wordPaint.setColor(Color.BLACK);
-		wordPaint.setTextSize(80);
+		Log.e("Font size", displayRectangle.width() + "");
+		wordPaint.setTextSize(displayRectangle.width()/7);
 		Typeface font = Typeface.createFromAsset(getAssets(),
-				"SOGAND.ttf");
+				"farzin.ttf");
 		wordPaint.setTypeface(font);
 		coins = (TextView) findViewById(R.id.numberOfCoins);
 		coins.setText(mGameManager.getCoins() + "");
@@ -315,8 +321,13 @@ public class LevelActivity extends Activity {
 			createDialogWin(res.prize,res.userMove,res.minMove);
 		} else if (res.isValidWord) {
 //			addWordInGraphic(word, 7 * (random.nextInt(20) - 10) - 21 * numberOfWords, 8 * (random.nextInt(20) - 10) + 18*numberOfWords);
-			addWordInGraphic(word, 7 * (random.nextInt(10)) + 5 * numberOfWords, 8 * (random.nextInt(30)) + 20*numberOfWords);
 			numberOfWords++;
+			if(numberOfWords%8 < 4)
+				addWordInGraphic(word, -displayRectangle.width()/50 * (numberOfWords%4) , displayRectangle.height()/30*numberOfWords);
+			else
+				addWordInGraphic(word, -displayRectangle.width()/50 * (4-numberOfWords%4) , displayRectangle.height()/30*numberOfWords);
+//			addWordInGraphic(word, 7 * (random.nextInt(10)) + 5 * numberOfWords, 8 * (random.nextInt(30)) + 20*numberOfWords);
+
 		} else {
 			// TO DO پیغام مناسب
 			showToast("نه دیگه! باید فقط یه حرفش با حرف قبلی فرق بکنه.");
@@ -432,7 +443,6 @@ public class LevelActivity extends Activity {
 	}
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	private void addWordInGraphic(String text , int width , int height){
-		wordPaint.setTextSize(80);
 		wordView[numberOfWords] = new ImageView(LevelActivity.this);
 		Bitmap coin;
 		if(numberOfWords <= level.getMinMove())
@@ -445,9 +455,7 @@ public class LevelActivity extends Activity {
 			coin = BitmapFactory.decodeResource(getResources(), R.drawable.green_coin);
 		}
 
-		Rect displayRectangle = new Rect();
-		Window window = this.getWindow();
-		window.getDecorView().getWindowVisibleDisplayFrame(displayRectangle);
+
 //		LinearLayout.LayoutParams(
 //				displayRectangle.width(),
 //				(int)(displayRectangle.width()*0.733)));
@@ -461,27 +469,30 @@ public class LevelActivity extends Activity {
 
 		if(width == 0 && height == 1)
 		{ // start
-			tempCanvas.drawBitmap(coin, 3*resPic.getWidth() / 5+width, resPic.getHeight() / 100+height, null);
-			tempCanvas.drawText(text, 3*resPic.getWidth() / 5+40+width, resPic.getHeight() / 100+85+height, wordPaint);
+			tempCanvas.drawBitmap(coin, 3*resPic.getWidth() / 5, resPic.getHeight() / 100, null);
+			tempCanvas.drawText(text, 3*resPic.getWidth() / 5+40, 12*resPic.getHeight() / 100, wordPaint);
 		}
 		else if(width == 1 && height == 0)
 		{ // end
 			Log.e("END", text);
 			coin = getResizedBitmap(coin, (int)(2*displayRectangle.width()*0.27) ,(int)(2*displayRectangle.width()*0.27));
-			wordPaint.setTextSize(180);
-
-			tempCanvas.drawBitmap(coin, 0 * resPic.getWidth() / 5 + width, resPic.getHeight() / 100 + height, null);
-			tempCanvas.drawText(text, 0 * resPic.getWidth() / 5 + 60 + width, resPic.getHeight() / 100 + 165 + height, wordPaint);
+//			wordPaint.setTextSize(180);
+			wordPaint.setTextSize(displayRectangle.width()/4);
+			tempCanvas.drawBitmap(coin, 0 * resPic.getWidth() / 5 , resPic.getHeight() / 2 , null);
+			tempCanvas.drawText(text, resPic.getWidth() / 10 , 21*resPic.getHeight() / 30, wordPaint);
 
 			ImageView wordView2 = (ImageView)findViewById(R.id.endword);
 			wordView2.setImageDrawable(new BitmapDrawable(getResources(), resPic));
 //			View levelLayout = findViewById(R.id.relative_scroll);
 //			((RelativeLayout)levelLayout).addView(wordView);
+			wordPaint.setTextSize(displayRectangle.width()/7);
 			return;
 		}
 		else { // others
-			tempCanvas.drawBitmap(coin, 3 * resPic.getWidth() / 5 + width, resPic.getHeight() / 10 + height, null);
-			tempCanvas.drawText(text, 3 * resPic.getWidth() / 5 + 40 + width, resPic.getHeight() / 10 + 85 + height, wordPaint);
+//			tempCanvas.drawBitmap(coin, 3 * resPic.getWidth() / 5 + width, resPic.getHeight() / 10 + height, null);
+//			tempCanvas.drawText(text, 3 * resPic.getWidth() / 5 + 40 + width, resPic.getHeight() / 6 + 85 + height, wordPaint);
+			tempCanvas.drawBitmap(coin, 3*resPic.getWidth() / 5+width, resPic.getHeight() / 100+ height, null);
+			tempCanvas.drawText(text, 3*resPic.getWidth() / 5+40+width, 12*resPic.getHeight() / 100+ height, wordPaint);
 		}
 
 
@@ -494,40 +505,38 @@ public class LevelActivity extends Activity {
 
 		//wordView.setLongClickable(true);
 
-//		wordView.setOnClickListener(new OnClickListener() {
-//			private static final long DOUBLE_CLICK_TIME_DELTA = 300;//milliseconds
-//			ImageView wordView1 = wordView;
-//			long lastClickTime = 0;
-//
-//			@Override
-//			public void onClick(View view) {
-//				long clickTime = System.currentTimeMillis();
-//				if (clickTime - lastClickTime < DOUBLE_CLICK_TIME_DELTA) {
-//					// on double click
-//					Log.e("Double Click", wordView1.getX() + "");
-//					Intent meaning = new Intent(LevelActivity.this,
-//							MeaningActivity.class);
-//					meaning.putExtra("mean", "معنی کلمه فلان است!" + wordView1.getX());
-//					startActivity(meaning);
-//				} else {
-//					// on single click
-//				}
-//				lastClickTime = clickTime;
-//			}
-//		});
+		wordView[numberOfWords].setOnClickListener(new OnClickListener() {
+			private static final long DOUBLE_CLICK_TIME_DELTA = 300;//milliseconds
+			long lastClickTime = 0;
+			//int n = numberOfWords;
+			@Override
+			public void onClick(View view) {
+				long clickTime = System.currentTimeMillis();
+				if (clickTime - lastClickTime < DOUBLE_CLICK_TIME_DELTA) {
+					// on double click
+					Log.e("Double Click", wordView[numberOfWords].getX() + "");
+					Intent meaning = new Intent(LevelActivity.this,
+							MeaningActivity.class);
+					meaning.putExtra("mean", "معنی کلمه فلان است!" + current.get(numberOfWords));
+					startActivity(meaning);
+				} else {
+					// on single click
+				}
+				lastClickTime = clickTime;
+			}
+		});
 		if(!(width == 0 && height == 1) && !(width == 1 && height == 0)) {
 			final Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
 			wordView[numberOfWords].setOnLongClickListener(new View.OnLongClickListener() {
-
-				private static final long DOUBLE_CLICK_TIME_DELTA = 300;//milliseconds
-				long lastClickTime = 0;
+				int n = numberOfWords;
 
 				@Override
 				public boolean onLongClick(View view) {
 					if(numberOfWords < 1)
 						return false;
-					wordView[numberOfWords-1].setAlpha(0);
-					numberOfWords--;
+					Log.e("numberOfwords",numberOfWords +"");
+					wordView[numberOfWords].setAlpha(0);
+					numberOfWords = numberOfWords-1;
 
 					level.delete(current.get(current.size() - 1));
 					current.remove(current.size() - 1);
@@ -875,6 +884,7 @@ public class LevelActivity extends Activity {
 					if (res.isFinish) {
 						createDialogWin(res.prize,res.userMove,res.minMove);
 					} else
+						numberOfWords++;
 						addWordInGraphic(word, 100, 100);
 					// TODO : add view
 					// Toast.makeText(getApplicationContext(), pos,
