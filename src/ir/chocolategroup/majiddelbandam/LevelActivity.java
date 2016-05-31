@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Random;
 
 import android.annotation.TargetApi;
+import android.app.ActionBar;
 import android.content.Context;
 import android.graphics.*;
 import android.graphics.drawable.BitmapDrawable;
@@ -94,20 +95,26 @@ public class LevelActivity extends Activity {
 		makeKeyboard();
 	}
 
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	private void levelDetails() {
+		ActionBar actionBar = getActionBar();
+		actionBar.setDisplayShowHomeEnabled(false);
+		actionBar.setDisplayShowTitleEnabled(false);
+		actionBar.setDisplayUseLogoEnabled(false);
+		actionBar.setDisplayHomeAsUpEnabled(false);
 		displayRectangle = new Rect();
 		window = this.getWindow();
 		window.getDecorView().getWindowVisibleDisplayFrame(displayRectangle);
 		wordView = new ImageView[100];
-		final ImageView IM = (ImageView) findViewById(R.id.imageView2);
-		IM.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				createDialogHelp();
-			}
-		});
+//		final ImageView IM = (ImageView) findViewById(R.id.coin);
+//		IM.setOnClickListener(new OnClickListener() {
+//
+//			@Override
+//			public void onClick(View v) {
+//				// TODO Auto-generated method stub
+//				createDialogHelp();
+//			}
+//		});
 		prevGray = -1;
 		prevDrawable = null;
 		random = new Random();
@@ -129,12 +136,12 @@ public class LevelActivity extends Activity {
 		wordPaint = new Paint();
 		wordPaint.setColor(Color.BLACK);
 		Log.e("Font size", displayRectangle.width() + "");
-		wordPaint.setTextSize(displayRectangle.width()/7);
+		wordPaint.setTextSize(displayRectangle.width() / 7);
 		Typeface font = Typeface.createFromAsset(getAssets(),
 				"farzin.ttf");
 		wordPaint.setTypeface(font);
-		coins = (TextView) findViewById(R.id.numberOfCoins);
-		coins.setText(mGameManager.getCoins() + "");
+//		coins = (Item) findViewById(R.id.numberOfCoins);
+//		coins.setText(mGameManager.getCoins() + "");
 // add first & last word
 		String start = level.getStartWord();
 		addWordInGraphic(start, 0, 1);
@@ -470,7 +477,7 @@ public class LevelActivity extends Activity {
 		if(width == 0 && height == 1)
 		{ // start
 			tempCanvas.drawBitmap(coin, 3*resPic.getWidth() / 5, resPic.getHeight() / 100, null);
-			tempCanvas.drawText(text, 3*resPic.getWidth() / 5+40, 12*resPic.getHeight() / 100, wordPaint);
+			tempCanvas.drawText(text, 33*resPic.getWidth() / 50, 12*resPic.getHeight() / 100, wordPaint);
 		}
 		else if(width == 1 && height == 0)
 		{ // end
@@ -492,7 +499,7 @@ public class LevelActivity extends Activity {
 //			tempCanvas.drawBitmap(coin, 3 * resPic.getWidth() / 5 + width, resPic.getHeight() / 10 + height, null);
 //			tempCanvas.drawText(text, 3 * resPic.getWidth() / 5 + 40 + width, resPic.getHeight() / 6 + 85 + height, wordPaint);
 			tempCanvas.drawBitmap(coin, 3*resPic.getWidth() / 5+width, resPic.getHeight() / 100+ height, null);
-			tempCanvas.drawText(text, 3*resPic.getWidth() / 5+40+width, 12*resPic.getHeight() / 100+ height, wordPaint);
+			tempCanvas.drawText(text, 33*resPic.getWidth() / 50+width, 12*resPic.getHeight() / 100+ height, wordPaint);
 		}
 
 
@@ -579,6 +586,7 @@ public class LevelActivity extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.activity_main, menu);
+		menu.getItem(1).setTitle(mGameManager.getCoins() + "");
 		return true;
 	}
 	@Override
@@ -600,7 +608,8 @@ public class LevelActivity extends Activity {
 				startActivity(level);
 				return true;
 			case R.id.coin:
-
+				createDialogHelp();
+				item.setTitle(mGameManager.getCoins() + "");
 				return true;
 			default:
 				return super.onOptionsItemSelected(item);
