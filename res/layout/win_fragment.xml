@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"
                  android:layout_width="750dp"
-                 android:layout_height="550dp"
+                 android:layout_height="650dp"
                  android:background="@android:color/transparent"
         >
     <LinearLayout
@@ -29,7 +29,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="@integer/win_fragment_main"
                     android:layout_height="fill_parent"
-                    android:background="@layout/rounded_rectangle"
+                    android:background="@drawable/frame"
                     android:id="@+id/rect"
                     />
             <LinearLayout
@@ -79,6 +79,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:scaleType="fitCenter" android:layout_gravity="center"
+                        android:src="@drawable/golden_coin"
                         android:id="@+id/imgCoin"/>
                 </LinearLayout>
                 <LinearLayout
@@ -107,27 +108,27 @@
                     android:layout_width="0dp"
                     android:layout_weight="30"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center" android:src="@drawable/next"
+                    android:layout_gravity="center" android:src="@drawable/menu"
                     android:scaleType="fitCenter"
                     android:id="@+id/imgMenu"
-                    android:layout_marginRight="10dp" android:layout_marginLeft="10dp"/>
+                    android:layout_marginRight="15dp" android:layout_marginLeft="5dp"/>
                     <!--android:layout_alignParentLeft="true"-->
 
             <ImageView
                     android:layout_width="0dp"
                     android:layout_weight="30"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center" android:src="@drawable/next"
+                    android:layout_gravity="center" android:src="@drawable/refresh"
                     android:scaleType="fitCenter"
                     android:id="@+id/imgReset" android:layout_alignParentRight="false"
-                    android:layout_marginLeft="10dp" android:layout_marginRight="10dp"/>
+                    android:layout_marginLeft="5dp" android:layout_marginRight="5dp"/>
                     <!--android:layout_alignParentLeft="false" android:layout_centerHorizontal="true"/>-->
             <ImageView
                     android:layout_width="0dp"
                     android:layout_weight="30"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center" android:src="@drawable/next"
-                    android:scaleType="fitCenter" android:layout_marginLeft="10dp" android:layout_marginRight="10dp"
+                    android:scaleType="fitCenter" android:layout_marginLeft="5dp" android:layout_marginRight="15dp"
                     android:id="@+id/imgNext"/>
                     <!--android:id="@+id/imgNext3" android:layout_alignParentRight="true"/>-->
         </LinearLayout>

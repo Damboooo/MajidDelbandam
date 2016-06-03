@@ -784,8 +784,8 @@ public class LevelActivity extends Activity {
 		ImageView menu = (ImageView) dialog.findViewById(R.id.imgMenu);
 
 		ImageView prize = (ImageView) dialog.findViewById(R.id.imgCoin);
-		Bitmap basePic =  BitmapFactory.decodeResource(getResources(), R.drawable.coin);
-		Bitmap resPic = Bitmap.createBitmap(basePic.getWidth(), basePic.getHeight(), Bitmap.Config.ARGB_8888);
+		Bitmap basePic =  BitmapFactory.decodeResource(getResources(), R.drawable.golden_coin);
+		Bitmap resPic = Bitmap.createBitmap((int)(basePic.getWidth()*1.3), (int)(basePic.getHeight()*1.3), Bitmap.Config.ARGB_8888);
 		Canvas tempCanvas = new Canvas(resPic);
 
 		String text = "+" + numberOfCoins;
@@ -795,7 +795,7 @@ public class LevelActivity extends Activity {
 
 
 		int pixel= (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
-				120, getResources().getDisplayMetrics());
+				100, getResources().getDisplayMetrics());
 		paint.setTextSize(pixel);
 		Log.e("font : ", "" + paint.getTextSize());
 
@@ -804,7 +804,7 @@ public class LevelActivity extends Activity {
 				"swissko.ttf");
 		paint.setTypeface(font);
 		paint.getTextBounds(text, 0, text.length(), bounds);
-		tempCanvas.drawBitmap(basePic, 0, 0, null);
+		tempCanvas.drawBitmap(basePic, 90, 90, null);
 		tempCanvas.drawText(text, (int) ((resPic.getWidth() - bounds.width()) / 2 * 0.8), resPic.getHeight() / 2 /*+ 30*/ + bounds.height() / 2, paint);
 //		tempCanvas.drawLine(resPic.getWidth() / 2 /*- 20*/ - bounds.width() / 2, resPic.getHeight() / 2 /*+ 30*/ - bounds.height() / 2, resPic.getWidth() / 2 + bounds.width() / 2, resPic.getHeight() / 2 + bounds.height() / 2, paint);
 		prize.setImageDrawable(new BitmapDrawable(getResources(), resPic));

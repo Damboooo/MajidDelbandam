@@ -18,33 +18,20 @@
             android:id="@+id/guide"
             android:orderInCategory="3"
             android:showAsAction="always"
-            android:icon="@drawable/help"
+            android:icon="@drawable/bguide"
             android:title="راهنما"/>
+
+         <item
+                 android:id="@+id/help"
+                 android:orderInCategory="4"
+                 android:showAsAction="always"
+                 android:icon="@drawable/bhelp"
+                 android:title="منو"/>
+
          <item
                  android:id="@+id/reset"
                  android:orderInCategory="4"
                  android:showAsAction="always"
-                 android:icon="@drawable/refresh"
-                 android:title="ریست"/>
-
-         <item
-                 android:id="@+id/reset1"
-                 android:orderInCategory="4"
-                 android:showAsAction="always"
-                 android:icon="@drawable/refresh"
-                 android:title="ریست"/>
-
-         <item
-                 android:id="@+id/reset2"
-                 android:orderInCategory="4"
-                 android:showAsAction="always"
-                 android:icon="@drawable/refresh"
-                 android:title="ریست"/>
-
-         <item
-                 android:id="@+id/reset3"
-                 android:orderInCategory="4"
-                 android:showAsAction="always"
-                 android:icon="@drawable/refresh"
+                 android:icon="@drawable/brefresh"
                  android:title="ریست"/>
 </menu>
