@@ -20,6 +20,7 @@ public class DataBaseManager {
 	private final String Words_Table = "Words";
 	private final String words_word = "Word";
 	private final String words_ComparisionWord = "ComparisonWord";
+	private final String words_Meaning = "Meaning";
 
 	private final String Levels_Table = "Levels";
 	private final String Levels_LevelNumber = "LevelNumber";
@@ -148,7 +149,6 @@ public class DataBaseManager {
 				result.add(cursor.getString(0));
 			} while (cursor.moveToNext());
 		}
-		
 //		cursor = myDbHelper.query(Words_Table, new String[] { words_word },
 //				words_word + " like ? OR " + words_word + " like ?", new String[]{"شی_" , "_یر"}, null, null, null);
 //		
@@ -157,11 +157,24 @@ public class DataBaseManager {
 //			do {
 //				result2.add(cursor.getString(0));
 //			} while (cursor.moveToNext());
-//		}
-		
+//
 		result.remove(word);
 		return result;
 
+	}
+
+	public String getMeanig(String word)
+	{
+		Cursor cursor;
+		cursor = myDbHelper.query(Words_Table, new String[] { words_Meaning },
+				words_word +" = ? OR "+words_ComparisionWord+" = ?", new String[]{word,word}, null, null, null);
+		String result = "";
+		if (cursor.moveToFirst()) {
+			do {
+				result= cursor.getString(0);
+			} while (cursor.moveToNext());
+		}
+		return result;
 	}
 
 	public void addLevel(Level level) {
