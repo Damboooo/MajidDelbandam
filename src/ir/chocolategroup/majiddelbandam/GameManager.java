@@ -23,6 +23,7 @@ public class GameManager extends Application{
 	private GameManager mGameManager;
 
 	private boolean loadLevels = false;
+	public DataBaseManager getDataBaseManager(){return dataBaseManager;}
 	public void setLoadLevels()
 	{
 		loadLevels = true;

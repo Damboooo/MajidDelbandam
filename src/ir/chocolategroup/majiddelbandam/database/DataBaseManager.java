@@ -163,7 +163,7 @@ public class DataBaseManager {
 
 	}
 
-	public String getMeanig(String word)
+	public String getMeaning(String word)
 	{
 		Cursor cursor;
 		cursor = myDbHelper.query(Words_Table, new String[] { words_Meaning },

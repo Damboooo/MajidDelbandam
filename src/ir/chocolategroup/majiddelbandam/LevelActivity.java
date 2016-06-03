@@ -75,6 +75,8 @@ public class LevelActivity extends Activity {
 	int[] keys;
 	int charI;
 	int keyI;
+	String start;
+
 	ImageView[] wordView;
 	//	HashMap<Drawable,Character> charMap;
 	HashMap<Integer, Character> charMap;
@@ -133,19 +135,36 @@ public class LevelActivity extends Activity {
 		level = mGameManager.getLevel(levelNumber);
 		level.reset();
 
+		start = level.getStartWord();
+
 		wordPaint = new Paint();
 		wordPaint.setColor(Color.BLACK);
 		Log.e("Font size", displayRectangle.width() + "");
-		wordPaint.setTextSize(displayRectangle.width() / 7);
+		wordPaint.setTextSize(getFont());
 		Typeface font = Typeface.createFromAsset(getAssets(),
 				"farzin.ttf");
 		wordPaint.setTypeface(font);
 //		coins = (Item) findViewById(R.id.numberOfCoins);
 //		coins.setText(mGameManager.getCoins() + "");
 // add first & last word
-		String start = level.getStartWord();
 		addWordInGraphic(start, 0, 1);
 		addWordInGraphic(level.getEndWord() + "", 1, 0);
+	}
+
+	private float getFont() {
+		switch (start.length()) {
+			case 2:
+				return (displayRectangle.width() / 7);
+			case 3:
+				return (float) (displayRectangle.width() / 7);
+			case 4:
+				return (float) ((double)25/(double)40*(displayRectangle.width() / 7));
+			case 5:
+				break;
+			case 6:
+				break;
+		}
+		return (displayRectangle.width() / 7);
 	}
 
 	private void makeCharacters() {
@@ -477,14 +496,14 @@ public class LevelActivity extends Activity {
 		if(width == 0 && height == 1)
 		{ // start
 			tempCanvas.drawBitmap(coin, 3*resPic.getWidth() / 5, resPic.getHeight() / 100, null);
-			tempCanvas.drawText(text, 33*resPic.getWidth() / 50, 12*resPic.getHeight() / 100, wordPaint);
+			tempCanvas.drawText(text, 63*resPic.getWidth() / 100, 12*resPic.getHeight() / 100, wordPaint);
 		}
 		else if(width == 1 && height == 0)
 		{ // end
 			Log.e("END", text);
 			coin = getResizedBitmap(coin, (int)(2*displayRectangle.width()*0.27) ,(int)(2*displayRectangle.width()*0.27));
 //			wordPaint.setTextSize(180);
-			wordPaint.setTextSize(displayRectangle.width()/4);
+			wordPaint.setTextSize((float) (getFont()*1.75));
 			tempCanvas.drawBitmap(coin, 0 * resPic.getWidth() / 5 , resPic.getHeight() / 2 , null);
 			tempCanvas.drawText(text, resPic.getWidth() / 10 , 21*resPic.getHeight() / 30, wordPaint);
 
@@ -492,14 +511,14 @@ public class LevelActivity extends Activity {
 			wordView2.setImageDrawable(new BitmapDrawable(getResources(), resPic));
 //			View levelLayout = findViewById(R.id.relative_scroll);
 //			((RelativeLayout)levelLayout).addView(wordView);
-			wordPaint.setTextSize(displayRectangle.width()/7);
+			wordPaint.setTextSize(getFont());
 			return;
 		}
 		else { // others
 //			tempCanvas.drawBitmap(coin, 3 * resPic.getWidth() / 5 + width, resPic.getHeight() / 10 + height, null);
 //			tempCanvas.drawText(text, 3 * resPic.getWidth() / 5 + 40 + width, resPic.getHeight() / 6 + 85 + height, wordPaint);
 			tempCanvas.drawBitmap(coin, 3*resPic.getWidth() / 5+width, resPic.getHeight() / 100+ height, null);
-			tempCanvas.drawText(text, 33*resPic.getWidth() / 50+width, 12*resPic.getHeight() / 100+ height, wordPaint);
+			tempCanvas.drawText(text, 63*resPic.getWidth() / 100+width, 12*resPic.getHeight() / 100+ height, wordPaint);
 		}
 
 
@@ -524,7 +543,7 @@ public class LevelActivity extends Activity {
 					Log.e("Double Click", wordView[numberOfWords].getX() + "");
 					Intent meaning = new Intent(LevelActivity.this,
 							MeaningActivity.class);
-					meaning.putExtra("mean", "معنی کلمه فلان است!" + current.get(numberOfWords));
+					meaning.putExtra("mean", mGameManager.getDataBaseManager().getMeaning(current.get(numberOfWords)));
 					startActivity(meaning);
 				} else {
 					// on single click
