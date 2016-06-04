@@ -73,13 +73,13 @@ public class PaymentActivity extends Activity implements BillingProcessor.IBilli
         switch (productId)
         {
             case SKU_100_Coins:
-                addedCoins = 100;
+                addedCoins = 1000;
                 break;
             case SKU_200_Coins:
-                addedCoins = 200;
+                addedCoins = 2000;
                 break;
             case SKU_500_Coins:
-                addedCoins = 500;
+                addedCoins = 5000;
                 break;
 
         }

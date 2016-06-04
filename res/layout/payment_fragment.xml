@@ -2,14 +2,14 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="300dp"
+    android:layout_height="400dp"
     android:orientation="vertical"
-    android:weightSum="3"
-    android:background="@layout/rounded_rectangle"
-     >
+    android:weightSum="4"
+    android:background="@drawable/frame2">
     <LinearLayout
             android:id="@+id/buy_100"
             android:orientation="horizontal"
+            android:layout_marginTop="20dp"
             android:layout_weight="1"
             android:layout_height="0dp"
             android:layout_width="fill_parent"
@@ -20,12 +20,14 @@
         android:layout_width="0dp"
         android:layout_height="fill_parent"
         android:layout_weight="1"
-        android:src="@drawable/next" />
+        android:layout_marginLeft="30dp"
+        android:src="@drawable/money1000" />
         <TextView
         android:id="@+id/R1_text"
         android:layout_width="0dp"
         android:layout_height="fill_parent"
         android:layout_weight="4"
+        android:textColor="@color/Black"
         android:text="@string/buy_100_Coins"
         android:gravity="center_vertical|left"
         android:textSize="30dp"/>
@@ -42,17 +44,19 @@
                 android:id="@+id/R2_text"
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
+                android:layout_marginLeft="10dp"
                 android:layout_weight="4"
+                android:textColor="@color/Black"
                 android:text="@string/buy_200_Coins"
                 android:gravity="center_vertical|right"
                 android:textSize="30dp"/>
         <ImageView
+                android:layout_marginRight="30dp"
                 android:id="@+id/R2_image"
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
-                android:src="@drawable/next"
-
+                android:src="@drawable/money2000"
                 />
     </LinearLayout>
     <LinearLayout
@@ -68,12 +72,14 @@
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
-                android:src="@drawable/next" />
+                android:layout_marginLeft="30dp"
+                android:src="@drawable/money5000" />
         <TextView
                 android:id="@+id/R3_text"
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
                 android:layout_weight="4"
+                android:textColor="@color/Black"
                 android:text="@string/buy_500_Coins"
                 android:gravity="center_vertical|left"
                 android:textSize="30dp"/>

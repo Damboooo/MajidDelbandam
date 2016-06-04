@@ -31,12 +31,16 @@ import android.widget.*;
 
 public class LevelActivity extends Activity {
 
+	Menu myMenu;
 	TextView username;
 	TextView password;
 	Button save;
 	ImageView r1Image;
 	ImageView r2Image;
 	ImageView r3Image;
+	TextView r2Text;
+	TextView r1Text;
+	TextView r3Text;
 	String usernameString, passwordString;
 
 	TextView phoneNumber;
@@ -604,6 +608,7 @@ public class LevelActivity extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
+		myMenu = menu;
 		getMenuInflater().inflate(R.menu.activity_main, menu);
 		menu.getItem(1).setTitle(mGameManager.getCoins() + "");
 		return true;
@@ -626,9 +631,12 @@ public class LevelActivity extends Activity {
 				finish();
 				startActivity(level);
 				return true;
-			case R.id.coin:
+			case R.id.help:
 				createDialogHelp();
 				item.setTitle(mGameManager.getCoins() + "");
+				return true;
+			case R.id.coin:
+				createDialogPayment();
 				return true;
 			default:
 				return super.onOptionsItemSelected(item);
@@ -732,25 +740,68 @@ public class LevelActivity extends Activity {
 		r1Image = (ImageView) dialog.findViewById(R.id.R1_image);
 		r2Image = (ImageView) dialog.findViewById(R.id.R2_image);
 		r3Image = (ImageView) dialog.findViewById(R.id.R3_image);
+		r1Text = (TextView) dialog.findViewById(R.id.R1_text);
+		r2Text = (TextView) dialog.findViewById(R.id.R2_text);
+		r3Text = (TextView) dialog.findViewById(R.id.R3_text);
 
+		r1Text.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if(mGameManager.getCoins() >= 100)
+					mGameManager.addCoins(-100);
+				else
+					return ;//error
+				showToast(level.helpMidWord());
+				myMenu.getItem(1).setTitle(mGameManager.getCoins() + "");
+				dialog.dismiss();
+			}
+		});
 		r1Image.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				if(mGameManager.getCoins() >= 100)
+					mGameManager.addCoins(-100);
+				else
+					return ;//error
 				showToast(level.helpMidWord());
+				myMenu.getItem(1).setTitle(mGameManager.getCoins() + "");
+				dialog.dismiss();
+			}
+		});
+		r2Text.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if(mGameManager.getCoins() >= 20)
+					mGameManager.addCoins(-20);
+				else
+					return ;//error
+				createDialogNextPossibleWord(level.helpGetNextPossibleWords());
+				myMenu.getItem(1).setTitle(mGameManager.getCoins() + "");
 				dialog.dismiss();
 			}
 		});
 		r2Image.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				if(mGameManager.getCoins() >= 20)
+					mGameManager.addCoins(-20);
+				else
+					return ;//error
 				createDialogNextPossibleWord(level.helpGetNextPossibleWords());
+				myMenu.getItem(1).setTitle(mGameManager.getCoins() + "");
 				dialog.dismiss();
 			}
 		});
-		r3Image.setOnClickListener(new View.OnClickListener() {
+		r3Text.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				if (level.helpGoToNextLevel()) {
+					if(mGameManager.getCoins() >= 200)
+						mGameManager.addCoins(-200);
+					else
+						return ;//error
+
+					myMenu.getItem(1).setTitle(mGameManager.getCoins() + "");
 					Intent levelIntent = new Intent(LevelActivity.this,
 							LevelActivity.class);
 					levelIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -761,7 +812,35 @@ public class LevelActivity extends Activity {
 				dialog.dismiss();
 			}
 		});
+		r3Image.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (level.helpGoToNextLevel()) {
+					if(mGameManager.getCoins() >= 200)
+						mGameManager.addCoins(-200);
+					else
+						return ;//error
 
+					myMenu.getItem(1).setTitle(mGameManager.getCoins() + "");
+					Intent levelIntent = new Intent(LevelActivity.this,
+							LevelActivity.class);
+					levelIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+					levelIntent.putExtra("levelnumber", level.getLevelNumber() + 1);
+					startActivity(levelIntent);
+					finish();
+				}
+
+				dialog.dismiss();
+			}
+		});
+
+		dialog.show();
+	}
+
+	private void createDialogPayment() {
+		final Dialog dialog = new Dialog(LevelActivity.this);
+		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		dialog.setContentView(R.layout.payment_fragment);
 		dialog.show();
 	}
 	private void createDialogWin(int numberOfCoins,int userMove , int minMove) {

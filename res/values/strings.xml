@@ -16,14 +16,11 @@
 	<string name="rahnamaE3">این مرحله رو رد کن</string>
 	<string name="cancel">Cancel</string>
     <string name="buy_100_Coins">
-        100 تا سکه 950 تومان
-    </string>
+1000 سکه 950 تومان    </string>
     <string name="buy_200_Coins">
-        200 تا سکه1800 تومان
-    </string>
+2000 سکه 1800 تومان    </string>
     <string name="buy_500_Coins">
-        500 تا سکه4400 تومان
-    </string>
+5000 سکه 4400 تومان    </string>
     <integer name="short_vibrate_time">50</integer>
     <integer name="medium_vibrate_time">100</integer>
     <integer name="long_vibrate_time">200</integer>
