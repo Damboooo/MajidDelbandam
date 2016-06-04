@@ -188,8 +188,8 @@ public class DataBaseManager {
 		initValue.put(Levels_StartWord, level.getStartWord());
 		initValue.put(Levels_EndWord, level.getEndWord());
 		initValue.put(Levels_MinMove, level.getMinMove());
-		initValue.put(Levels_Done, level.isDone()?1:0);
-		initValue.put(Levels_Lock, level.isLock()?1:0);
+		initValue.put(Levels_Done, level.isDone()?"1":"0");
+		initValue.put(Levels_Lock, level.isLock()?"1":"0");
 		initValue.put(Levels_ListBestResult, level.getBestResult());
 		initValue.put(Levels_ListBestUserResult, level.getBestUserResult());
 		return initValue;
