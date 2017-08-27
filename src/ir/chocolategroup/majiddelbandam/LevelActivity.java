@@ -775,7 +775,8 @@ public class LevelActivity extends Activity {
 					mGameManager.addCoins(-20);
 				else
 					return ;//error
-				createDialogNextPossibleWord(level.helpGetNextPossibleWords());
+				HelpResultType[] r = new HelpResultType[1];
+				createDialogNextPossibleWord(level.helpGetNextPossibleWords(r));
 				myMenu.getItem(1).setTitle(mGameManager.getCoins() + "");
 				dialog.dismiss();
 			}
@@ -787,7 +788,8 @@ public class LevelActivity extends Activity {
 					mGameManager.addCoins(-20);
 				else
 					return ;//error
-				createDialogNextPossibleWord(level.helpGetNextPossibleWords());
+				HelpResultType[] r = new HelpResultType[1];
+				createDialogNextPossibleWord(level.helpGetNextPossibleWords(r));
 				myMenu.getItem(1).setTitle(mGameManager.getCoins() + "");
 				dialog.dismiss();
 			}

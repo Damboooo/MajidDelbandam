@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="start_word_color"> #3498DB    </color>
+    <color name="end_word_color">   #3498DB    </color>
+    <color name="allowed_word_color"> #58D68D  </color>
+    <color name="extera_word_color"> #F74330   </color>
+</resources>

@@ -56,7 +56,15 @@ public class Level {
 		mNextValidWord = getNextPossible(startWord);
 		
 	}
-	
+	public String getLastWord(){
+		return mCurrenUserResult.get(mCurrenUserResult.size()-1);
+	}
+
+	public int getCurrentMoves()
+	{
+		return mCurrenUserResult.size();
+	}
+
 	public void reset()
 	{
 		mCurrenUserResult = new ArrayList<String>();
@@ -163,6 +171,7 @@ public class Level {
 	public void deleteFrom(String word)
 	{
 		int index = mCurrenUserResult.indexOf(word);
+		if(index == -1) return;
 		while(mCurrenUserResult.size()-1 >= index)
 		{
 			mCurrenUserResult.remove(index);
@@ -173,6 +182,7 @@ public class Level {
 	public void delete(String word)
 	{
 		int index = mCurrenUserResult.indexOf(word);
+		if(index == -1) return;
 		if(mCurrenUserResult.size()-1 >= index)
 		{
 			mCurrenUserResult.remove(index);
@@ -245,16 +255,23 @@ public class Level {
 	
 	//help
 	//return null if haven't enough coins
-	public String[] helpGetNextPossibleWords()
+	public String[] helpGetNextPossibleWords(HelpResultType[] res1)
 	{
 		if(!mGameManager.spendCoins(neededCoins_NextPossible))
-		{			
+		{
+			res1[0] = HelpResultType.NOT_ENOUGH_CONINS;//mean
 			return null;
 		}
+//		if(mNextValidWord.size() == 0)
+//		{
+//			res1[0] = HelpResultType.WORD_NOT_EXIST;//mean
+//			return null;
+//		}
 		String[] res = new String[mNextValidWord.size()];
 		for (int i = 0; i < res.length; i++) {
 			res[i] = mNextValidWord.get(i);
 		}
+		res1[0] = HelpResultType.SUCCESSFUL;
 		return res;
 	}
 	
@@ -282,4 +299,5 @@ public class Level {
 		}
 		return mBestResult[index];
 	}
+
 }

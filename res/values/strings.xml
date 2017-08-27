@@ -21,6 +21,15 @@
 2000 سکه 1800 تومان    </string>
     <string name="buy_500_Coins">
 5000 سکه 4400 تومان    </string>
+    <string name="select_a_char">
+        "ابتدا یک حرف از آخرین کلمه را انتخاب کنید."
+    </string>
+    <string name="invalid_word">
+        "این کلمه که معنی نداره!"
+    </string>
+    <string name="not_enough_coins">
+        به میزان کافی سکه ندارید!
+    </string>
     <integer name="short_vibrate_time">50</integer>
     <integer name="medium_vibrate_time">100</integer>
     <integer name="long_vibrate_time">200</integer>

@@ -1,0 +1,425 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:id="@+id/levelLayout"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:background="@drawable/tumb3">
+
+    <LinearLayout android:layout_width="fill_parent" android:layout_height="0dp" android:layout_weight="1"
+                  android:layout_marginTop="5dp">
+
+        <LinearLayout android:layout_width="0dp" android:layout_weight="4" android:layout_height="fill_parent" android:orientation="vertical">
+
+            <LinearLayout android:layout_width="fill_parent" android:layout_height="0dp" android:layout_weight="1"  android:orientation="horizontal" android:id="@+id/wordpath">
+
+                <ListView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:id="@+id/words_path" android:layout_gravity="center_vertical" android:layout_weight="1"
+                        android:divider="@null"
+                        android:dividerHeight="0dp"
+                        />
+            </LinearLayout>
+
+            <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+                <include
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        layout="@layout/word_path_item" android:id="@+id/endword2" />
+            </LinearLayout>
+
+            <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:orientation="horizontal"
+                          android:layout_margin="10dp" android:gravity="center">
+
+                <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:id="@+id/currentword" android:gravity="center"
+                        android:layout_gravity="center">
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout android:layout_width="0dp" android:layout_weight="1"
+                      android:layout_height="fill_parent"
+                      android:orientation="vertical"
+                      android:gravity="center">
+
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    >
+                <ImageButton
+                        android:layout_width="fill_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:layout_gravity="center_horizontal"
+                        android:scaleType="fitCenter"
+                        android:adjustViewBounds="true" android:src="@drawable/bguide"
+                        android:layout_marginTop="5dp" android:paddingRight="10dp"
+                        android:paddingLeft="10dp"
+                    android:id="@+id/btn_guide" />
+                <ImageButton
+                        android:layout_width="fill_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                        android:layout_gravity="center_horizontal"
+                        android:scaleType="centerInside"
+                        android:adjustViewBounds="true" android:src="@drawable/brefresh"
+                        android:layout_marginBottom="20dp" android:paddingLeft="10dp" android:paddingRight="10dp"
+                    android:id="@+id/btn_refresh" />
+                <ImageButton
+                        android:layout_width="fill_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                        android:layout_gravity="center_horizontal"
+                        android:src="@drawable/coin20"
+                        android:scaleType="fitCenter"
+                        android:adjustViewBounds="true"
+                        android:layout_marginBottom="5dp"
+                    android:clickable="false"
+                        android:baselineAlignBottom="false"
+                    android:cropToPadding="false"
+                    android:paddingRight="10dp"
+                    android:paddingLeft="10dp"
+                    android:id="@+id/btn_help1" />
+                <ImageButton
+                        android:layout_width="fill_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                        android:layout_gravity="center_horizontal"
+                        android:src="@drawable/coin100"
+                        android:adjustViewBounds="true" android:scaleType="fitCenter"
+                        android:layout_marginBottom="5dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:id="@+id/btn_help2" />
+                <ImageButton
+                        android:layout_width="fill_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                        android:layout_gravity="center_horizontal"
+                        android:scaleType="fitCenter"
+                        android:adjustViewBounds="true" android:src="@drawable/coin200"
+                        android:paddingRight="10dp" android:paddingLeft="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:id="@+id/btn_help3" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"   android:orientation="vertical" android:id="@+id/keyboard"
+                  android:paddingLeft="5dp" android:paddingRight="5dp"
+                  android:paddingBottom="5dp">
+        <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"   android:orientation="horizontal" android:id="@+id/keyboard1">
+
+            <ImageButton
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/a8" android:scaleType="fitCenter" android:layout_margin="0dp"
+                    android:padding="1dp" android:adjustViewBounds="true"
+                    android:tag=
+                            'ح'
+                    android:onClick="onClick"/>
+            <ImageButton
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/a7" android:scaleType="fitCenter" android:layout_margin="0dp"
+                    android:padding="1dp" android:adjustViewBounds="true"
+                    android:tag=
+                            'چ'
+                    android:onClick="onClick"/>
+            <ImageButton
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/a6" android:scaleType="fitCenter" android:layout_margin="0dp"
+                    android:padding="1dp" android:adjustViewBounds="true"
+                    android:tag=
+                            'ج'
+                    android:onClick="onClick"/>
+            <ImageButton
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/a5" android:scaleType="fitCenter" android:layout_margin="0dp"
+                    android:padding="1dp" android:adjustViewBounds="true"
+                    android:tag=
+                            'ث'
+                    android:onClick="onClick"/>
+            <ImageButton
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/a4" android:scaleType="fitCenter" android:layout_margin="0dp"
+                    android:padding="1dp" android:adjustViewBounds="true"
+                    android:tag=
+                            'ت'
+                    android:onClick="onClick"/>
+            <ImageButton
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/a3" android:scaleType="fitCenter" android:layout_margin="0dp"
+                    android:padding="1dp" android:adjustViewBounds="true"
+                    android:tag=
+                            'پ'
+                    android:onClick="onClick"/>
+            <ImageButton
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/a2" android:scaleType="fitCenter" android:layout_margin="0dp"
+                    android:padding="1dp" android:adjustViewBounds="true"
+                    android:tag=
+                            'ب'
+                    android:onClick="onClick"/>
+            <ImageButton
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/a1" android:scaleType="fitCenter" android:layout_margin="0dp"
+                    android:padding="1dp" android:adjustViewBounds="true"
+                    android:tag=
+                            'ا'
+                    android:onClick="onClick"/>
+
+        </LinearLayout>
+        <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"  android:orientation="horizontal" android:id="@+id/keyboard2">
+
+            <ImageButton
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/a16" android:scaleType="fitCenter" android:layout_margin="0dp"
+                    android:padding="1dp" android:adjustViewBounds="true"
+                    android:tag=
+                            "ش"
+                    android:onClick="onClick"/>
+            <ImageButton
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/a15" android:scaleType="fitCenter" android:layout_margin="0dp"
+                    android:padding="1dp" android:adjustViewBounds="true"
+                    android:tag=
+                            "س"
+                    android:onClick="onClick"/>
+            <ImageButton
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/a14" android:scaleType="fitCenter" android:layout_margin="0dp"
+                    android:padding="1dp" android:adjustViewBounds="true"
+                    android:tag=
+                            "ژ"
+                    android:onClick="onClick"/>
+            <ImageButton
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/a13" android:scaleType="fitCenter" android:layout_margin="0dp"
+                    android:padding="1dp" android:adjustViewBounds="true"
+                    android:tag=
+                            "ز"
+                    android:onClick="onClick"/>
+            <ImageButton
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/a12" android:scaleType="fitCenter" android:layout_margin="0dp"
+                    android:padding="1dp" android:adjustViewBounds="true"
+                    android:tag=
+                            "ر"
+                    android:onClick="onClick"/>
+            <ImageButton
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/a11" android:scaleType="fitCenter" android:layout_margin="0dp"
+                    android:padding="1dp" android:adjustViewBounds="true"
+                    android:tag=
+                            "ذ"
+                    android:onClick="onClick"/>
+            <ImageButton
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/a10" android:scaleType="fitCenter" android:layout_margin="0dp"
+                    android:padding="1dp" android:adjustViewBounds="true"
+                    android:tag=
+                            "د"
+                    android:onClick="onClick"/>
+            <ImageButton
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/a9" android:scaleType="fitCenter" android:layout_margin="0dp"
+                    android:padding="1dp" android:adjustViewBounds="true"
+                    android:tag=
+                            "خ"
+                    android:onClick="onClick"/>
+
+        </LinearLayout>
+        <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"  android:orientation="horizontal" android:id="@+id/keyboard3">
+            <ImageButton
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/a24" android:scaleType="fitCenter" android:layout_margin="0dp"
+                    android:padding="1dp" android:adjustViewBounds="true"
+                    android:tag=
+                            "ق"
+                    android:onClick="onClick"/>
+            <ImageButton
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/a23" android:scaleType="fitCenter" android:layout_margin="0dp"
+                    android:padding="1dp" android:adjustViewBounds="true"
+                    android:tag=
+                            "ف"
+                    android:onClick="onClick"/>
+            <ImageButton
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/a22" android:scaleType="fitCenter" android:layout_margin="0dp"
+                    android:padding="1dp" android:adjustViewBounds="true"
+                    android:tag=
+                            "غ"
+                    android:onClick="onClick"/>
+            <ImageButton
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/a21" android:scaleType="fitCenter" android:layout_margin="0dp"
+                    android:padding="1dp" android:adjustViewBounds="true"
+                    android:tag=
+                            "ع"
+                    android:onClick="onClick"/>
+            <ImageButton
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/a20" android:scaleType="fitCenter" android:layout_margin="0dp"
+                    android:padding="1dp" android:adjustViewBounds="true"
+                    android:tag=
+                            "ظ"
+                    android:onClick="onClick"/>
+            <ImageButton
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/a19" android:scaleType="fitCenter" android:layout_margin="0dp"
+                    android:padding="1dp" android:adjustViewBounds="true"
+                    android:tag=
+                            "ط"
+                    android:onClick="onClick"/>
+            <ImageButton
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/a18" android:scaleType="fitCenter" android:layout_margin="0dp"
+                    android:padding="1dp" android:adjustViewBounds="true"
+                    android:tag=
+                            "ض"
+                    android:onClick="onClick"/>
+            <ImageButton
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/a17" android:scaleType="fitCenter" android:layout_margin="0dp"
+                    android:padding="1dp" android:adjustViewBounds="true"
+                    android:tag=
+                            "ص"
+                    android:onClick="onClick"/>
+        </LinearLayout>
+        <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"   android:orientation="horizontal" android:id="@+id/keyboard4">
+            <ImageButton
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/a32" android:scaleType="fitCenter" android:layout_margin="0dp"
+                    android:padding="1dp" android:adjustViewBounds="true"
+                    android:tag=
+                            "ی"
+                    android:onClick="onClick"/>
+            <ImageButton
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/a31" android:scaleType="fitCenter" android:layout_margin="0dp"
+                    android:padding="1dp" android:adjustViewBounds="true"
+                    android:tag=
+                            "ه"
+                    android:onClick="onClick"/>
+            <ImageButton
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/a30" android:scaleType="fitCenter" android:layout_margin="0dp"
+                    android:padding="1dp" android:adjustViewBounds="true"
+                    android:tag=
+                            "و"
+                    android:onClick="onClick"/>
+            <ImageButton
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/a29" android:scaleType="fitCenter" android:layout_margin="0dp"
+                    android:padding="1dp" android:adjustViewBounds="true"
+                    android:tag=
+                            "ن"
+                    android:onClick="onClick"/>
+            <ImageButton
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/a28" android:scaleType="fitCenter" android:layout_margin="0dp"
+                    android:padding="1dp" android:adjustViewBounds="true"
+                    android:tag=
+                            "م"
+                    android:onClick="onClick"/>
+            <ImageButton
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/a27" android:scaleType="fitCenter" android:layout_margin="0dp"
+                    android:padding="1dp" android:adjustViewBounds="true"
+                    android:tag=
+                            "ل"
+                    android:onClick="onClick"/>
+            <ImageButton
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/a26" android:scaleType="fitCenter" android:layout_margin="0dp"
+                    android:padding="1dp" android:adjustViewBounds="true"
+                    android:tag=
+                            "گ"
+                    android:onClick="onClick"/>
+            <ImageButton
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/a25" android:scaleType="fitCenter" android:layout_margin="0dp"
+                    android:padding="1dp" android:adjustViewBounds="true"
+                    android:tag=
+                            "ک"
+                    android:onClick="onClick"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</LinearLayout>

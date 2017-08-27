@@ -119,7 +119,8 @@ public class ScreenLevelPageFragment extends Fragment {
                         VoiceManaget.play(getActivity(),R.raw.lock);
                         if (id1 + 1 <= _metaData.userMove.length) {
                             Intent level = new Intent(getActivity(),
-                                    LevelActivity.class);
+                                    LevelActivity2.class);
+//                                    LevelActivity.class);
                             level.putExtra("levelnumber", id1 + 1); // id is
                             // the
                             // level

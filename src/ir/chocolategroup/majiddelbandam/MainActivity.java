@@ -31,12 +31,13 @@ public class MainActivity extends FragmentActivity {
 
 		mGameManager = (GameManager) getApplication();
 
-		ScreenLevelPageFragment.init(this,mGameManager.getMetaData());
+		ScreenLevelPageFragment.init(this, mGameManager.getMetaData());
 		ViewPager levelPager = (ViewPager)findViewById(R.id.level_pager);
 		LevelPagerAdapter adapter = new LevelPagerAdapter(getSupportFragmentManager(),mGameManager.getMetaData());
 		levelPager.setAdapter(adapter);
 
-		levelPager.setCurrentItem(mGameManager.getMetaData().getLastUnlockLevel()/numberOfLevelInOnePage);
+//		int selecetedPage = (mGameManager.getMetaData().getLastUnlockLevel()-1)/numberOfLevelInOnePage;
+		levelPager.setCurrentItem((mGameManager.getMetaData().getLastUnlockLevel()-1)/numberOfLevelInOnePage);
 
 		coins = (TextView) findViewById(R.id.menuNumberOfCoins);
 		coins.setText(mGameManager.getCoins() + "");
